@@ -2,6 +2,8 @@ package com.camlait.global.erp.service.produit;
 
 import java.util.Collection;
 
+import javax.transaction.Transactional;
+
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,6 +24,7 @@ public class ProduitService implements IProduitService {
 	@Autowired
 	private CategorieProduitDao categorieProduitDao;
 
+	@Transactional
 	@Override
 	public Produit ajouterProduit(Produit produit) {
 		if (produit != null) {
@@ -30,6 +33,7 @@ public class ProduitService implements IProduitService {
 		return produit;
 	}
 
+	@Transactional
 	@Override
 	public Produit modifierProduit(Produit produit) {
 		produitDao.saveAndFlush(produit);
@@ -46,6 +50,7 @@ public class ProduitService implements IProduitService {
 		}
 	}
 
+	@Transactional
 	@Override
 	public void supprimerProduit(Long produitId) {
 		produitDao.delete(trouverProduit(produitId));
@@ -68,6 +73,7 @@ public class ProduitService implements IProduitService {
 		return null;
 	}
 
+	@Transactional
 	@Override
 	public CategorieProduit ajouterCategorieProduit(CategorieProduit categorie) {
 		if (categorie != null) {
@@ -76,6 +82,7 @@ public class ProduitService implements IProduitService {
 		return categorie;
 	}
 
+	@Transactional
 	@Override
 	public CategorieProduit modifierCategorieProduit(CategorieProduit categorie) {
 		categorieProduitDao.save(categorie);
@@ -94,6 +101,7 @@ public class ProduitService implements IProduitService {
 		}
 	}
 
+	@Transactional
 	@Override
 	public void supprimerCategorieProduit(Long categorieId) {
 		categorieProduitDao.delete(trouverCategorieProduit(categorieId));
@@ -109,6 +117,12 @@ public class ProduitService implements IProduitService {
 	public Page<CategorieProduit> listerCategorie(Long parentId, Pageable p) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Transactional
+	@Override
+	public void supprimerProduit(CategorieProduit categorie) {
+		produitDao.delete(categorie.getProduits());
 	}
 
 }

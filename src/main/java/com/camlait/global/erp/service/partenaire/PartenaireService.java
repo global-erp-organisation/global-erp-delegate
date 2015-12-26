@@ -1,5 +1,7 @@
 package com.camlait.global.erp.service.partenaire;
 
+import javax.transaction.Transactional;
+
 import org.hibernate.Hibernate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +17,7 @@ public class PartenaireService implements IPartenaireService {
 
 	PartenaireDao partenaireDao;
 
+	@Transactional
 	@Override
 	public Partenaire ajouterPartenaire(Partenaire partenaire) {
 		if (partenaire != null) {
@@ -23,6 +26,7 @@ public class PartenaireService implements IPartenaireService {
 		return partenaire;
 	}
 
+	@Transactional
 	@Override
 	public Partenaire modifierPartenaire(Partenaire partenaire) {
 		partenaireDao.saveAndFlush(partenaire);
@@ -47,6 +51,7 @@ public class PartenaireService implements IPartenaireService {
 		}
 	}
 
+	@Transactional
 	@Override
 	public void supprimerPartenaire(Long partenaireId) {
 		partenaireDao.delete(trouverPartenaire(partenaireId));
@@ -57,7 +62,4 @@ public class PartenaireService implements IPartenaireService {
 		return null;
 	}
 
-	private <T> T listerPartenaire(Class<T> clazz, Pageable p) {
-		return (T) partenaireDao.findAll(p);
-	}
 }

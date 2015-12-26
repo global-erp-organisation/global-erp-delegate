@@ -3,6 +3,8 @@ package com.camlait.global.erp.service.document;
 import java.util.Collection;
 import java.util.Date;
 
+import javax.transaction.Transactional;
+
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,6 +26,7 @@ public class DocumentService implements IDocumentService {
 	@Autowired
 	private LigneDocumentDao ligneDeDocumentDao;
 
+	@Transactional
 	@Override
 	public Document ajouterDocument(Document document) {
 		if (document != null) {
@@ -32,6 +35,7 @@ public class DocumentService implements IDocumentService {
 		return document;
 	}
 
+	@Transactional
 	@Override
 	public Document modifierDocument(Document document) {
 		documentDao.saveAndFlush(document);
@@ -52,6 +56,7 @@ public class DocumentService implements IDocumentService {
 		}
 	}
 
+	@Transactional
 	@Override
 	public void supprimerDocument(Long documentId) {
 		documentDao.delete(trouverDocument(documentId));
@@ -62,6 +67,7 @@ public class DocumentService implements IDocumentService {
 		return null;
 	}
 
+	@Transactional
 	@Override
 	public LigneDeDocument ajouterLigneDocument(LigneDeDocument ligne) {
 		if (ligne != null) {
@@ -70,6 +76,7 @@ public class DocumentService implements IDocumentService {
 		return ligne;
 	}
 
+	@Transactional
 	@Override
 	public Collection<LigneDeDocument> ajouterLigneDocument(Collection<LigneDeDocument> lignes) {
 		if (lignes != null) {
@@ -78,6 +85,7 @@ public class DocumentService implements IDocumentService {
 		return lignes;
 	}
 
+	@Transactional
 	@Override
 	public LigneDeDocument modifierLigneDocument(LigneDeDocument ligne) {
 		ligneDeDocumentDao.saveAndFlush(ligne);
@@ -94,8 +102,15 @@ public class DocumentService implements IDocumentService {
 		}
 	}
 
+	@Transactional
 	@Override
 	public void supprimerLigneDocument(Long ligneId) {
 		ligneDeDocumentDao.delete(trouverLigneDocument(ligneId));
+	}
+
+	@Transactional
+	@Override
+	public void supprimerLigneDocument(Document document) {
+		ligneDeDocumentDao.delete(document.getLigneDocuments());
 	}
 }

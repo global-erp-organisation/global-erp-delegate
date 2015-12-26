@@ -3,6 +3,8 @@ package com.camlait.global.erp.service.inventaire;
 import java.util.Collection;
 import java.util.Date;
 
+import javax.transaction.Transactional;
+
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,6 +25,7 @@ public class InventaireService implements IInventaire {
 	@Autowired
 	private LigneInventaireDao ligneInventaireDao;
 
+	@Transactional
 	@Override
 	public Inventaire ajouterInventaire(Inventaire inventaire) {
 		if (inventaire != null) {
@@ -31,6 +34,7 @@ public class InventaireService implements IInventaire {
 		return inventaire;
 	}
 
+	@Transactional
 	@Override
 	public Inventaire modifierInventaire(Inventaire inventaire) {
 		inventaireDao.saveAndFlush(inventaire);
@@ -48,6 +52,7 @@ public class InventaireService implements IInventaire {
 		}
 	}
 
+	@Transactional
 	@Override
 	public void supprimerInventaire(Long inventaireId) {
 		inventaireDao.delete(trouverInventaire(inventaireId));
@@ -70,6 +75,7 @@ public class InventaireService implements IInventaire {
 		return null;
 	}
 
+	@Transactional
 	@Override
 	public LigneInventaire ajouterLigneInventaire(LigneInventaire ligne) {
 		if (ligne != null) {
@@ -78,6 +84,7 @@ public class InventaireService implements IInventaire {
 		return ligne;
 	}
 
+	@Transactional
 	@Override
 	public Collection<LigneInventaire> ajouterLigneInventaire(Collection<LigneInventaire> lignes) {
 		if (lignes != null) {
@@ -86,6 +93,7 @@ public class InventaireService implements IInventaire {
 		return lignes;
 	}
 
+	@Transactional
 	@Override
 	public LigneInventaire modifierLigneInventaire(LigneInventaire ligne) {
 		ligneInventaireDao.saveAndFlush(ligne);
@@ -102,9 +110,16 @@ public class InventaireService implements IInventaire {
 		}
 	}
 
+	@Transactional
 	@Override
 	public void supprimerLigneInventaire(Long ligneId) {
 		ligneInventaireDao.delete(trouverLigneInventaire(ligneId));
+	}
+
+	@Transactional
+	@Override
+	public void supprimerLigneInventaire(Inventaire inventaire) {
+		ligneInventaireDao.delete(inventaire.getLigneInventaires());
 	}
 
 }

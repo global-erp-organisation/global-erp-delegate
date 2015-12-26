@@ -22,7 +22,6 @@ import com.camlait.global.erp.domain.document.LigneDeDocument;
 import com.camlait.global.erp.domain.operation.Recouvrement;
 import com.camlait.global.erp.service.GlobalErpServiceException;
 
-@Transactional
 public class BmqService implements IBmqService {
 
 	@Autowired
@@ -33,6 +32,7 @@ public class BmqService implements IBmqService {
 
 	private RecouvrementDao recouvrementDao;
 
+	@Transactional
 	@Override
 	public Bmq ajouterBmq(Bmq bmq) {
 		if (bmq != null) {
@@ -41,6 +41,7 @@ public class BmqService implements IBmqService {
 		return bmq;
 	}
 
+	@Transactional
 	@Override
 	public Bmq modifierBmq(Bmq bmq) {
 		bmqDao.saveAndFlush(bmq);
@@ -60,6 +61,7 @@ public class BmqService implements IBmqService {
 		}
 	}
 
+	@Transactional
 	@Override
 	public void supprimerBmq(Long bmqId) {
 		bmqDao.delete(trouverBmq(bmqId));
@@ -88,6 +90,7 @@ public class BmqService implements IBmqService {
 		return null;
 	}
 
+	@Transactional
 	@Override
 	public Collection<LigneBmq> ajouterLigneBmq(Collection<LigneBmq> ligneBmqs) {
 		if (ligneBmqs != null) {
@@ -106,11 +109,13 @@ public class BmqService implements IBmqService {
 		}
 	}
 
+	@Transactional
 	@Override
 	public void supprimerLigneBmq(Long ligneBmqId) {
 		ligneBmqDao.delete(trouverLigneBmq(ligneBmqId));
 	}
 
+	@Transactional
 	@Override
 	public Bmq genererBmq(Long bmqId, Collection<Document> documents, Collection<Recouvrement> recouvrements) {
 		final Bmq bmq = trouverBmq(bmqId);
@@ -145,6 +150,7 @@ public class BmqService implements IBmqService {
 		return lignes;
 	}
 
+	@Transactional
 	@Override
 	public Recouvrement ajouterRecouvrement(Recouvrement recouvrement) {
 		if (recouvrement != null) {
@@ -153,6 +159,7 @@ public class BmqService implements IBmqService {
 		return recouvrement;
 	}
 
+	@Transactional
 	@Override
 	public Recouvrement modifierRecouvrement(Recouvrement recouvrement) {
 		recouvrementDao.saveAndFlush(recouvrement);
@@ -170,8 +177,15 @@ public class BmqService implements IBmqService {
 		}
 	}
 
+	@Transactional
 	@Override
 	public void supprimerRecouvrement(Long recouvrementId) {
 		recouvrementDao.delete(trouverRecouvrement(recouvrementId));
+	}
+
+	@Transactional
+	@Override
+	public void supprimerLigneBmq(Bmq bmq) {
+		ligneBmqDao.delete(bmq.getLigneBmqs());
 	}
 }

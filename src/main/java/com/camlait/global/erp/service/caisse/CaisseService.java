@@ -2,14 +2,18 @@ package com.camlait.global.erp.service.caisse;
 
 import java.util.Collection;
 
+import javax.transaction.Transactional;
+
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.camlait.global.erp.dao.operation.OperationDao;
 import com.camlait.global.erp.dao.operation.caisse.CaisseDao;
 import com.camlait.global.erp.dao.operation.caisse.JournalCaisseDao;
 import com.camlait.global.erp.domain.config.GlobalAppConstants;
+import com.camlait.global.erp.domain.operation.Operation;
 import com.camlait.global.erp.domain.operation.caisse.Caisse;
 import com.camlait.global.erp.domain.operation.caisse.JournalCaisse;
 import com.camlait.global.erp.domain.operation.caisse.OperationDeCaisse;
@@ -18,11 +22,15 @@ import com.camlait.global.erp.service.GlobalErpServiceException;
 public class CaisseService implements ICaisseService {
 
 	@Autowired
-	CaisseDao caisseDao;
+	private CaisseDao caisseDao;
 
 	@Autowired
-	JournalCaisseDao journalCaisseDao;
+	private JournalCaisseDao journalCaisseDao;
 
+	@Autowired
+	private OperationDao operationDao;
+
+	@Transactional
 	@Override
 	public Caisse ajouterCaisse(Caisse caisse) {
 		if (caisse != null) {
@@ -31,6 +39,7 @@ public class CaisseService implements ICaisseService {
 		return caisse;
 	}
 
+	@Transactional
 	@Override
 	public Caisse modifierCaisse(Caisse caisse) {
 		caisseDao.saveAndFlush(caisse);
@@ -47,6 +56,7 @@ public class CaisseService implements ICaisseService {
 		}
 	}
 
+	@Transactional
 	@Override
 	public void supprimerCaisse(Long caisseId) {
 		caisseDao.delete(trouverCaisse(caisseId));
@@ -57,6 +67,7 @@ public class CaisseService implements ICaisseService {
 		return caisseDao.findAll(p);
 	}
 
+	@Transactional
 	@Override
 	public JournalCaisse ajouterJournalCaisse(JournalCaisse journal) {
 		if (journal != null) {
@@ -65,6 +76,7 @@ public class CaisseService implements ICaisseService {
 		return journal;
 	}
 
+	@Transactional
 	@Override
 	public JournalCaisse modifierJournalCaisse(JournalCaisse journal) {
 		journalCaisseDao.saveAndFlush(journal);
@@ -82,40 +94,48 @@ public class CaisseService implements ICaisseService {
 		}
 	}
 
+	@Transactional
 	@Override
 	public void supprimerJournalCaisse(Long journalId) {
-		// TODO Auto-generated method stub
-
+		journalCaisseDao.delete(trouverJournalCaisse(journalId));
 	}
 
 	@Override
 	public Page<JournalCaisse> listerJournalCaisse(Pageable p) {
-		// TODO Auto-generated method stub
-		return null;
+		return journalCaisseDao.findAll(p);
 	}
 
+	@Transactional
 	@Override
 	public OperationDeCaisse ajouterOperationDeCaisse(OperationDeCaisse operation) {
-		// TODO Auto-generated method stub
-		return null;
+		if (operation != null) {
+			operationDao.save(operation);
+		}
+		return operation;
 	}
 
+	@Transactional
 	@Override
 	public OperationDeCaisse modifierOperationDeCaisse(OperationDeCaisse operation) {
-		// TODO Auto-generated method stub
-		return null;
+		operationDao.saveAndFlush(operation);
+		return operation;
 	}
 
 	@Override
 	public OperationDeCaisse trouverOperationDeCaisse(Long operationId) {
-		// TODO Auto-generated method stub
-		return null;
+		Operation o = operationDao.findOne(operationId);
+		if (o != null) {
+			return (OperationDeCaisse) o;
+		} else {
+			throw new GlobalErpServiceException(
+					GlobalAppConstants.buildNotFingMessage(OperationDeCaisse.class, operationId));
+		}
 	}
 
+	@Transactional
 	@Override
 	public void supprimerOperationDeCaisse(Long operationId) {
-		// TODO Auto-generated method stub
-
+		operationDao.delete(trouverOperationDeCaisse(operationId));
 	}
 
 	@Override
@@ -130,4 +150,9 @@ public class CaisseService implements ICaisseService {
 		return null;
 	}
 
+	@Transactional
+	@Override
+	public void supprimerOperationDeCaisse(JournalCaisse journal) {
+		operationDao.delete(journal.getOpreations());
+	}
 }

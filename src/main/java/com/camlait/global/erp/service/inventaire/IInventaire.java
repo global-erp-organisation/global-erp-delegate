@@ -82,4 +82,6 @@ public interface IInventaire {
 	LigneInventaire trouverLigneInventaire(Long ligneId);
 
 	void supprimerLigneInventaire(Long ligneId);
+
+	void supprimerLigneInventaire(Inventaire inventaire);
 }

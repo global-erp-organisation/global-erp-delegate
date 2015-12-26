@@ -114,4 +114,6 @@ public interface IProduitService {
 	 * @return
 	 */
 	Page<CategorieProduit> listerCategorie(Long parentId, Pageable p);
+	
+	void supprimerProduit(CategorieProduit categorie);
 }

@@ -68,5 +68,6 @@ public interface IDocumentService {
 	LigneDeDocument trouverLigneDocument(Long ligneId);
 
 	void supprimerLigneDocument(Long ligneId);
+	void supprimerLigneDocument(Document document);
 
 }

@@ -160,8 +160,12 @@ public interface IBmqService {
 
 	/**
 	 * Supprimer le recouvrement
-	 * @param recouvrementId Identifiant du recouvrement à supprimer.
+	 * 
+	 * @param recouvrementId
+	 *            Identifiant du recouvrement à supprimer.
 	 */
 	void supprimerRecouvrement(Long recouvrementId);
+
+	void supprimerLigneBmq(Bmq bmq);
 
 }
