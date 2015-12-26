@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.camlait.global.erp.dao.produit.CategorieProduitDao;
 import com.camlait.global.erp.dao.produit.ProduitDao;
+import com.camlait.global.erp.domain.config.GlobalAppConstants;
 import com.camlait.global.erp.domain.produit.CategorieProduit;
 import com.camlait.global.erp.domain.produit.Produit;
 import com.camlait.global.erp.service.GlobalErpServiceException;
@@ -41,7 +42,7 @@ public class ProduitService implements IProduitService {
 		if (p != null) {
 			return p;
 		} else {
-			throw new GlobalErpServiceException("Le produit ayant l'identifiant " + produitId + " n'existe pas");
+			throw new GlobalErpServiceException(GlobalAppConstants.buildNotFingMessage(Produit.class, produitId));
 		}
 	}
 
@@ -54,6 +55,11 @@ public class ProduitService implements IProduitService {
 	public Page<Produit> listerProduit(Long categorieId, Pageable p) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Page<Produit> listerProduit(Pageable p) {
+		return produitDao.findAll(p);
 	}
 
 	@Override
@@ -83,7 +89,8 @@ public class ProduitService implements IProduitService {
 			Hibernate.initialize(c.getProduits());
 			return c;
 		} else {
-			throw new GlobalErpServiceException("La categorie ayant l'identifiant " + categorieId + " n'existe pas");
+			throw new GlobalErpServiceException(
+					GlobalAppConstants.buildNotFingMessage(CategorieProduit.class, categorieId));
 		}
 	}
 

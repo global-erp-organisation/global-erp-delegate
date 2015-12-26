@@ -1,5 +1,6 @@
 package com.camlait.global.erp.service.document;
 
+import java.util.Collection;
 import java.util.Date;
 
 import org.hibernate.Hibernate;
@@ -8,7 +9,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.camlait.global.erp.dao.document.DocumentDao;
+import com.camlait.global.erp.dao.document.LigneDocumentDao;
+import com.camlait.global.erp.domain.config.GlobalAppConstants;
 import com.camlait.global.erp.domain.document.Document;
+import com.camlait.global.erp.domain.document.LigneDeDocument;
 import com.camlait.global.erp.domain.document.commerciaux.vente.FactureClient;
 import com.camlait.global.erp.service.GlobalErpServiceException;
 
@@ -16,6 +20,9 @@ public class DocumentService implements IDocumentService {
 
 	@Autowired
 	private DocumentDao documentDao;
+
+	@Autowired
+	private LigneDocumentDao ligneDeDocumentDao;
 
 	@Override
 	public Document ajouterDocument(Document document) {
@@ -41,7 +48,7 @@ public class DocumentService implements IDocumentService {
 			}
 			return d;
 		} else {
-			throw new GlobalErpServiceException("Le document ayant l'identifiant " + documentId + " n'existe pas");
+			throw new GlobalErpServiceException(GlobalAppConstants.buildNotFingMessage(Document.class, documentId));
 		}
 	}
 
@@ -55,4 +62,40 @@ public class DocumentService implements IDocumentService {
 		return null;
 	}
 
+	@Override
+	public LigneDeDocument ajouterLigneDocument(LigneDeDocument ligne) {
+		if (ligne != null) {
+			ligneDeDocumentDao.save(ligne);
+		}
+		return ligne;
+	}
+
+	@Override
+	public Collection<LigneDeDocument> ajouterLigneDocument(Collection<LigneDeDocument> lignes) {
+		if (lignes != null) {
+			ligneDeDocumentDao.save(lignes);
+		}
+		return lignes;
+	}
+
+	@Override
+	public LigneDeDocument modifierLigneDocument(LigneDeDocument ligne) {
+		ligneDeDocumentDao.saveAndFlush(ligne);
+		return ligne;
+	}
+
+	@Override
+	public LigneDeDocument trouverLigneDocument(Long ligneId) {
+		LigneDeDocument ld = ligneDeDocumentDao.findOne(ligneId);
+		if (ld != null) {
+			return ld;
+		} else {
+			throw new GlobalErpServiceException(GlobalAppConstants.buildNotFingMessage(LigneDeDocument.class, ligneId));
+		}
+	}
+
+	@Override
+	public void supprimerLigneDocument(Long ligneId) {
+		ligneDeDocumentDao.delete(trouverLigneDocument(ligneId));
+	}
 }

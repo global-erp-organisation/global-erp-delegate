@@ -65,6 +65,8 @@ public interface IProduitService {
 	 */
 	Page<Produit> listerProduit(Collection<CategorieProduit> categories, Pageable p);
 
+	Page<Produit> listerProduit(Pageable p);
+	
 	/**
 	 * Ajouter une categorie de produit.
 	 * 

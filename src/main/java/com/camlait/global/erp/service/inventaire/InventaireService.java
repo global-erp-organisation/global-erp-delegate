@@ -1,5 +1,6 @@
 package com.camlait.global.erp.service.inventaire;
 
+import java.util.Collection;
 import java.util.Date;
 
 import org.hibernate.Hibernate;
@@ -8,13 +9,19 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.camlait.global.erp.dao.inventaire.InventaireDao;
+import com.camlait.global.erp.dao.inventaire.LigneInventaireDao;
+import com.camlait.global.erp.domain.config.GlobalAppConstants;
 import com.camlait.global.erp.domain.inventaire.Inventaire;
+import com.camlait.global.erp.domain.inventaire.LigneInventaire;
 import com.camlait.global.erp.service.GlobalErpServiceException;
 
 public class InventaireService implements IInventaire {
 
 	@Autowired
 	InventaireDao inventaireDao;
+
+	@Autowired
+	private LigneInventaireDao ligneInventaireDao;
 
 	@Override
 	public Inventaire ajouterInventaire(Inventaire inventaire) {
@@ -37,7 +44,7 @@ public class InventaireService implements IInventaire {
 			Hibernate.initialize(inv.getLigneInventaires());
 			return inv;
 		} else {
-			throw new GlobalErpServiceException("L'inventaire ayant l'identifiant " + inventaireId + " n'existe pas");
+			throw new GlobalErpServiceException(GlobalAppConstants.buildNotFingMessage(Inventaire.class, inventaireId));
 		}
 	}
 
@@ -61,6 +68,43 @@ public class InventaireService implements IInventaire {
 	public Page<Inventaire> listerInventaire(Long magasinId, Pageable p) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public LigneInventaire ajouterLigneInventaire(LigneInventaire ligne) {
+		if (ligne != null) {
+			ligneInventaireDao.save(ligne);
+		}
+		return ligne;
+	}
+
+	@Override
+	public Collection<LigneInventaire> ajouterLigneInventaire(Collection<LigneInventaire> lignes) {
+		if (lignes != null) {
+			ligneInventaireDao.save(lignes);
+		}
+		return lignes;
+	}
+
+	@Override
+	public LigneInventaire modifierLigneInventaire(LigneInventaire ligne) {
+		ligneInventaireDao.saveAndFlush(ligne);
+		return ligne;
+	}
+
+	@Override
+	public LigneInventaire trouverLigneInventaire(Long ligneId) {
+		LigneInventaire li = ligneInventaireDao.findOne(ligneId);
+		if (li != null) {
+			return li;
+		} else {
+			throw new GlobalErpServiceException(GlobalAppConstants.buildNotFingMessage(LigneInventaire.class, ligneId));
+		}
+	}
+
+	@Override
+	public void supprimerLigneInventaire(Long ligneId) {
+		ligneInventaireDao.delete(trouverLigneInventaire(ligneId));
 	}
 
 }

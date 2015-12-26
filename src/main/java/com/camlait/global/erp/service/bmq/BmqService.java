@@ -16,6 +16,7 @@ import com.camlait.global.erp.dao.bmq.LigneBmqDao;
 import com.camlait.global.erp.dao.operation.RecouvrementDao;
 import com.camlait.global.erp.domain.bmq.Bmq;
 import com.camlait.global.erp.domain.bmq.LigneBmq;
+import com.camlait.global.erp.domain.config.GlobalAppConstants;
 import com.camlait.global.erp.domain.document.Document;
 import com.camlait.global.erp.domain.document.LigneDeDocument;
 import com.camlait.global.erp.domain.operation.Recouvrement;
@@ -55,7 +56,7 @@ public class BmqService implements IBmqService {
 			Hibernate.initialize(b.getRecouvrements());
 			return b;
 		} else {
-			throw new GlobalErpServiceException("Le bmq ayant l'identifiant " + bmqId + " n'existe pas");
+			throw new GlobalErpServiceException(GlobalAppConstants.buildNotFingMessage(Bmq.class, bmqId));
 		}
 	}
 
@@ -101,7 +102,7 @@ public class BmqService implements IBmqService {
 		if (lb != null) {
 			return lb;
 		} else {
-			throw new GlobalErpServiceException("La ligne de bmq ayant l'identifiant " + ligneBmqId + " n'existe pas");
+			throw new GlobalErpServiceException(GlobalAppConstants.buildNotFingMessage(LigneBmq.class, ligneBmqId));
 		}
 	}
 

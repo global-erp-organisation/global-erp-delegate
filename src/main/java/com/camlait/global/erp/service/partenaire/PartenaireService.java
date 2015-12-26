@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.camlait.global.erp.dao.partenaire.PartenaireDao;
+import com.camlait.global.erp.domain.config.GlobalAppConstants;
 import com.camlait.global.erp.domain.partenaire.ClientAmarge;
 import com.camlait.global.erp.domain.partenaire.Partenaire;
 import com.camlait.global.erp.domain.partenaire.Vendeur;
@@ -42,7 +43,7 @@ public class PartenaireService implements IPartenaireService {
 			}
 			return p;
 		} else {
-			throw new GlobalErpServiceException("Le partenaire ayant l'identifiant " + partenaireId + " n'existe pas");
+			throw new GlobalErpServiceException(GlobalAppConstants.buildNotFingMessage(Partenaire.class, partenaireId));
 		}
 	}
 
@@ -56,7 +57,7 @@ public class PartenaireService implements IPartenaireService {
 		return null;
 	}
 
-	public <T> T listerPartenaire(Class<T> clazz, Pageable p) {
-			return (T)partenaireDao.findAll(p);
+	private <T> T listerPartenaire(Class<T> clazz, Pageable p) {
+		return (T) partenaireDao.findAll(p);
 	}
 }

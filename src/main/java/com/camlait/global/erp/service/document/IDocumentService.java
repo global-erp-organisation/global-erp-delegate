@@ -1,11 +1,13 @@
 package com.camlait.global.erp.service.document;
 
+import java.util.Collection;
 import java.util.Date;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.camlait.global.erp.domain.document.Document;
+import com.camlait.global.erp.domain.document.LigneDeDocument;
 
 public interface IDocumentService {
 
@@ -56,5 +58,15 @@ public interface IDocumentService {
 	 * @return
 	 */
 	Page<Document> listerDocument(Date debut, Date fin, Pageable p);
+
+	LigneDeDocument ajouterLigneDocument(LigneDeDocument ligne);
+
+	Collection<LigneDeDocument> ajouterLigneDocument(Collection<LigneDeDocument> lignes);
+
+	LigneDeDocument modifierLigneDocument(LigneDeDocument ligne);
+
+	LigneDeDocument trouverLigneDocument(Long ligneId);
+
+	void supprimerLigneDocument(Long ligneId);
 
 }
