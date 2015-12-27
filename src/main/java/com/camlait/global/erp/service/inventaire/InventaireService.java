@@ -65,14 +65,12 @@ public class InventaireService implements IInventaire {
 
 	@Override
 	public Page<Inventaire> listerInventaire(Date debut, Date fin, Pageable p) {
-		// TODO Auto-generated method stub
-		return null;
+		return inventaireDao.listerInventaire(debut, fin, p);
 	}
 
 	@Override
 	public Page<Inventaire> listerInventaire(Long magasinId, Pageable p) {
-		// TODO Auto-generated method stub
-		return null;
+		return inventaireDao.listerInventaire(magasinId, p);
 	}
 
 	@Transactional
@@ -121,5 +119,4 @@ public class InventaireService implements IInventaire {
 	public void supprimerLigneInventaire(Inventaire inventaire) {
 		ligneInventaireDao.delete(inventaire.getLigneInventaires());
 	}
-
 }

@@ -1,11 +1,9 @@
 package com.global.erp.service.produit;
 
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.util.Date;
 
@@ -55,29 +53,20 @@ public class ProduitServiceTest {
 
 	@Test
 	public void supprimerCategorieProduitTest() {
-		when(service.ajouterCategorieProduit(categorie)).thenReturn(categorie);
 		service.supprimerCategorieProduit(categorie.getCategorieProduitId());
 		verify(service, times(1)).supprimerCategorieProduit(eq(categorie.getCategorieProduitId()));
 	}
 
 	@Test
 	public void trouverCategorieProduitTest() {
-		when(service.ajouterCategorieProduit(any(CategorieProduit.class))).thenReturn(categorie);
 		service.trouverCategorieProduit(categorie.getCategorieProduitId());
 		verify(service, times(1)).trouverCategorieProduit(eq(categorie.getCategorieProduitId()));
 	}
 
 	@Test
 	public void listerCategorieTest() {
-
 		Pageable p = mock(Pageable.class);
-		service.ajouterCategorieProduit(mock(CategorieProduit.class));
-		service.ajouterCategorieProduit(mock(CategorieProduit.class));
-		service.ajouterCategorieProduit(mock(CategorieProduit.class));
-		service.ajouterCategorieProduit(mock(CategorieProduit.class));
 		service.listerCategorieProduit(p);
-
-		verify(service, times(4)).ajouterCategorieProduit(any(CategorieProduit.class));
 		verify(service).listerCategorieProduit(p);
 	}
 }

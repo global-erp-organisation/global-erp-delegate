@@ -53,7 +53,7 @@ public interface IProduitService {
 	 * @param p
 	 * @return
 	 */
-	Page<Produit> listerProduit(Long categorieId, Pageable p);
+	Collection<Produit> listerProduit(Long categorieId, Pageable p);
 
 	/**
 	 * Lister les produit d'une collection de categorie.
@@ -63,7 +63,7 @@ public interface IProduitService {
 	 * @param p
 	 * @return
 	 */
-	Page<Produit> listerProduit(Collection<CategorieProduit> categories, Pageable p);
+	Collection<Produit> listerProduit(Collection<CategorieProduit> categories, Pageable p);
 
 	Page<Produit> listerProduit(Pageable p);
 	

@@ -10,6 +10,7 @@ import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 
 import com.camlait.global.erp.dao.bmq.BmqDao;
 import com.camlait.global.erp.dao.bmq.LigneBmqDao;
@@ -30,6 +31,7 @@ public class BmqService implements IBmqService {
 	@Autowired
 	private LigneBmqDao ligneBmqDao;
 
+	@Autowired
 	private RecouvrementDao recouvrementDao;
 
 	@Transactional
@@ -74,20 +76,17 @@ public class BmqService implements IBmqService {
 
 	@Override
 	public Page<Bmq> listerBmq(Long vendeurId, Pageable p) {
-		// TODO Auto-generated method stub
-		return null;
+		return bmqDao.listerBmq(vendeurId, p);
 	}
 
 	@Override
 	public Page<Bmq> listerBmq(Date debut, Date fin, Pageable p) {
-		// TODO Auto-generated method stub
-		return null;
+		return bmqDao.listerBmq(debut, fin, p);
 	}
 
 	@Override
-	public Page<Bmq> listerBmq(Long VendeurId, Date debut, Date fin, Pageable p) {
-		// TODO Auto-generated method stub
-		return null;
+	public Page<Bmq> listerBmq(Long vendeurId, Date debut, Date fin, Pageable p) {
+		return bmqDao.listerBmq(vendeurId, debut, fin, p);
 	}
 
 	@Transactional

@@ -1,6 +1,7 @@
 package com.camlait.global.erp.service.produit;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 import javax.transaction.Transactional;
 
@@ -57,9 +58,8 @@ public class ProduitService implements IProduitService {
 	}
 
 	@Override
-	public Page<Produit> listerProduit(Long categorieId, Pageable p) {
-		// TODO Auto-generated method stub
-		return null;
+	public Collection<Produit> listerProduit(Long categorieId, Pageable p) {
+		return produitDao.listerProduit(categorieId, p);
 	}
 
 	@Override
@@ -68,9 +68,13 @@ public class ProduitService implements IProduitService {
 	}
 
 	@Override
-	public Page<Produit> listerProduit(Collection<CategorieProduit> categories, Pageable p) {
-		// TODO Auto-generated method stub
-		return null;
+	public Collection<Produit> listerProduit(Collection<CategorieProduit> categories, Pageable p) {
+		Collection<Produit> produits = new HashSet<>();
+		
+		for(CategorieProduit c:categories){
+			produits.addAll(listerProduit(c.getCategorieProduitId(), p));
+		}
+		return produits;
 	}
 
 	@Transactional
@@ -115,8 +119,7 @@ public class ProduitService implements IProduitService {
 
 	@Override
 	public Page<CategorieProduit> listerCategorie(Long parentId, Pageable p) {
-		// TODO Auto-generated method stub
-		return null;
+		return categorieProduitDao.listerCategorie(parentId, p);
 	}
 
 	@Transactional

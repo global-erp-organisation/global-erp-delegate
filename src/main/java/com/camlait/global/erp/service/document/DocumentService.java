@@ -64,7 +64,7 @@ public class DocumentService implements IDocumentService {
 
 	@Override
 	public Page<Document> listerDocument(Date debut, Date fin, Pageable p) {
-		return null;
+		return documentDao.listerDocument(debut, fin, p);
 	}
 
 	@Transactional

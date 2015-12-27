@@ -59,7 +59,7 @@ public class PartenaireService implements IPartenaireService {
 
 	@Override
 	public Page<Partenaire> listerPartenaire(Pageable p) {
-		return null;
+		return partenaireDao.findAll(p);
 	}
 
 }
