@@ -58,8 +58,8 @@ public class ProduitService implements IProduitService {
 	}
 
 	@Override
-	public Collection<Produit> listerProduit(Long categorieId, Pageable p) {
-		return produitDao.listerProduit(categorieId, p);
+	public Collection<Produit> listerProduit(Long categorieId) {
+		return produitDao.listerProduit(categorieId);
 	}
 
 	@Override
@@ -68,11 +68,11 @@ public class ProduitService implements IProduitService {
 	}
 
 	@Override
-	public Collection<Produit> listerProduit(Collection<CategorieProduit> categories, Pageable p) {
+	public Collection<Produit> listerProduit(Collection<CategorieProduit> categories) {
 		Collection<Produit> produits = new HashSet<>();
-		
-		for(CategorieProduit c:categories){
-			produits.addAll(listerProduit(c.getCategorieProduitId(), p));
+
+		for (CategorieProduit c : categories) {
+			produits.addAll(listerProduit(c.getCategorieProduitId()));
 		}
 		return produits;
 	}
@@ -126,6 +126,16 @@ public class ProduitService implements IProduitService {
 	@Override
 	public void supprimerProduit(CategorieProduit categorie) {
 		produitDao.delete(categorie.getProduits());
+	}
+
+	@Override
+	public Page<CategorieProduit> listerCategorieProduit(String motCle, Pageable p) {
+		return categorieProduitDao.listerCategorieProduit(motCle, p);
+	}
+
+	@Override
+	public Page<Produit> listerProduit(String motCle, Pageable p) {
+		return produitDao.listerProduit(motCle, p);
 	}
 
 }

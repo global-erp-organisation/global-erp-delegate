@@ -41,8 +41,8 @@ public interface ICaisseService {
 
 	void supprimerOperationDeCaisse(JournalCaisse journal);
 
-	Collection<OperationDeCaisse> listerOperationDeCaisse(Long journalId, Pageable p);
+	Collection<OperationDeCaisse> listerOperationDeCaisse(Long journalId);
 
-	Collection<OperationDeCaisse> listerOperationDeCaisse(Collection<JournalCaisse> journaux, Pageable p);
+	Collection<OperationDeCaisse> listerOperationDeCaisse(Collection<JournalCaisse> journaux);
 
 }

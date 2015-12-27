@@ -125,7 +125,7 @@ public class CaisseService implements ICaisseService {
 	public OperationDeCaisse trouverOperationDeCaisse(Long operationId) {
 		OperationDeCaisse o = operationCaisseDao.findOne(operationId);
 		if (o != null) {
-			return  o;
+			return o;
 		} else {
 			throw new GlobalErpServiceException(
 					GlobalAppConstants.buildNotFingMessage(OperationDeCaisse.class, operationId));
@@ -139,15 +139,15 @@ public class CaisseService implements ICaisseService {
 	}
 
 	@Override
-	public Collection <OperationDeCaisse> listerOperationDeCaisse(Long journalId, Pageable p) {
-		return operationCaisseDao.listerOperationDeCaisse(journalId, p);
+	public Collection<OperationDeCaisse> listerOperationDeCaisse(Long journalId) {
+		return operationCaisseDao.listerOperationDeCaisse(journalId);
 	}
 
 	@Override
-	public Collection<OperationDeCaisse> listerOperationDeCaisse(Collection<JournalCaisse> journaux, Pageable p) {
+	public Collection<OperationDeCaisse> listerOperationDeCaisse(Collection<JournalCaisse> journaux) {
 		Collection<OperationDeCaisse> op = new HashSet<>();
-		for(JournalCaisse j:journaux){
-			op.addAll(listerOperationDeCaisse(j.getJournalId(), p));
+		for (JournalCaisse j : journaux) {
+			op.addAll(listerOperationDeCaisse(j.getJournalId()));
 		}
 		return op;
 	}
