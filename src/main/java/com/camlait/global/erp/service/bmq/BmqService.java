@@ -36,6 +36,7 @@ public class BmqService implements IBmqService {
 	@Transactional
 	@Override
 	public Bmq ajouterBmq(Bmq bmq) {
+
 		if (bmq != null) {
 			bmqDao.save(bmq);
 		}
@@ -51,6 +52,9 @@ public class BmqService implements IBmqService {
 
 	@Override
 	public Bmq trouverBmq(Long bmqId) {
+		if (bmqId == null) {
+			throw new IllegalArgumentException("bmqId ne doit pas etre null");
+		}
 		final Bmq b = bmqDao.findOne(bmqId);
 		if (b != null) {
 			Hibernate.initialize(b.getLigneBmqs());
@@ -99,6 +103,9 @@ public class BmqService implements IBmqService {
 
 	@Override
 	public LigneBmq trouverLigneBmq(Long ligneBmqId) {
+		if (ligneBmqId == null) {
+			throw new IllegalArgumentException("ligneBmqId ne doit pas etre null");
+		}
 		final LigneBmq lb = ligneBmqDao.findOne(ligneBmqId);
 		if (lb != null) {
 			return lb;

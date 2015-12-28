@@ -43,6 +43,9 @@ public class ProduitService implements IProduitService {
 
 	@Override
 	public Produit trouverProduit(Long produitId) {
+		if (produitId == null) {
+			throw new IllegalArgumentException("produitId ne doit pas etre null");
+		}
 		Produit p = produitDao.findOne(produitId);
 		if (p != null) {
 			return p;
@@ -70,7 +73,6 @@ public class ProduitService implements IProduitService {
 	@Override
 	public Collection<Produit> listerProduit(Collection<CategorieProduit> categories) {
 		Collection<Produit> produits = new HashSet<>();
-
 		for (CategorieProduit c : categories) {
 			produits.addAll(listerProduit(c.getCategorieProduitId()));
 		}
@@ -95,6 +97,9 @@ public class ProduitService implements IProduitService {
 
 	@Override
 	public CategorieProduit trouverCategorieProduit(Long categorieId) {
+		if (categorieId == null) {
+			throw new IllegalArgumentException("categorieId ne doit pas etre null");
+		}
 		CategorieProduit c = categorieProduitDao.findOne(categorieId);
 		if (c != null) {
 			Hibernate.initialize(c.getProduits());
@@ -113,8 +118,7 @@ public class ProduitService implements IProduitService {
 
 	@Override
 	public Page<CategorieProduit> listerCategorieProduit(Pageable p) {
-		// TODO Auto-generated method stub
-		return null;
+		return categorieProduitDao.findAll(p);
 	}
 
 	@Override

@@ -44,6 +44,9 @@ public class DocumentService implements IDocumentService {
 
 	@Override
 	public Document trouverDocument(Long documentId) {
+		if (documentId == null) {
+			throw new IllegalArgumentException("documentId ne doit pas etre null");
+		}
 		Document d = documentDao.findOne(documentId);
 		if (d != null) {
 			Hibernate.initialize(d.getLigneDocuments());
@@ -94,6 +97,9 @@ public class DocumentService implements IDocumentService {
 
 	@Override
 	public LigneDeDocument trouverLigneDocument(Long ligneId) {
+		if (ligneId == null) {
+			throw new IllegalArgumentException("ligneId ne doit pas etre null");
+		}
 		LigneDeDocument ld = ligneDeDocumentDao.findOne(ligneId);
 		if (ld != null) {
 			return ld;

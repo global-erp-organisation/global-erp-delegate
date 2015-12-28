@@ -31,6 +31,9 @@ public class AuthentificationService implements IAuthentificationService {
 
 	@Override
 	public Utilisateur trouverUtilisateur(String codeUtilisateur) {
+		if(codeUtilisateur==null){
+			throw new IllegalArgumentException("Le code utilisateur ne doit pas etre null");
+		}
 		Utilisateur u = utilisateurDao.findOne(codeUtilisateur);
 		if (u != null) {
 			Hibernate.initialize(u.getEmployes());

@@ -48,6 +48,9 @@ public class CaisseService implements ICaisseService {
 
 	@Override
 	public Caisse trouverCaisse(Long caisseId) {
+		if (caisseId == null) {
+			throw new IllegalArgumentException("caisseId ne doit pas etre null");
+		}
 		Caisse c = caisseDao.findOne(caisseId);
 		if (c != null) {
 			return c;
@@ -85,6 +88,9 @@ public class CaisseService implements ICaisseService {
 
 	@Override
 	public JournalCaisse trouverJournalCaisse(Long journalId) {
+		if (journalId == null) {
+			throw new IllegalArgumentException("journalId ne doit pas etre null");
+		}
 		JournalCaisse j = journalCaisseDao.findOne(journalId);
 		if (j != null) {
 			Hibernate.initialize(j.getOpreations());

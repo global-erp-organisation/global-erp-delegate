@@ -43,6 +43,9 @@ public class InventaireService implements IInventaire {
 
 	@Override
 	public Inventaire trouverInventaire(Long inventaireId) {
+		if (inventaireId == null) {
+			throw new IllegalArgumentException("inventaireId ne doit pas etre null");
+		}
 		Inventaire inv = inventaireDao.findOne(inventaireId);
 		if (inv != null) {
 			Hibernate.initialize(inv.getLigneInventaires());
@@ -100,6 +103,9 @@ public class InventaireService implements IInventaire {
 
 	@Override
 	public LigneInventaire trouverLigneInventaire(Long ligneId) {
+		if (ligneId == null) {
+			throw new IllegalArgumentException("ligneId ne doit pas etre null");
+		}
 		LigneInventaire li = ligneInventaireDao.findOne(ligneId);
 		if (li != null) {
 			return li;

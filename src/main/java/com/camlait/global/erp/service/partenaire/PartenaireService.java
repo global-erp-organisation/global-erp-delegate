@@ -42,6 +42,9 @@ public class PartenaireService implements IPartenaireService {
 
 	@Override
 	public Partenaire trouverPartenaire(Long partenaireId) {
+		if (partenaireId == null) {
+			throw new IllegalArgumentException("partenaireId ne doit pas etre null");
+		}
 		Partenaire p = partenaireDao.findOne(partenaireId);
 		if (p != null) {
 			Hibernate.initialize(p.getDocuments());
