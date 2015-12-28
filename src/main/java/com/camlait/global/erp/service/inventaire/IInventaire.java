@@ -36,7 +36,7 @@ public interface IInventaire {
 	 *            Identifiant de l'inventaire.
 	 * @return Inventaire recherchée.
 	 */
-	Inventaire trouverInventaire(Long inventaireId);
+	Inventaire obtenirInventaire(Long inventaireId);
 
 	/**
 	 * Supprimer un invventaire.
@@ -79,7 +79,7 @@ public interface IInventaire {
 
 	LigneInventaire modifierLigneInventaire(LigneInventaire ligne);
 
-	LigneInventaire trouverLigneInventaire(Long ligneId);
+	LigneInventaire obtenirLigneInventaire(Long ligneId);
 
 	void supprimerLigneInventaire(Long ligneId);
 

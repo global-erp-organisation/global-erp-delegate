@@ -43,7 +43,7 @@ public class InventaireService implements IInventaire {
 	}
 
 	@Override
-	public Inventaire trouverInventaire(Long inventaireId) {
+	public Inventaire obtenirInventaire(Long inventaireId) {
 		if (inventaireId == null) {
 			throw new IllegalArgumentException("inventaireId ne doit pas etre null");
 		}
@@ -59,7 +59,7 @@ public class InventaireService implements IInventaire {
 	@Transactional
 	@Override
 	public void supprimerInventaire(Long inventaireId) {
-		inventaireDao.delete(trouverInventaire(inventaireId));
+		inventaireDao.delete(obtenirInventaire(inventaireId));
 	}
 
 	@Override
@@ -104,7 +104,7 @@ public class InventaireService implements IInventaire {
 	}
 
 	@Override
-	public LigneInventaire trouverLigneInventaire(Long ligneId) {
+	public LigneInventaire obtenirLigneInventaire(Long ligneId) {
 		if (ligneId == null) {
 			throw new IllegalArgumentException("ligneId ne doit pas etre null");
 		}
@@ -119,7 +119,7 @@ public class InventaireService implements IInventaire {
 	@Transactional
 	@Override
 	public void supprimerLigneInventaire(Long ligneId) {
-		ligneInventaireDao.delete(trouverLigneInventaire(ligneId));
+		ligneInventaireDao.delete(obtenirLigneInventaire(ligneId));
 	}
 
 	@Transactional

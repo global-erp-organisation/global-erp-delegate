@@ -37,7 +37,7 @@ public interface IDocumentService {
      *            Identifiant du document cherché.
      * @return Document cherché.
      */
-    Document trouverDocument(Long documentId);
+    Document obtenirDocument(Long documentId);
     
     /**
      * SUpprimer un document.
@@ -66,7 +66,7 @@ public interface IDocumentService {
     
     LigneDeDocument modifierLigneDocument(LigneDeDocument ligne);
     
-    LigneDeDocument trouverLigneDocument(Long ligneId);
+    LigneDeDocument obtenirLigneDocument(Long ligneId);
     
     void supprimerLigneDocument(Long ligneId);
     
@@ -76,7 +76,7 @@ public interface IDocumentService {
     
     LigneDeDocumentTaxe modifierLigneDeDocumentTaxe(LigneDeDocumentTaxe ligneDeDocumentTaxe);
     
-    LigneDeDocumentTaxe trouverLigneDeDocumentTaxe(Long ligneDeDocumentTaxeId);
+    LigneDeDocumentTaxe obtenirLigneDeDocumentTaxe(Long ligneDeDocumentTaxeId);
     
     void spprimerLigneDeDocumentTaxe(Long ligneDeDocumentTaxeId);
 }

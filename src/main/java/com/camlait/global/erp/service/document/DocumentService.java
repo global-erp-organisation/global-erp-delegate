@@ -49,7 +49,7 @@ public class DocumentService implements IDocumentService {
 	}
 
 	@Override
-	public Document trouverDocument(Long documentId) {
+	public Document obtenirDocument(Long documentId) {
 		if (documentId == null) {
 			throw new IllegalArgumentException("documentId ne doit pas etre null");
 		}
@@ -68,7 +68,7 @@ public class DocumentService implements IDocumentService {
 	@Transactional
 	@Override
 	public void supprimerDocument(Long documentId) {
-		documentDao.delete(trouverDocument(documentId));
+		documentDao.delete(obtenirDocument(documentId));
 	}
 
 	@Override
@@ -105,7 +105,7 @@ public class DocumentService implements IDocumentService {
 	}
 
 	@Override
-	public LigneDeDocument trouverLigneDocument(Long ligneId) {
+	public LigneDeDocument obtenirLigneDocument(Long ligneId) {
 		if (ligneId == null) {
 			throw new IllegalArgumentException("ligneId ne doit pas etre null");
 		}
@@ -121,7 +121,7 @@ public class DocumentService implements IDocumentService {
 	@Transactional
 	@Override
 	public void supprimerLigneDocument(Long ligneId) {
-		ligneDeDocumentDao.delete(trouverLigneDocument(ligneId));
+		ligneDeDocumentDao.delete(obtenirLigneDocument(ligneId));
 	}
 
 	@Transactional
@@ -148,7 +148,7 @@ public class DocumentService implements IDocumentService {
 	}
 
 	@Override
-	public LigneDeDocumentTaxe trouverLigneDeDocumentTaxe(Long ligneDeDocumentTaxeId) {
+	public LigneDeDocumentTaxe obtenirLigneDeDocumentTaxe(Long ligneDeDocumentTaxeId) {
 		if (ligneDeDocumentTaxeId == null) {
 			throw new IllegalArgumentException("ligneDeDocumentTaxeId ne peut pas etre null");
 		}
@@ -164,7 +164,7 @@ public class DocumentService implements IDocumentService {
 	@Transactional
 	@Override
 	public void spprimerLigneDeDocumentTaxe(Long ligneDeDocumentTaxeId) {
-		ligneDeDocumentTaxeDao.delete(trouverLigneDeDocumentTaxe(ligneDeDocumentTaxeId));
+		ligneDeDocumentTaxeDao.delete(obtenirLigneDeDocumentTaxe(ligneDeDocumentTaxeId));
 	}
 
 	/**
@@ -173,7 +173,7 @@ public class DocumentService implements IDocumentService {
 	 * @param ligneDeDocument
 	 */
 	private void ajouterLigneDeDocumentTaxe(LigneDeDocument ligneDeDocument) {
-		ligneDeDocument.getProduit().getProduitTaxes().stream().forEach(pt -> {
+		ligneDeDocument.getProduit().getProduitTaxes().parallelStream().forEach(pt -> {
 			LigneDeDocumentTaxe l = new LigneDeDocumentTaxe();
 			l.setLigneDeDocument(ligneDeDocument);
 			l.setTaxe(pt.getTaxe());
@@ -188,6 +188,6 @@ public class DocumentService implements IDocumentService {
 	 * @param lignes
 	 */
 	private void ajouterLigneDeDocumentTaxe(Collection<LigneDeDocument> lignes) {
-		lignes.stream().forEach(ligne -> ajouterLigneDeDocumentTaxe(ligne));
+		lignes.parallelStream().forEach(ligne -> ajouterLigneDeDocumentTaxe(ligne));
 	}
 }

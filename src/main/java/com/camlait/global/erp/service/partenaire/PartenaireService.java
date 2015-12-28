@@ -44,7 +44,7 @@ public class PartenaireService implements IPartenaireService {
 	}
 
 	@Override
-	public Partenaire trouverPartenaire(Long partenaireId) {
+	public Partenaire obtanirPartenaire(Long partenaireId) {
 		if (partenaireId == null) {
 			throw new IllegalArgumentException("partenaireId ne doit pas etre null");
 		}
@@ -67,7 +67,7 @@ public class PartenaireService implements IPartenaireService {
 	@Transactional
 	@Override
 	public void supprimerPartenaire(Long partenaireId) {
-		partenaireDao.delete(trouverPartenaire(partenaireId));
+		partenaireDao.delete(obtanirPartenaire(partenaireId));
 	}
 
 	@Override

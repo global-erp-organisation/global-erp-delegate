@@ -12,7 +12,7 @@ public interface IPartenaireService {
 
 	Partenaire modifierPartenaire(Partenaire partenaire);
 
-	Partenaire trouverPartenaire(Long partenaireId);
+	Partenaire obtanirPartenaire(Long partenaireId);
 
 	void supprimerPartenaire(Long partenaireId);
 

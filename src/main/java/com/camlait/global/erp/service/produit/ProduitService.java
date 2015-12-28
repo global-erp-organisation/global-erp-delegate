@@ -49,7 +49,7 @@ public class ProduitService implements IProduitService {
     }
     
     @Override
-    public Produit trouverProduit(Long produitId) {
+    public Produit obtenirProduit(Long produitId) {
         if (produitId == null) {
             throw new IllegalArgumentException("produitId ne doit pas etre null");
         }
@@ -65,7 +65,7 @@ public class ProduitService implements IProduitService {
     @Transactional
     @Override
     public void supprimerProduit(Long produitId) {
-        produitDao.delete(trouverProduit(produitId));
+        produitDao.delete(obtenirProduit(produitId));
     }
     
     @Override
@@ -105,7 +105,7 @@ public class ProduitService implements IProduitService {
     }
     
     @Override
-    public CategorieProduit trouverCategorieProduit(Long categorieId) {
+    public CategorieProduit obtenirCategorieProduit(Long categorieId) {
         if (categorieId == null) {
             throw new IllegalArgumentException("categorieId ne doit pas etre null");
         }
@@ -122,7 +122,7 @@ public class ProduitService implements IProduitService {
     @Transactional
     @Override
     public void supprimerCategorieProduit(Long categorieId) {
-        categorieProduitDao.delete(trouverCategorieProduit(categorieId));
+        categorieProduitDao.delete(obtenirCategorieProduit(categorieId));
     }
     
     @Override
@@ -169,7 +169,7 @@ public class ProduitService implements IProduitService {
     }
     
     @Override
-    public ProduitTaxe trouverProduitTaxe(Long produitTaxeId) {
+    public ProduitTaxe obtenirProduitTaxe(Long produitTaxeId) {
         if (produitTaxeId == null) {
             throw new IllegalArgumentException("L'identifiant produitTaxeId ne doit pas etre null");
         }
@@ -184,7 +184,7 @@ public class ProduitService implements IProduitService {
     @Transactional
     @Override
     public void supprimerProduitTaxe(Long produitTaxeId) {
-        produitTaxeDao.delete(trouverProduitTaxe(produitTaxeId));
+        produitTaxeDao.delete(obtenirProduitTaxe(produitTaxeId));
     }
     
 }

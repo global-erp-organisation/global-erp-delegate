@@ -59,8 +59,8 @@ public class ProduitServiceTest {
 
 	@Test
 	public void trouverCategorieProduitTest() {
-		service.trouverCategorieProduit(categorie.getCategorieProduitId());
-		verify(service, times(1)).trouverCategorieProduit(eq(categorie.getCategorieProduitId()));
+		service.obtenirCategorieProduit(categorie.getCategorieProduitId());
+		verify(service, times(1)).obtenirCategorieProduit(eq(categorie.getCategorieProduitId()));
 	}
 
 	@Test

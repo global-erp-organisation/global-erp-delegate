@@ -11,9 +11,9 @@ public interface IAuthentificationService {
 
 	Utilisateur modifierUtilisateur(Utilisateur utilisateur);
 
-	Utilisateur trouverUtilisateur(String codeUtilisateur);
+	Utilisateur obtenirUtilisateur(String codeUtilisateur);
 
-	Page<Utilisateur> trouverUtilisateurParCourriel(String courriel,Pageable p);
+	Page<Utilisateur> obtenirUtilisateurParCourriel(String courriel,Pageable p);
 
 	Page<Utilisateur> listerUtilisateur(String motCle, Pageable p);
 

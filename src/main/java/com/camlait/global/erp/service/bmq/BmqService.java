@@ -58,7 +58,7 @@ public class BmqService implements IBmqService {
 	}
 
 	@Override
-	public Bmq trouverBmq(Long bmqId) {
+	public Bmq obtenirBmq(Long bmqId) {
 		if (bmqId == null) {
 			throw new IllegalArgumentException("bmqId ne doit pas etre null");
 		}
@@ -76,7 +76,7 @@ public class BmqService implements IBmqService {
 	@Transactional
 	@Override
 	public void supprimerBmq(Long bmqId) {
-		bmqDao.delete(trouverBmq(bmqId));
+		bmqDao.delete(obtenirBmq(bmqId));
 	}
 
 	@Override
@@ -132,13 +132,91 @@ public class BmqService implements IBmqService {
 	@Transactional
 	@Override
 	public Bmq genererBmq(Long bmqId, Collection<Document> documents, Collection<Recouvrement> recouvrements) {
-		final Bmq bmq = trouverBmq(bmqId);
+		final Bmq bmq = obtenirBmq(bmqId);
 		bmq.setLigneBmqs(genererLigneBmq(bmq, documents));
 		bmq.setRecouvrements(recouvrements);
 		bmq.setDocuments(documents);
 		return bmq;
 	}
 
+
+	@Transactional
+	@Override
+	public Recouvrement ajouterRecouvrement(Recouvrement recouvrement) {
+		if (recouvrement != null) {
+			recouvrementDao.save(recouvrement);
+		}
+		return recouvrement;
+	}
+
+	@Transactional
+	@Override
+	public Recouvrement modifierRecouvrement(Recouvrement recouvrement) {
+		recouvrement.setDerniereMiseAJour(new Date());
+		recouvrementDao.saveAndFlush(recouvrement);
+		return recouvrement;
+	}
+
+	@Override
+	public Recouvrement obtenirRecouvrement(Long recouvrementId) {
+		Recouvrement r = recouvrementDao.findOne(recouvrementId);
+		if (r != null) {
+			return r;
+		} else {
+			throw new GlobalErpServiceException(
+					"Le recouvrment ayant l'identifiant " + recouvrementId + " n'existe pas");
+		}
+	}
+
+	@Transactional
+	@Override
+	public void supprimerRecouvrement(Long recouvrementId) {
+		recouvrementDao.delete(obtenirRecouvrement(recouvrementId));
+	}
+
+	@Transactional
+	@Override
+	public void supprimerLigneBmq(Bmq bmq) {
+		ligneBmqDao.delete(bmq.getLigneBmqs());
+	}
+
+	@Transactional
+	@Override
+	public LigneBmqTaxe ajouterLigneBmqTaxe(LigneBmqTaxe ligneBmqTaxe) {
+		if (ligneBmqTaxe != null) {
+			ligneBmqTaxeDao.save(ligneBmqTaxe);
+		}
+		return ligneBmqTaxe;
+	}
+
+	@Transactional
+	@Override
+	public LigneBmqTaxe modifierLigneBmqTaxe(LigneBmqTaxe ligneBmqTaxe) {
+		ligneBmqTaxe.setDerniereMiseAJour(new Date());
+		ligneBmqTaxeDao.saveAndFlush(ligneBmqTaxe);
+		return ligneBmqTaxe;
+	}
+
+	@Override
+	public LigneBmqTaxe trouverLigneBmqTaxe(Long ligneBmqTaxeId) {
+		if (ligneBmqTaxeId == null) {
+			throw new IllegalArgumentException("ligneBmqTaxeId ne doit pas etre null");
+		}
+		LigneBmqTaxe l = ligneBmqTaxeDao.findOne(ligneBmqTaxeId);
+		if (l != null) {
+			return l;
+		} else {
+			throw new GlobalErpServiceException(
+					GlobalAppConstants.buildNotFingMessage(LigneBmqTaxe.class, ligneBmqTaxeId));
+		}
+	}
+
+	@Transactional
+	@Override
+	public void supprimerLigneBmqTaxe(Long ligneBmqTaxeId) {
+		ligneBmqTaxeDao.delete(trouverLigneBmqTaxe(ligneBmqTaxeId));
+	}
+	
 	/**
 	 * Genere les ligne du bmq à partir des documents associés.
 	 * 
@@ -211,88 +289,11 @@ public class BmqService implements IBmqService {
 	/**
 	 * Ajouter de maniere groupe une collection de taxe a une ligne de bmq.
 	 * 
-	 * @param ligneBmqTaxes
+	 * @param ligneBmqs
 	 */
 	private void ajouterLigneBmqTaxe(Collection<LigneBmq> ligneBmqs) {
 		genererLigneBmqTaxe(ligneBmqs).parallelStream().forEach(l -> {
 			ajouterLigneBmqTaxe(l);
 		});
-	}
-
-	@Transactional
-	@Override
-	public Recouvrement ajouterRecouvrement(Recouvrement recouvrement) {
-		if (recouvrement != null) {
-			recouvrementDao.save(recouvrement);
-		}
-		return recouvrement;
-	}
-
-	@Transactional
-	@Override
-	public Recouvrement modifierRecouvrement(Recouvrement recouvrement) {
-		recouvrement.setDerniereMiseAJour(new Date());
-		recouvrementDao.saveAndFlush(recouvrement);
-		return recouvrement;
-	}
-
-	@Override
-	public Recouvrement trouverRecouvrement(Long recouvrementId) {
-		Recouvrement r = recouvrementDao.findOne(recouvrementId);
-		if (r != null) {
-			return r;
-		} else {
-			throw new GlobalErpServiceException(
-					"Le recouvrment ayant l'identifiant " + recouvrementId + " n'existe pas");
-		}
-	}
-
-	@Transactional
-	@Override
-	public void supprimerRecouvrement(Long recouvrementId) {
-		recouvrementDao.delete(trouverRecouvrement(recouvrementId));
-	}
-
-	@Transactional
-	@Override
-	public void supprimerLigneBmq(Bmq bmq) {
-		ligneBmqDao.delete(bmq.getLigneBmqs());
-	}
-
-	@Transactional
-	@Override
-	public LigneBmqTaxe ajouterLigneBmqTaxe(LigneBmqTaxe ligneBmqTaxe) {
-		if (ligneBmqTaxe != null) {
-			ligneBmqTaxeDao.save(ligneBmqTaxe);
-		}
-		return ligneBmqTaxe;
-	}
-
-	@Transactional
-	@Override
-	public LigneBmqTaxe modifierLigneBmqTaxe(LigneBmqTaxe ligneBmqTaxe) {
-		ligneBmqTaxe.setDerniereMiseAJour(new Date());
-		ligneBmqTaxeDao.saveAndFlush(ligneBmqTaxe);
-		return ligneBmqTaxe;
-	}
-
-	@Override
-	public LigneBmqTaxe trouverLigneBmqTaxe(Long ligneBmqTaxeId) {
-		if (ligneBmqTaxeId == null) {
-			throw new IllegalArgumentException("ligneBmqTaxeId ne doit pas etre null");
-		}
-		LigneBmqTaxe l = ligneBmqTaxeDao.findOne(ligneBmqTaxeId);
-		if (l != null) {
-			return l;
-		} else {
-			throw new GlobalErpServiceException(
-					GlobalAppConstants.buildNotFingMessage(LigneBmqTaxe.class, ligneBmqTaxeId));
-		}
-	}
-
-	@Transactional
-	@Override
-	public void supprimerLigneBmqTaxe(Long ligneBmqTaxeId) {
-		ligneBmqTaxeDao.delete(trouverLigneBmqTaxe(ligneBmqTaxeId));
 	}
 }

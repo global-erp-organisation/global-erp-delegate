@@ -15,7 +15,7 @@ public interface ICaisseService {
 
 	Caisse modifierCaisse(Caisse caisse);
 
-	Caisse trouverCaisse(Long caisseId);
+	Caisse obtenirCaisse(Long caisseId);
 
 	void supprimerCaisse(Long caisseId);
 
@@ -25,7 +25,7 @@ public interface ICaisseService {
 
 	JournalCaisse modifierJournalCaisse(JournalCaisse journal);
 
-	JournalCaisse trouverJournalCaisse(Long journalId);
+	JournalCaisse obtenirJournalCaisse(Long journalId);
 
 	void supprimerJournalCaisse(Long journalId);
 
@@ -35,7 +35,7 @@ public interface ICaisseService {
 
 	OperationDeCaisse modifierOperationDeCaisse(OperationDeCaisse operation);
 
-	OperationDeCaisse trouverOperationDeCaisse(Long operationId);
+	OperationDeCaisse obtenirOperationDeCaisse(Long operationId);
 
 	void supprimerOperationDeCaisse(Long operationId);
 

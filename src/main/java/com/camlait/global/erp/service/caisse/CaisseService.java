@@ -49,7 +49,7 @@ public class CaisseService implements ICaisseService {
 	}
 
 	@Override
-	public Caisse trouverCaisse(Long caisseId) {
+	public Caisse obtenirCaisse(Long caisseId) {
 		if (caisseId == null) {
 			throw new IllegalArgumentException("caisseId ne doit pas etre null");
 		}
@@ -64,7 +64,7 @@ public class CaisseService implements ICaisseService {
 	@Transactional
 	@Override
 	public void supprimerCaisse(Long caisseId) {
-		caisseDao.delete(trouverCaisse(caisseId));
+		caisseDao.delete(obtenirCaisse(caisseId));
 	}
 
 	@Override
@@ -90,7 +90,7 @@ public class CaisseService implements ICaisseService {
 	}
 
 	@Override
-	public JournalCaisse trouverJournalCaisse(Long journalId) {
+	public JournalCaisse obtenirJournalCaisse(Long journalId) {
 		if (journalId == null) {
 			throw new IllegalArgumentException("journalId ne doit pas etre null");
 		}
@@ -106,7 +106,7 @@ public class CaisseService implements ICaisseService {
 	@Transactional
 	@Override
 	public void supprimerJournalCaisse(Long journalId) {
-		journalCaisseDao.delete(trouverJournalCaisse(journalId));
+		journalCaisseDao.delete(obtenirJournalCaisse(journalId));
 	}
 
 	@Override
@@ -132,7 +132,7 @@ public class CaisseService implements ICaisseService {
 	}
 
 	@Override
-	public OperationDeCaisse trouverOperationDeCaisse(Long operationId) {
+	public OperationDeCaisse obtenirOperationDeCaisse(Long operationId) {
 		OperationDeCaisse o = operationCaisseDao.findOne(operationId);
 		if (o != null) {
 			return o;
@@ -145,7 +145,7 @@ public class CaisseService implements ICaisseService {
 	@Transactional
 	@Override
 	public void supprimerOperationDeCaisse(Long operationId) {
-		operationCaisseDao.delete(trouverOperationDeCaisse(operationId));
+		operationCaisseDao.delete(obtenirOperationDeCaisse(operationId));
 	}
 
 	@Override

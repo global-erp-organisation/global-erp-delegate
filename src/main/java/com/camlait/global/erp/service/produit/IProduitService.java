@@ -36,7 +36,7 @@ public interface IProduitService {
 	 *            Identifiant du produit à trouver.
 	 * @return produit recherché,
 	 */
-	Produit trouverProduit(Long produitId);
+	Produit obtenirProduit(Long produitId);
 
 	/**
 	 * Supprimer un produit.
@@ -90,7 +90,7 @@ public interface IProduitService {
 	 * @param categorieId
 	 * @return
 	 */
-	CategorieProduit trouverCategorieProduit(Long categorieId);
+	CategorieProduit obtenirCategorieProduit(Long categorieId);
 
 	/**
 	 * suprimer une categorie de produit.
@@ -121,10 +121,13 @@ public interface IProduitService {
 	Page<CategorieProduit> listerCategorieProduit(String motCle, Pageable p);
 
 	Page<Produit> listerProduit(String motCle, Pageable p);
-	
+
 	ProduitTaxe ajouterProduitTaxe(ProduitTaxe produitTaxe);
+
 	ProduitTaxe modifierProduitTaxe(ProduitTaxe produitTaxe);
-	ProduitTaxe trouverProduitTaxe(Long produitTaxeId);
+
+	ProduitTaxe obtenirProduitTaxe(Long produitTaxeId);
+
 	void supprimerProduitTaxe(Long produitTaxeId);
 
 }

@@ -33,7 +33,7 @@ public class AuthentificationService implements IAuthentificationService {
 	}
 
 	@Override
-	public Utilisateur trouverUtilisateur(String codeUtilisateur) {
+	public Utilisateur obtenirUtilisateur(String codeUtilisateur) {
 		if(codeUtilisateur==null){
 			throw new IllegalArgumentException("Le code utilisateur ne doit pas etre null");
 		}
@@ -48,7 +48,7 @@ public class AuthentificationService implements IAuthentificationService {
 	}
 
 	@Override
-	public Page<Utilisateur> trouverUtilisateurParCourriel(String courriel,Pageable p) {
+	public Page<Utilisateur> obtenirUtilisateurParCourriel(String courriel,Pageable p) {
 		return utilisateurDao.findUtilisateurByCourriel(courriel,p);
 	}
 
@@ -64,6 +64,6 @@ public class AuthentificationService implements IAuthentificationService {
 
 	@Override
 	public void supprimerUtilisateur(String codeUtilisateur) {
-		utilisateurDao.delete(trouverUtilisateur(codeUtilisateur));
+		utilisateurDao.delete(obtenirUtilisateur(codeUtilisateur));
 	}
 }
