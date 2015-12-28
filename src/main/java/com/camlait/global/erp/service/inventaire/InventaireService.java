@@ -37,6 +37,7 @@ public class InventaireService implements IInventaire {
 	@Transactional
 	@Override
 	public Inventaire modifierInventaire(Inventaire inventaire) {
+	    inventaire.setDerniereMiseAJour(new Date());
 		inventaireDao.saveAndFlush(inventaire);
 		return inventaire;
 	}
@@ -97,6 +98,7 @@ public class InventaireService implements IInventaire {
 	@Transactional
 	@Override
 	public LigneInventaire modifierLigneInventaire(LigneInventaire ligne) {
+	    ligne.setDerniereMiseAJour(new Date());
 		ligneInventaireDao.saveAndFlush(ligne);
 		return ligne;
 	}

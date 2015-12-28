@@ -1,6 +1,7 @@
 package com.camlait.global.erp.service.caisse;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 
 import javax.transaction.Transactional;
@@ -42,6 +43,7 @@ public class CaisseService implements ICaisseService {
 	@Transactional
 	@Override
 	public Caisse modifierCaisse(Caisse caisse) {
+	    caisse.setDerniereMiseAJour(new Date());
 		caisseDao.saveAndFlush(caisse);
 		return caisse;
 	}
@@ -82,6 +84,7 @@ public class CaisseService implements ICaisseService {
 	@Transactional
 	@Override
 	public JournalCaisse modifierJournalCaisse(JournalCaisse journal) {
+	    journal.setDerniereMiseAJour(new Date());
 		journalCaisseDao.saveAndFlush(journal);
 		return journal;
 	}
@@ -123,6 +126,7 @@ public class CaisseService implements ICaisseService {
 	@Transactional
 	@Override
 	public OperationDeCaisse modifierOperationDeCaisse(OperationDeCaisse operation) {
+	    operation.setDerniereMiseAJour(new Date());
 		operationCaisseDao.saveAndFlush(operation);
 		return operation;
 	}

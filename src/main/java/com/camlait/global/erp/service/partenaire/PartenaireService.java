@@ -1,5 +1,7 @@
 package com.camlait.global.erp.service.partenaire;
 
+import java.util.Date;
+
 import javax.transaction.Transactional;
 
 import org.hibernate.Hibernate;
@@ -36,6 +38,7 @@ public class PartenaireService implements IPartenaireService {
 	@Transactional
 	@Override
 	public Partenaire modifierPartenaire(Partenaire partenaire) {
+	    partenaire.setDerniereMiseAJour(new Date());
 		partenaireDao.saveAndFlush(partenaire);
 		return partenaire;
 	}

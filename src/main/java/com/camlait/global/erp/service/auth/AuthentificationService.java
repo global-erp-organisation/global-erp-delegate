@@ -1,5 +1,7 @@
 package com.camlait.global.erp.service.auth;
 
+import java.util.Date;
+
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,6 +27,7 @@ public class AuthentificationService implements IAuthentificationService {
 
 	@Override
 	public Utilisateur modifierUtilisateur(Utilisateur utilisateur) {
+	    utilisateur.setDerniereMiseAJour(new Date());
 		utilisateurDao.saveAndFlush(utilisateur);
 		return utilisateur;
 	}

@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.camlait.global.erp.domain.produit.CategorieProduit;
 import com.camlait.global.erp.domain.produit.Produit;
+import com.camlait.global.erp.domain.produit.ProduitTaxe;
 
 public interface IProduitService {
 
@@ -120,4 +121,10 @@ public interface IProduitService {
 	Page<CategorieProduit> listerCategorieProduit(String motCle, Pageable p);
 
 	Page<Produit> listerProduit(String motCle, Pageable p);
+	
+	ProduitTaxe ajouterProduitTaxe(ProduitTaxe produitTaxe);
+	ProduitTaxe modifierProduitTaxe(ProduitTaxe produitTaxe);
+	ProduitTaxe trouverProduitTaxe(Long produitTaxeId);
+	void supprimerProduitTaxe(Long produitTaxeId);
+
 }
