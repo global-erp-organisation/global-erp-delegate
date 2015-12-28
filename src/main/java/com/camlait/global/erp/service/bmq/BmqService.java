@@ -150,8 +150,8 @@ public class BmqService implements IBmqService {
 	 */
 	private Collection<LigneBmq> genererLigneBmq(Bmq bmq, Collection<Document> documents) {
 		final Collection<LigneBmq> lignes = new HashSet<>();
-		documents.stream().forEach(d -> {
-			d.getLigneDocuments().stream().forEach(ld -> {
+		documents.parallelStream().forEach(d -> {
+            d.getLigneDocuments().parallelStream().forEach(ld -> {
 				LigneBmq lb = new LigneBmq();
 				lb.setBmq(bmq);
 				lb.setDocument(d);
@@ -173,8 +173,8 @@ public class BmqService implements IBmqService {
 	private Collection<LigneBmqTaxe> genererLigneBmqTaxe(Collection<LigneBmq> ligneBmqs) {
 
 		final Collection<LigneBmqTaxe> ligneBmqTaxes = new HashSet<>();
-		ligneBmqs.stream().forEach(ligneBmq -> {
-			obtenirLigneDocumentTaxe(ligneBmq.getBmq()).stream().forEach(ligneDeDocumentTaxe -> {
+		ligneBmqs.parallelStream().forEach(ligneBmq -> {
+			obtenirLigneDocumentTaxe(ligneBmq.getBmq()).parallelStream().forEach(ligneDeDocumentTaxe -> {
 				LigneBmqTaxe ligneBmqTaxe = new LigneBmqTaxe();
 				ligneBmqTaxe.setLigneBmq(ligneBmq);
 				ligneBmqTaxe.setTaxe(ligneDeDocumentTaxe.getTaxe());
@@ -193,10 +193,10 @@ public class BmqService implements IBmqService {
 	 */
 	private Collection<LigneDeDocumentTaxe> obtenirLigneDocumentTaxe(Bmq bmq) {
 		final Collection<LigneDeDocumentTaxe> ligneDeDocumentTaxes = new HashSet<>();
-		bmq.getDocuments().stream().filter(d -> d.getTypeDocument().equals(TypeDocuments.DOCUMENT_DE_VENTE))
+		bmq.getDocuments().parallelStream().filter(d -> d.getTypeDocument().equals(TypeDocuments.DOCUMENT_DE_VENTE))
 				.forEach(d -> {
-					d.getLigneDocuments().stream().forEach(ld -> {
-						ld.getLigneDeDocumentTaxes().stream().forEach(ldt -> {
+					d.getLigneDocuments().parallelStream().forEach(ld -> {
+						ld.getLigneDeDocumentTaxes().parallelStream().forEach(ldt -> {
 							LigneDeDocumentTaxe l = new LigneDeDocumentTaxe();
 							l.setLigneDeDocument(ld);
 							l.setTaxe(ldt.getTaxe());
@@ -214,7 +214,7 @@ public class BmqService implements IBmqService {
 	 * @param ligneBmqTaxes
 	 */
 	private void ajouterLigneBmqTaxe(Collection<LigneBmq> ligneBmqs) {
-		genererLigneBmqTaxe(ligneBmqs).stream().forEach(l -> {
+		genererLigneBmqTaxe(ligneBmqs).parallelStream().forEach(l -> {
 			ajouterLigneBmqTaxe(l);
 		});
 	}
