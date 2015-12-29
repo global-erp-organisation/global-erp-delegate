@@ -164,7 +164,7 @@ public interface IDocumentService {
     double valeurTotaleTaxe(Document document);
     
     /**
-     * Evalue le chiffre d'affaire tout taxe compris d'un document.
+     * Evalue le chiffre d'affaire toutes taxes comprises d'un document.
      * 
      * @param document
      * @return

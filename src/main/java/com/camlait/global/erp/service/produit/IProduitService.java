@@ -51,9 +51,8 @@ public interface IProduitService {
     /**
      * Lister les produits d'une categorie.
      * 
-     * @param categorieId
-     *            Identifiant de la categorie
-     * @param p
+     * @param categorie
+     *            Categorie associe
      * @return
      */
     Collection<Produit> listerProduit(CategorieProduit categorie) throws GlobalErpServiceException;
@@ -63,11 +62,16 @@ public interface IProduitService {
      * 
      * @param categories
      *            collection de categorie
-     * @param p
      * @return
      */
     Collection<Produit> listerProduit(Collection<CategorieProduit> categories) throws GlobalErpServiceException;
     
+    /**
+     * Lister tous les produits par page.
+     * 
+     * @param p page a retourner
+     * @return
+     */
     Page<Produit> listerProduit(Pageable p);
     
     /**
@@ -112,7 +116,7 @@ public interface IProduitService {
     /**
      * Lister les categorie fille d'une categorie.
      * 
-     * @param parentId
+     * @param parentId Identifiant de la categorie parente
      * @return
      */
     Collection<CategorieProduit> listerCategorie(Long parentId) throws GlobalErpServiceException;
@@ -131,7 +135,6 @@ public interface IProduitService {
      * 
      * @param motCle
      *            Mot clé à utiliser
-     * @param p
      * @return
      */
     Collection<CategorieProduit> listerCategorieProduit(String motCle) throws GlobalErpServiceException;
@@ -140,7 +143,6 @@ public interface IProduitService {
      * Lister les produits dont le code ou la description contienne un mot clé.
      * 
      * @param motCle
-     * @param p
      * @return
      */
     Collection<Produit> listerProduit(String motCle) throws GlobalErpServiceException;
