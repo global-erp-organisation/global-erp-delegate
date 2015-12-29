@@ -18,66 +18,68 @@ import com.camlait.global.erp.domain.partenaire.Partenaire;
 import com.camlait.global.erp.domain.partenaire.Vendeur;
 import com.camlait.global.erp.service.GlobalErpServiceException;
 
+@Transactional
 public class PartenaireService implements IPartenaireService {
-
-	@Autowired
-	private PartenaireDao partenaireDao;
-
-	@Autowired
-	private EmployeDao employeDao;
-
-	@Transactional
-	@Override
-	public Partenaire ajouterPartenaire(Partenaire partenaire) {
-		if (partenaire != null) {
-			partenaireDao.save(partenaire);
-		}
-		return partenaire;
-	}
-
-	@Transactional
-	@Override
-	public Partenaire modifierPartenaire(Partenaire partenaire) {
-	    partenaire.setDerniereMiseAJour(new Date());
-		partenaireDao.saveAndFlush(partenaire);
-		return partenaire;
-	}
-
-	@Override
-	public Partenaire obtanirPartenaire(Long partenaireId) {
-		if (partenaireId == null) {
-			throw new IllegalArgumentException("partenaireId ne doit pas etre null");
-		}
-		Partenaire p = partenaireDao.findOne(partenaireId);
-		if (p != null) {
-			Hibernate.initialize(p.getDocuments());
-			if (p instanceof ClientAmarge) {
-				Hibernate.initialize(((ClientAmarge) p).getMargeClients());
-			}
-			if (p instanceof Vendeur) {
-				Hibernate.initialize(((Vendeur) p).getManquantFinanciers());
-				Hibernate.initialize(((Vendeur) p).getPartenaireImmobilisations());
-			}
-			return p;
-		} else {
-			throw new GlobalErpServiceException(GlobalAppConstants.buildNotFingMessage(Partenaire.class, partenaireId));
-		}
-	}
-
-	@Transactional
-	@Override
-	public void supprimerPartenaire(Long partenaireId) {
-		partenaireDao.delete(obtanirPartenaire(partenaireId));
-	}
-
-	@Override
-	public Page<Partenaire> listerPartenaire(Pageable p) {
-		return partenaireDao.findAll(p);
-	}
-
-	@Override
-	public Page<Employe> listerEmploye(String motCle, Pageable p) {
-		return employeDao.listerEmploye(motCle, p);
-	}
-
+    
+    @Autowired
+    private PartenaireDao partenaireDao;
+    
+    @Autowired
+    private EmployeDao employeDao;
+    
+    @Override
+    public Partenaire ajouterPartenaire(Partenaire partenaire) {
+        if (partenaire == null) {
+            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("partenaire"));
+        }
+        partenaireDao.save(partenaire);
+        return partenaire;
+    }
+    
+    @Override
+    public Partenaire modifierPartenaire(Partenaire partenaire) {
+        if (partenaire == null) {
+            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("partenaire"));
+        }
+        partenaire.setDerniereMiseAJour(new Date());
+        partenaireDao.saveAndFlush(partenaire);
+        return partenaire;
+    }
+    
+    @Override
+    public Partenaire obtanirPartenaire(Long partenaireId) {
+        if (partenaireId == null) {
+            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("partenaireId"));
+        }
+        Partenaire p = partenaireDao.findOne(partenaireId);
+        if (p != null) {
+            Hibernate.initialize(p.getDocuments());
+            if (p instanceof ClientAmarge) {
+                Hibernate.initialize(((ClientAmarge) p).getMargeClients());
+            }
+            if (p instanceof Vendeur) {
+                Hibernate.initialize(((Vendeur) p).getManquantFinanciers());
+                Hibernate.initialize(((Vendeur) p).getPartenaireImmobilisations());
+            }
+            return p;
+        } else {
+            throw new GlobalErpServiceException(GlobalAppConstants.buildNotFindMessage(Partenaire.class, partenaireId));
+        }
+    }
+    
+    @Override
+    public void supprimerPartenaire(Long partenaireId) {
+        partenaireDao.delete(obtanirPartenaire(partenaireId));
+    }
+    
+    @Override
+    public Page<Partenaire> listerPartenaire(Pageable p) {
+        return partenaireDao.findAll(p);
+    }
+    
+    @Override
+    public Page<Employe> listerEmploye(String motCle, Pageable p) {
+        return employeDao.listerEmploye(motCle, p);
+    }
+    
 }

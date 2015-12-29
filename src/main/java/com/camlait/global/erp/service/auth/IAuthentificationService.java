@@ -4,20 +4,21 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.camlait.global.erp.domain.auth.Utilisateur;
+import com.camlait.global.erp.service.GlobalErpServiceException;
 
 public interface IAuthentificationService {
-
-	Utilisateur ajouterUtilisateur(Utilisateur utilisateur);
-
-	Utilisateur modifierUtilisateur(Utilisateur utilisateur);
-
-	Utilisateur obtenirUtilisateur(String codeUtilisateur);
-
-	Page<Utilisateur> obtenirUtilisateurParCourriel(String courriel,Pageable p);
-
-	Page<Utilisateur> listerUtilisateur(String motCle, Pageable p);
-
-	Page<Utilisateur> listerUtilisateur(Pageable p);
-
-	void supprimerUtilisateur(String codeUtilisateur);
+    
+    Utilisateur ajouterUtilisateur(Utilisateur utilisateur) throws GlobalErpServiceException,IllegalArgumentException;
+    
+    Utilisateur modifierUtilisateur(Utilisateur utilisateur) throws GlobalErpServiceException,IllegalArgumentException;
+    
+    Utilisateur obtenirUtilisateur(String codeUtilisateur) throws GlobalErpServiceException;
+    
+    Page<Utilisateur> obtenirUtilisateurParCourriel(String courriel, Pageable p) throws GlobalErpServiceException;
+    
+    Page<Utilisateur> listerUtilisateur(String motCle, Pageable p) throws GlobalErpServiceException;
+    
+    Page<Utilisateur> listerUtilisateur(Pageable p) throws GlobalErpServiceException;
+    
+    void supprimerUtilisateur(String codeUtilisateur) throws GlobalErpServiceException;
 }
