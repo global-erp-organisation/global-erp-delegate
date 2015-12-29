@@ -111,23 +111,67 @@ public interface IProduitService {
 	 * Lister les categorie fille d'une categorie.
 	 * 
 	 * @param parentId
+	 * @return
+	 */
+	Collection<CategorieProduit> listerCategorie(Long parentId);
+
+	/**
+	 * Supprimer tous les produit d'une categorie
+	 * 
+	 * @param categorie
+	 *            categorie associée.
+	 */
+	void supprimerProduit(CategorieProduit categorie);
+
+	/**
+	 * Lister les categorie de produit dont le code ou la description contienne
+	 * un mot clé.
+	 * 
+	 * @param motCle
+	 *            Mot clé à utiliser
 	 * @param p
 	 * @return
 	 */
-	Page<CategorieProduit> listerCategorie(Long parentId, Pageable p);
+	Collection<CategorieProduit> listerCategorieProduit(String motCle);
 
-	void supprimerProduit(CategorieProduit categorie);
+	/**
+	 * Lister les produits dont le code ou la description contienne un mot clé.
+	 * 
+	 * @param motCle
+	 * @param p
+	 * @return
+	 */
+	Collection<Produit> listerProduit(String motCle);
 
-	Page<CategorieProduit> listerCategorieProduit(String motCle, Pageable p);
-
-	Page<Produit> listerProduit(String motCle, Pageable p);
-
+	/**
+	 * Associer une taxe à un produit.
+	 * 
+	 * @param produitTaxe
+	 * @return
+	 */
 	ProduitTaxe ajouterProduitTaxe(ProduitTaxe produitTaxe);
 
+	/**
+	 * modifier une taxe associée à un produit.
+	 * 
+	 * @param produitTaxe
+	 * @return
+	 */
 	ProduitTaxe modifierProduitTaxe(ProduitTaxe produitTaxe);
 
+	/**
+	 * Obtenir la taxe associée à un produit.
+	 * 
+	 * @param produitTaxeId
+	 * @return
+	 */
 	ProduitTaxe obtenirProduitTaxe(Long produitTaxeId);
 
+	/**
+	 * Supprime une taxe associé à un produit.
+	 * 
+	 * @param produitTaxeId
+	 */
 	void supprimerProduitTaxe(Long produitTaxeId);
 
 }
