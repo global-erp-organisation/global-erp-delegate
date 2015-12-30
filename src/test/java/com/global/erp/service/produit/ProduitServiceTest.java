@@ -1,7 +1,6 @@
 package com.global.erp.service.produit;
 
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -12,7 +11,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.data.domain.Pageable;
 
 import com.camlait.global.erp.domain.enumeration.Portee;
 import com.camlait.global.erp.domain.produit.CategorieProduit;
@@ -47,7 +45,6 @@ public class ProduitServiceTest {
 	@Test
 	public void modifierCategorieProduitTest() {
 		service.modifierCategorieProduit(categorie);
-		verify(service).modifierCategorieProduit(categorie);
 		verify(service, times(1)).modifierCategorieProduit(categorie);
 	}
 
@@ -65,8 +62,7 @@ public class ProduitServiceTest {
 
 	@Test
 	public void listerCategorieTest() {
-		Pageable p = mock(Pageable.class);
-		service.listerCategorieProduit(p);
-		verify(service).listerCategorieProduit(p);
+		service.listerCategorieProduit();
+		verify(service).listerCategorieProduit();
 	}
 }
