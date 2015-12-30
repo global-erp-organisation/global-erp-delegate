@@ -6,12 +6,14 @@ import java.util.Date;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.camlait.global.erp.domain.entrepot.Entrepot;
+import com.camlait.global.erp.domain.entrepot.Magasin;
 import com.camlait.global.erp.domain.inventaire.Inventaire;
 import com.camlait.global.erp.domain.inventaire.LigneInventaire;
 import com.camlait.global.erp.domain.inventaire.Stock;
 import com.camlait.global.erp.service.GlobalErpServiceException;
 
-public interface IInventaire {
+public interface IInventaireService {
     
     /**
      * Ajouter un inventaire.
@@ -87,10 +89,32 @@ public interface IInventaire {
     
     void supprimerLigneInventaire(Inventaire inventaire) throws GlobalErpServiceException;
     
-	Stock obtenirStock(Long magasinId, Long produitId);
-
-	Collection<Stock> listerStockParProduit(Long produitId);
-
-	Collection<Stock> listerStockParMagasin(Long magasinId);
-
+    Stock obtenirStock(Long magasinId, Long produitId);
+    
+    Collection<Stock> listerStockParProduit(Long produitId);
+    
+    Collection<Stock> listerStockParMagasin(Long magasinId);
+    
+    Entrepot ajouterEntrepot(Entrepot entrepot);
+    
+    Entrepot modifierEntrepot(Entrepot entrepot);
+    
+    Entrepot obtenirEntrepot(Long entrepotId);
+    
+    Collection<Entrepot> listerEntrepot();
+    
+    void supprimerEntrepot(Long entrepotId);
+    
+    Magasin ajouterMagasin(Magasin magasin);
+    
+    Magasin modifierMagasin(Magasin magasin);
+    
+    Magasin obtenirMagasin(Long magasinId);
+    
+    Collection<Magasin> listerMagasin(Entrepot entrepot);
+    
+    Collection<Magasin> listerMagasin(String motCle);
+    
+    void supprimerMagasin(Long magasinId);
+    
 }

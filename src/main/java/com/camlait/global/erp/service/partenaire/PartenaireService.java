@@ -17,6 +17,7 @@ import com.camlait.global.erp.domain.partenaire.Employe;
 import com.camlait.global.erp.domain.partenaire.Partenaire;
 import com.camlait.global.erp.domain.partenaire.Vendeur;
 import com.camlait.global.erp.service.GlobalErpServiceException;
+import com.camlait.global.erp.service.util.IUtilService;
 
 @Transactional
 public class PartenaireService implements IPartenaireService {
@@ -27,11 +28,15 @@ public class PartenaireService implements IPartenaireService {
     @Autowired
     private EmployeDao employeDao;
     
+    @Autowired
+    private IUtilService utilService;
+    
     @Override
     public Partenaire ajouterPartenaire(Partenaire partenaire) {
         if (partenaire == null) {
             throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("partenaire"));
         }
+        partenaire.setCodePartenaire(utilService.genererCode(partenaire));
         partenaireDao.save(partenaire);
         return partenaire;
     }
