@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.camlait.global.erp.domain.inventaire.Inventaire;
 import com.camlait.global.erp.domain.inventaire.LigneInventaire;
+import com.camlait.global.erp.domain.inventaire.Stock;
 import com.camlait.global.erp.service.GlobalErpServiceException;
 
 public interface IInventaire {
@@ -85,4 +86,11 @@ public interface IInventaire {
     void supprimerLigneInventaire(Long ligneId) throws GlobalErpServiceException;
     
     void supprimerLigneInventaire(Inventaire inventaire) throws GlobalErpServiceException;
+    
+	Stock obtenirStock(Long magasinId, Long produitId);
+
+	Collection<Stock> listerStockParProduit(Long produitId);
+
+	Collection<Stock> listerStockParMagasin(Long magasinId);
+
 }

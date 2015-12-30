@@ -22,6 +22,7 @@ import com.camlait.global.erp.domain.produit.CategorieProduit;
 import com.camlait.global.erp.domain.produit.CategorieProduitTaxe;
 import com.camlait.global.erp.domain.produit.Produit;
 import com.camlait.global.erp.domain.produit.ProduitTaxe;
+import com.camlait.global.erp.domain.util.Utility;
 import com.camlait.global.erp.service.GlobalErpServiceException;
 
 @Transactional
@@ -79,7 +80,7 @@ public class ProduitService implements IProduitService {
 
 	@Override
 	public Collection<Produit> listerProduit(CategorieProduit categorie) {
-		if (categorie.getPortee() == Portee.DETAIL) {
+		if (Utility.isDetail(categorie)) {
 			return produitDao.listerProduit(categorie.getCategorieProduitId());
 		} else {
 			return listerProduit(listerCategorie(categorie.getCategorieProduitId()));

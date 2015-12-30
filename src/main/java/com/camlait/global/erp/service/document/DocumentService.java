@@ -1,5 +1,8 @@
 package com.camlait.global.erp.service.document;
 
+import static com.camlait.global.erp.domain.util.Utility.genererCode;
+import static com.camlait.global.erp.domain.util.Utility.obtenirPrefixeDocument;
+
 import java.util.Collection;
 import java.util.Date;
 
@@ -39,7 +42,9 @@ public class DocumentService implements IDocumentService {
 		if (document == null) {
 			throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("document"));
 		}
+		genererCode(obtenirPrefixeDocument(document), documentDao.maxIdDocumentEntree(type));
 		documentDao.save(document);
+		ajouterLigneDocument(document.getLigneDocuments());
 		return document;
 	}
 
@@ -241,4 +246,5 @@ public class DocumentService implements IDocumentService {
 		});
 		return marge.getValue();
 	}
+
 }

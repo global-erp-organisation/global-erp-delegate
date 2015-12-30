@@ -196,5 +196,7 @@ public interface IBmqService {
 	double venteComptant(Bmq bmq);
 	
 	double valeurMarge(Bmq bmq);
+	
+	void genererVenteComptant(Bmq bmq);
 
 }

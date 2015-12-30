@@ -20,13 +20,18 @@ import com.camlait.global.erp.domain.bmq.LigneBmq;
 import com.camlait.global.erp.domain.bmq.LigneBmqTaxe;
 import com.camlait.global.erp.domain.config.GlobalAppConstants;
 import com.camlait.global.erp.domain.document.Document;
+import com.camlait.global.erp.domain.document.LigneDeDocument;
 import com.camlait.global.erp.domain.document.LigneDeDocumentTaxe;
 import com.camlait.global.erp.domain.document.commerciaux.Taxe;
+import com.camlait.global.erp.domain.document.commerciaux.vente.FactureClientComptant;
+import com.camlait.global.erp.domain.enumeration.document.TypeFacture;
 import com.camlait.global.erp.domain.operation.Recouvrement;
+import com.camlait.global.erp.domain.partenaire.ClientComptant;
 import com.camlait.global.erp.domain.util.Compute;
 import com.camlait.global.erp.domain.util.Utility;
 import com.camlait.global.erp.service.GlobalErpServiceException;
 import com.camlait.global.erp.service.document.IDocumentService;
+import com.camlait.global.erp.service.inventaire.InventaireService;
 
 @Transactional
 public class BmqService implements IBmqService {
@@ -45,6 +50,9 @@ public class BmqService implements IBmqService {
 
 	@Autowired
 	private IDocumentService documentService;
+
+	@Autowired
+	private InventaireService inventaireService;
 
 	@Override
 	public Bmq ajouterBmq(Bmq bmq) {
@@ -349,5 +357,39 @@ public class BmqService implements IBmqService {
 			marge.compute(documentService.valeurMarge(d));
 		});
 		return marge.getValue();
+	}
+
+	@Override
+	public void genererVenteComptant(Bmq bmq) {
+		Document facture = creerEnteteFacture(bmq);
+		Collection<LigneDeDocument> lignes = new HashSet<>();
+		inventaireService.listerStockParMagasin(bmq.getMagasin().getMagasinId()).stream().forEach(s -> {
+			LigneDeDocument l = new LigneDeDocument();
+			l.setDocument(facture);
+			l.setPrixunitaiteLigne(s.getProduit().getPrixUnitaireProduit());
+			l.setProduit(s.getProduit());
+			l.setQuantiteLigne(s.getQuantiteDisponible());
+			lignes.add(l);
+		});
+		facture.setLigneDocuments(lignes);
+		documentService.ajouterDocument(facture);
+	}
+
+	/**
+	 * Creer l'entete de facture.
+	 * 
+	 * @param bmq
+	 * @return
+	 */
+	private Document creerEnteteFacture(Bmq bmq) {
+		FactureClientComptant f = new FactureClientComptant();
+		f.setBmq(bmq);
+		f.setClient(new ClientComptant());
+		f.setCodeDocument(Utility.genererCode(TypeFacture.FACTURE_COMPTANT.getType()));
+		f.setDateDocument(new Date());
+		f.setMagasin(bmq.getMagasin());
+		f.setResponsableDocument(bmq.getResponsable());
+		f.setZone(bmq.getVendeur().getZoneDeVente());
+		return f;
 	}
 }

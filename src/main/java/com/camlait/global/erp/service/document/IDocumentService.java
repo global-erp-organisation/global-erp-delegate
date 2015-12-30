@@ -10,6 +10,10 @@ import com.camlait.global.erp.domain.document.Document;
 import com.camlait.global.erp.domain.document.LigneDeDocument;
 import com.camlait.global.erp.domain.document.LigneDeDocumentTaxe;
 import com.camlait.global.erp.domain.document.commerciaux.Taxe;
+import com.camlait.global.erp.domain.enumeration.document.TypeDocumentEntree;
+import com.camlait.global.erp.domain.enumeration.document.TypeDocumentSortie;
+import com.camlait.global.erp.domain.enumeration.document.TypeDocumentStock;
+import com.camlait.global.erp.domain.enumeration.document.TypeFacture;
 import com.camlait.global.erp.service.GlobalErpServiceException;
 
 public interface IDocumentService {
