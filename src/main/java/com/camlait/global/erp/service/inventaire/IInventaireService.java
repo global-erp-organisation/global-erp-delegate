@@ -40,7 +40,16 @@ public interface IInventaireService {
      *            Identifiant de l'inventaire.
      * @return Inventaire recherchée.
      */
-    Inventaire obtenirInventaire(Long inventaireId) throws GlobalErpServiceException;
+    Inventaire obtenirInventaire(Long inventaireId) throws GlobalErpServiceException, IllegalArgumentException;
+    
+    /**
+     * trouver un inventaire.
+     * 
+     * @param inventaireId
+     *            code de l'inventaire.
+     * @return Inventaire recherchée.
+     */
+    Inventaire obtenirInventaire(String codeInventaire) throws GlobalErpServiceException, IllegalArgumentException;
     
     /**
      * Supprimer un invventaire.
@@ -48,7 +57,7 @@ public interface IInventaireService {
      * @param inventaireId
      *            Identifiant de l'inventaire
      */
-    void supprimerInventaire(Long inventaireId) throws GlobalErpServiceException;
+    void supprimerInventaire(Long inventaireId) throws GlobalErpServiceException, IllegalArgumentException;
     
     /**
      * Lister les inventaires
@@ -56,7 +65,7 @@ public interface IInventaireService {
      * @param p
      * @return
      */
-    Page<Inventaire> listerInventaire(Pageable p) throws GlobalErpServiceException;
+    Page<Inventaire> listerInventaire(Pageable p) throws GlobalErpServiceException, IllegalArgumentException;
     
     /**
      * Lister les inventaire d'une période.
@@ -66,7 +75,7 @@ public interface IInventaireService {
      * @param p
      * @return
      */
-    Page<Inventaire> listerInventaire(Date debut, Date fin, Pageable p) throws GlobalErpServiceException;
+    Page<Inventaire> listerInventaire(Date debut, Date fin, Pageable p) throws GlobalErpServiceException, IllegalArgumentException;
     
     /**
      * Lister les inventaires d'un magasin.
@@ -75,46 +84,50 @@ public interface IInventaireService {
      * @param p
      * @return
      */
-    Page<Inventaire> listerInventaire(Long magasinId, Pageable p) throws GlobalErpServiceException;
+    Page<Inventaire> listerInventaire(Long magasinId, Pageable p) throws GlobalErpServiceException, IllegalArgumentException;
     
-    LigneInventaire ajouterLigneInventaire(LigneInventaire ligne) throws GlobalErpServiceException;
+    LigneInventaire ajouterLigneInventaire(LigneInventaire ligne) throws GlobalErpServiceException, IllegalArgumentException;
     
     Collection<LigneInventaire> ajouterLigneInventaire(Collection<LigneInventaire> lignes) throws GlobalErpServiceException, IllegalArgumentException;
     
     LigneInventaire modifierLigneInventaire(LigneInventaire ligne) throws GlobalErpServiceException, IllegalArgumentException;
     
-    LigneInventaire obtenirLigneInventaire(Long ligneId) throws GlobalErpServiceException;
+    LigneInventaire obtenirLigneInventaire(Long ligneId) throws GlobalErpServiceException, IllegalArgumentException;
     
-    void supprimerLigneInventaire(Long ligneId) throws GlobalErpServiceException;
+    void supprimerLigneInventaire(Long ligneId) throws GlobalErpServiceException, IllegalArgumentException;
     
-    void supprimerLigneInventaire(Inventaire inventaire) throws GlobalErpServiceException;
+    void supprimerLigneInventaire(Inventaire inventaire) throws GlobalErpServiceException, IllegalArgumentException;
     
-    Stock obtenirStock(Long magasinId, Long produitId);
+    Stock obtenirStock(Long magasinId, Long produitId) throws GlobalErpServiceException, IllegalArgumentException;
     
-    Collection<Stock> listerStockParProduit(Long produitId);
+    Collection<Stock> listerStockParProduit(Long produitId) throws GlobalErpServiceException, IllegalArgumentException;
     
-    Collection<Stock> listerStockParMagasin(Long magasinId);
+    Collection<Stock> listerStockParMagasin(Long magasinId) throws GlobalErpServiceException, IllegalArgumentException;
     
-    Entrepot ajouterEntrepot(Entrepot entrepot);
+    Entrepot ajouterEntrepot(Entrepot entrepot) throws GlobalErpServiceException, IllegalArgumentException;
     
-    Entrepot modifierEntrepot(Entrepot entrepot);
+    Entrepot modifierEntrepot(Entrepot entrepot) throws GlobalErpServiceException, IllegalArgumentException;
     
-    Entrepot obtenirEntrepot(Long entrepotId);
+    Entrepot obtenirEntrepot(Long entrepotId) throws GlobalErpServiceException, IllegalArgumentException;
     
-    Collection<Entrepot> listerEntrepot();
+    Entrepot obtenirEntrepot(String codeEntrepot) throws GlobalErpServiceException, IllegalArgumentException;
     
-    void supprimerEntrepot(Long entrepotId);
+    Collection<Entrepot> listerEntrepot() throws GlobalErpServiceException, IllegalArgumentException;
     
-    Magasin ajouterMagasin(Magasin magasin);
+    void supprimerEntrepot(Long entrepotId) throws GlobalErpServiceException, IllegalArgumentException;
     
-    Magasin modifierMagasin(Magasin magasin);
+    Magasin ajouterMagasin(Magasin magasin) throws GlobalErpServiceException, IllegalArgumentException;
     
-    Magasin obtenirMagasin(Long magasinId);
+    Magasin modifierMagasin(Magasin magasin) throws GlobalErpServiceException, IllegalArgumentException;
     
-    Collection<Magasin> listerMagasin(Entrepot entrepot);
+    <T> T obtenirMagasin(Class<T> entityClass, Long magasinId) throws GlobalErpServiceException, IllegalArgumentException, ClassCastException;
     
-    Collection<Magasin> listerMagasin(String motCle);
+    <T> T obtenirMagasin(Class<T> entityClass, String codeMagasin) throws GlobalErpServiceException, IllegalArgumentException, ClassCastException;
     
-    void supprimerMagasin(Long magasinId);
+    Collection<Magasin> listerMagasin(Entrepot entrepot) throws GlobalErpServiceException, IllegalArgumentException;
+    
+    Collection<Magasin> listerMagasin(String motCle) throws GlobalErpServiceException, IllegalArgumentException;
+    
+    void supprimerMagasin(Long magasinId) throws GlobalErpServiceException, IllegalArgumentException, ClassCastException;
     
 }

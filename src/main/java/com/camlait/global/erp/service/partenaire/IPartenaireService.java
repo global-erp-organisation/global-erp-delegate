@@ -13,11 +13,12 @@ public interface IPartenaireService {
     
     Partenaire modifierPartenaire(Partenaire partenaire) throws GlobalErpServiceException, IllegalArgumentException;
     
-    Partenaire obtanirPartenaire(Long partenaireId) throws GlobalErpServiceException;
+    <T> T obtanirPartenaire(Class<T> entityClass, Long partenaireId) throws GlobalErpServiceException,ClassCastException,IllegalArgumentException;
+    <T> T obtanirPartenaire(Class<T> entityClass, String codePartenaire) throws GlobalErpServiceException,ClassCastException,IllegalArgumentException;
     
-    void supprimerPartenaire(Long partenaireId) throws GlobalErpServiceException;
+    void supprimerPartenaire(Long partenaireId) throws GlobalErpServiceException,IllegalArgumentException,ClassCastException;
     
-    Page<Partenaire> listerPartenaire(Pageable p) throws GlobalErpServiceException;
+    Page<Partenaire> listerPartenaire(Pageable p) throws GlobalErpServiceException,IllegalArgumentException;
     
-    Page<Employe> listerEmploye(String motCle, Pageable p) throws GlobalErpServiceException;
+    Page<Employe> listerEmploye(String motCle, Pageable p) throws GlobalErpServiceException,IllegalArgumentException;
 }

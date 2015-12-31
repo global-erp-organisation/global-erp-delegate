@@ -2,12 +2,14 @@ package com.camlait.global.erp.service.inventaire;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import com.camlait.global.erp.dao.entrepot.EntrepotDao;
@@ -70,12 +72,27 @@ public class InventaireService implements IInventaireService {
         if (inventaireId == null) {
             throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("inventaireId"));
         }
-        Inventaire inv = inventaireDao.findOne(inventaireId);
+        final Inventaire inv = inventaireDao.findOne(inventaireId);
         if (inv != null) {
             Hibernate.initialize(inv.getLigneInventaires());
             return inv;
         } else {
             throw new GlobalErpServiceException(GlobalAppConstants.buildNotFindMessage(Inventaire.class, inventaireId));
+        }
+    }
+    
+    @Override
+    public Inventaire obtenirInventaire(String codeInventaire) {
+        if (codeInventaire == null) {
+            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("codeInventaire"));
+        }
+        final List<Inventaire> inventaires = inventaireDao.findByCodeInventaire(codeInventaire, new PageRequest(0, 1)).getContent();
+        final Inventaire inv = (inventaires.isEmpty()) ? null : inventaires.get(0);
+        if (inv != null) {
+            Hibernate.initialize(inv.getLigneInventaires());
+            return inv;
+        } else {
+            throw new GlobalErpServiceException(GlobalAppConstants.buildNotFindMessage(Inventaire.class, codeInventaire));
         }
     }
     
@@ -164,7 +181,7 @@ public class InventaireService implements IInventaireService {
     public Collection<Stock> listerStockParMagasin(Long magasinId) {
         return stockDao.listerStockParMagasin(magasinId);
     }
-
+    
     @Override
     public Entrepot ajouterEntrepot(Entrepot entrepot) {
         if (entrepot == null) {
@@ -174,7 +191,7 @@ public class InventaireService implements IInventaireService {
         entrepotDao.save(entrepot);
         return entrepot;
     }
-
+    
     @Override
     public Entrepot modifierEntrepot(Entrepot entrepot) {
         if (entrepot == null) {
@@ -184,13 +201,13 @@ public class InventaireService implements IInventaireService {
         entrepotDao.saveAndFlush(entrepot);
         return entrepot;
     }
-
+    
     @Override
     public Entrepot obtenirEntrepot(Long entrepotId) {
         if (entrepotId == null) {
             throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("entrepotId"));
         }
-        Entrepot e = entrepotDao.findOne(entrepotId);
+        final Entrepot e = entrepotDao.findOne(entrepotId);
         if (e != null) {
             Hibernate.initialize(e.getMagasins());
             return e;
@@ -198,17 +215,32 @@ public class InventaireService implements IInventaireService {
             throw new GlobalErpServiceException(GlobalAppConstants.buildNotFindMessage(Entrepot.class, entrepotId));
         }
     }
-
+    
+    @Override
+    public Entrepot obtenirEntrepot(String codeEntrepot) {
+        if (codeEntrepot == null) {
+            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("codeEntrepot"));
+        }
+        final List<Entrepot> entrepots = entrepotDao.findByCodeEntrepot(codeEntrepot, new PageRequest(0, 1)).getContent();
+        final Entrepot e = (entrepots.isEmpty()) ? null : entrepots.get(0);
+        if (e != null) {
+            Hibernate.initialize(e.getMagasins());
+            return e;
+        } else {
+            throw new GlobalErpServiceException(GlobalAppConstants.buildNotFindMessage(Entrepot.class, codeEntrepot));
+        }
+    }
+      
     @Override
     public Collection<Entrepot> listerEntrepot() {
         return entrepotDao.findAll();
     }
-
+    
     @Override
     public void supprimerEntrepot(Long entrepotId) {
-         entrepotDao.delete(obtenirEntrepot(entrepotId));
+        entrepotDao.delete(obtenirEntrepot(entrepotId));
     }
-
+    
     @Override
     public Magasin ajouterMagasin(Magasin magasin) {
         if (magasin == null) {
@@ -218,7 +250,7 @@ public class InventaireService implements IInventaireService {
         magasinDao.save(magasin);
         return magasin;
     }
-
+    
     @Override
     public Magasin modifierMagasin(Magasin magasin) {
         if (magasin == null) {
@@ -228,32 +260,48 @@ public class InventaireService implements IInventaireService {
         magasinDao.saveAndFlush(magasin);
         return magasin;
     }
-
+    
+    @SuppressWarnings("unchecked")
     @Override
-    public Magasin obtenirMagasin(Long magasinId) {
+    public <T> T obtenirMagasin(Class<T> entityClass, Long magasinId) {
         if (magasinId == null) {
             throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("magasinId"));
         }
-        Magasin m = magasinDao.findOne(magasinId);
+        final Magasin m = magasinDao.findOne(magasinId);
         if (m != null) {
-            return m;
+            return (T) m;
         } else {
             throw new GlobalErpServiceException(GlobalAppConstants.buildNotFindMessage(Magasin.class, magasinId));
         }
     }
-
+    
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> T obtenirMagasin(Class<T> entityClass, String codeMagasin) {
+        if (codeMagasin == null) {
+            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("codeMagasin"));
+        }
+        final List<Magasin> magasins = magasinDao.findByCodeMagasin(codeMagasin, new PageRequest(0, 1)).getContent();
+        final Magasin m = (magasins.isEmpty()) ? null : magasins.get(0);
+        if (m != null) {
+            return (T) m;
+        } else {
+            throw new GlobalErpServiceException(GlobalAppConstants.buildNotFindMessage(Magasin.class, codeMagasin));
+        }
+    }
+    
     @Override
     public Collection<Magasin> listerMagasin(Entrepot entrepot) {
-         return magasinDao.listerMagasin(entrepot.getEntrepotId());
+        return magasinDao.listerMagasin(entrepot.getEntrepotId());
     }
-
+    
     @Override
     public Collection<Magasin> listerMagasin(String motCle) {
         return magasinDao.listerMagasin(motCle);
     }
-
+    
     @Override
     public void supprimerMagasin(Long magasinId) {
-        magasinDao.delete(obtenirMagasin(magasinId));
+        magasinDao.delete(obtenirMagasin(Magasin.class, magasinId));
     }
 }

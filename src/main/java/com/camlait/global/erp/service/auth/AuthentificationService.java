@@ -44,7 +44,7 @@ public class AuthentificationService implements IAuthentificationService {
         if (codeUtilisateur == null) {
             throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("codeUtilisateur"));
         }
-        Utilisateur u = utilisateurDao.findOne(codeUtilisateur);
+        final Utilisateur u = utilisateurDao.findOne(codeUtilisateur);
         if (u != null) {
             Hibernate.initialize(u.getEmployes());
             return u;

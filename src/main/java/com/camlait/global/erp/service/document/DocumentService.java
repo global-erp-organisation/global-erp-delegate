@@ -2,12 +2,14 @@ package com.camlait.global.erp.service.document;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import com.camlait.global.erp.dao.document.DocumentDao;
@@ -59,26 +61,46 @@ public class DocumentService implements IDocumentService {
         return document;
     }
     
+    @SuppressWarnings("unchecked")
     @Override
-    public Document obtenirDocument(Long documentId) {
+    public <T> T obtenirDocument(Class<T> entityClass, Long documentId) {
         if (documentId == null) {
             throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("documentId"));
         }
-        Document d = documentDao.findOne(documentId);
+        final Document d = documentDao.findOne(documentId);
         if (d != null) {
             Hibernate.initialize(d.getLigneDocuments());
             if (d instanceof FactureClient) {
                 Hibernate.initialize(((FactureClient) d).getFactureReglements());
             }
-            return d;
+            return (T) d;
         } else {
-            throw new GlobalErpServiceException(GlobalAppConstants.buildNotFindMessage(Document.class, documentId));
+            throw new GlobalErpServiceException(GlobalAppConstants.buildNotFindMessage(entityClass, documentId));
+        }
+    }
+    
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> T obtenirDocument(Class<T> entityClass, String codeDocument) {
+        if (codeDocument == null) {
+            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("codeDocument"));
+        }
+        final List<Document> documents = documentDao.findByCodeDocument(codeDocument, new PageRequest(0, 1)).getContent();
+        final Document d = (documents.isEmpty()) ? null : documents.get(0);
+        if (d != null) {
+            Hibernate.initialize(d.getLigneDocuments());
+            if (d instanceof FactureClient) {
+                Hibernate.initialize(((FactureClient) d).getFactureReglements());
+            }
+            return (T) d;
+        } else {
+            throw new GlobalErpServiceException(GlobalAppConstants.buildNotFindMessage(entityClass, codeDocument));
         }
     }
     
     @Override
     public void supprimerDocument(Long documentId) {
-        documentDao.delete(obtenirDocument(documentId));
+        documentDao.delete(obtenirDocument(Document.class, documentId));
     }
     
     @Override

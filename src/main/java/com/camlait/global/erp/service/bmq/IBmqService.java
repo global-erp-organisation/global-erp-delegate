@@ -41,7 +41,16 @@ public interface IBmqService {
 	 *            Identifiant du bmq à trouver.
 	 * @return le bmq recherché.
 	 */
-	Bmq obtenirBmq(Long bmqId) throws GlobalErpServiceException;
+	Bmq obtenirBmq(Long bmqId) throws GlobalErpServiceException, IllegalArgumentException;
+
+	   /**
+     * Trouver un bmq.
+     * 
+     * @param codeBmq
+     *            code du bmq à trouver.
+     * @return le bmq recherché.
+     */
+    Bmq obtenirBmq(String codeBmq) throws GlobalErpServiceException, IllegalArgumentException;
 
 	/**
 	 * supprimer un bmq.
@@ -49,7 +58,7 @@ public interface IBmqService {
 	 * @param bmqId
 	 *            identifiant du bmq à supprimer.
 	 */
-	void supprimerBmq(Long bmqId) throws GlobalErpServiceException;
+	void supprimerBmq(Long bmqId) throws GlobalErpServiceException, IllegalArgumentException;
 
 	/**
 	 * lister tous les bmqs.
@@ -58,7 +67,7 @@ public interface IBmqService {
 	 *            page à lister.
 	 * @return la page de bmqs.
 	 */
-	Page<Bmq> listerBmq(Pageable p) throws GlobalErpServiceException;
+	Page<Bmq> listerBmq(Pageable p) throws GlobalErpServiceException, IllegalArgumentException;
 
 	/**
 	 * Lister les bmq d'un vendeur.
@@ -69,7 +78,7 @@ public interface IBmqService {
 	 *            Page à lister.
 	 * @return la page de bmqs du vendeur.
 	 */
-	Page<Bmq> listerBmq(Long vendeurId, Pageable p) throws GlobalErpServiceException;
+	Page<Bmq> listerBmq(Long vendeurId, Pageable p) throws GlobalErpServiceException, IllegalArgumentException;
 
 	/**
 	 * Lister tous les bmqs q'une periode.
@@ -82,7 +91,7 @@ public interface IBmqService {
 	 *            page à lister.
 	 * @return la page de bmqs de la periode.
 	 */
-	Page<Bmq> listerBmq(Date debut, Date fin, Pageable p) throws GlobalErpServiceException;
+	Page<Bmq> listerBmq(Date debut, Date fin, Pageable p) throws GlobalErpServiceException, IllegalArgumentException;
 
 	/**
 	 * Lister les bmqs d'un vendeur pour une période.
@@ -97,7 +106,7 @@ public interface IBmqService {
 	 *            page à afficher.
 	 * @return la liste des bmqs du vendeur pour la période.
 	 */
-	Page<Bmq> listerBmq(Long VendeurId, Date debut, Date fin, Pageable p) throws GlobalErpServiceException;
+	Page<Bmq> listerBmq(Long VendeurId, Date debut, Date fin, Pageable p) throws GlobalErpServiceException, IllegalArgumentException;
 
 	/**
 	 * Ajouter une collection de ligne de bmq.
@@ -116,7 +125,7 @@ public interface IBmqService {
 	 *            Identifiant de la ligne à retrouver.
 	 * @return La ligne de bmq recherchée.
 	 */
-	LigneBmq obtenirLigneBmq(Long ligneBmqId) throws GlobalErpServiceException;
+	LigneBmq obtenirLigneBmq(Long ligneBmqId) throws GlobalErpServiceException, IllegalArgumentException;
 
 	/**
 	 * Supprimer une ligne de bmq.
@@ -124,7 +133,7 @@ public interface IBmqService {
 	 * @param ligneBmqId
 	 *            Identifiant de la ligne de bmq à supprimer.
 	 */
-	void supprimerLigneBmq(Long ligneBmqId) throws GlobalErpServiceException;
+	void supprimerLigneBmq(Long ligneBmqId) throws GlobalErpServiceException, IllegalArgumentException;
 
 	/**
 	 * Générer les ligne du bmq.
@@ -134,7 +143,7 @@ public interface IBmqService {
 	 * @return le noveau bmq.
 	 */
 	Bmq genererBmq(Long bmqId, Collection<Document> documents, Collection<Recouvrement> recouvrements)
-			throws GlobalErpServiceException;
+			throws GlobalErpServiceException, IllegalArgumentException;
 
 	/**
 	 * Ajouter un recouvement.
@@ -163,7 +172,7 @@ public interface IBmqService {
 	 *            Identifiant du recouvrment à retouver.
 	 * @return le recouvrement cherché.
 	 */
-	Recouvrement obtenirRecouvrement(Long recouvrementId) throws GlobalErpServiceException;
+	Recouvrement obtenirRecouvrement(Long recouvrementId) throws GlobalErpServiceException, IllegalArgumentException;
 
 	/**
 	 * Supprimer le recouvrement
@@ -171,9 +180,9 @@ public interface IBmqService {
 	 * @param recouvrementId
 	 *            Identifiant du recouvrement à supprimer.
 	 */
-	void supprimerRecouvrement(Long recouvrementId) throws GlobalErpServiceException;
+	void supprimerRecouvrement(Long recouvrementId) throws GlobalErpServiceException, IllegalArgumentException;
 
-	void supprimerLigneBmq(Bmq bmq) throws GlobalErpServiceException;
+	void supprimerLigneBmq(Bmq bmq) throws GlobalErpServiceException, IllegalArgumentException;
 
 	LigneBmqTaxe ajouterLigneBmqTaxe(LigneBmqTaxe ligneBmqTaxe)
 			throws GlobalErpServiceException, IllegalArgumentException;
@@ -181,9 +190,9 @@ public interface IBmqService {
 	LigneBmqTaxe modifierLigneBmqTaxe(LigneBmqTaxe ligneBmqTaxe)
 			throws GlobalErpServiceException, IllegalArgumentException;
 
-	LigneBmqTaxe trouverLigneBmqTaxe(Long ligneBmqTaxeId) throws GlobalErpServiceException;
+	LigneBmqTaxe trouverLigneBmqTaxe(Long ligneBmqTaxeId) throws GlobalErpServiceException, IllegalArgumentException;
 
-	void supprimerLigneBmqTaxe(Long ligneBmqTaxeId) throws GlobalErpServiceException;
+	void supprimerLigneBmqTaxe(Long ligneBmqTaxeId) throws GlobalErpServiceException, IllegalArgumentException;
 
 	double chiffreAffaireHorsTaxe(Bmq bmq);
 

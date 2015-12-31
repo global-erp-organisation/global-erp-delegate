@@ -2,9 +2,11 @@ package com.camlait.global.erp.service.organisation;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 
 import com.camlait.global.erp.dao.organisation.CentreDao;
 import com.camlait.global.erp.dao.organisation.LocalisationDao;
@@ -60,8 +62,9 @@ public class LocalisationService implements ILocalisationService {
         return local;
     }
     
+    @SuppressWarnings("unchecked")
     @Override
-    public Localisation obtenirLocalisation(Long localId) {
+    public <T> T obtenirLocalisation(Class<T> entityClass, Long localId) {
         if (localId == null) {
             throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("localId"));
         }
@@ -74,9 +77,31 @@ public class LocalisationService implements ILocalisationService {
             } else if (local instanceof Secteur) {
                 Hibernate.initialize((((Secteur) local).getZones()));
             }
-            return local;
+            return (T) local;
         } else {
-            throw new GlobalErpServiceException(GlobalAppConstants.buildNotFindMessage(Localisation.class, localId));
+            throw new GlobalErpServiceException(GlobalAppConstants.buildNotFindMessage(entityClass, localId));
+        }
+    }
+    
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> T obtenirLocalisation(Class<T> entityClass, String codeLocalisation) {
+        if (codeLocalisation == null) {
+            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("codeLocalisation"));
+        }
+        final List<Localisation> locals = localisationDao.findByCode(codeLocalisation, new PageRequest(0, 1)).getContent();
+        final Localisation local = (locals.isEmpty()) ? null : locals.get(0);
+        if (local != null) {
+            if (local instanceof Centre) {
+                Hibernate.initialize((((Centre) local).getRegions()));
+            } else if (local instanceof Region) {
+                Hibernate.initialize((((Region) local).getSecteurs()));
+            } else if (local instanceof Secteur) {
+                Hibernate.initialize((((Secteur) local).getZones()));
+            }
+            return (T) local;
+        } else {
+            throw new GlobalErpServiceException(GlobalAppConstants.buildNotFindMessage(entityClass, codeLocalisation));
         }
     }
     
@@ -102,7 +127,7 @@ public class LocalisationService implements ILocalisationService {
     
     @Override
     public void supprimerLocalisation(Long localId) {
-        localisationDao.delete(obtenirLocalisation(localId));
+        localisationDao.delete(obtenirLocalisation(Localisation.class, localId));
     }
     
 }

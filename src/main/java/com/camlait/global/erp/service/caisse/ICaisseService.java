@@ -16,34 +16,38 @@ public interface ICaisseService {
     
     Caisse modifierCaisse(Caisse caisse) throws GlobalErpServiceException, IllegalArgumentException;
     
-    Caisse obtenirCaisse(Long caisseId) throws GlobalErpServiceException;
+    Caisse obtenirCaisse(Long caisseId) throws GlobalErpServiceException, IllegalArgumentException;
     
-    void supprimerCaisse(Long caisseId) throws GlobalErpServiceException;
+    Caisse obtenirCaisse(String codeCaisse) throws GlobalErpServiceException, IllegalArgumentException;
     
-    Page<Caisse> listerCaisse(Pageable p) throws GlobalErpServiceException;
+    void supprimerCaisse(Long caisseId) throws GlobalErpServiceException, IllegalArgumentException;
+    
+    Page<Caisse> listerCaisse(Pageable p) throws GlobalErpServiceException, IllegalArgumentException;
     
     JournalCaisse ajouterJournalCaisse(JournalCaisse journal) throws GlobalErpServiceException, IllegalArgumentException;
     
     JournalCaisse modifierJournalCaisse(JournalCaisse journal) throws GlobalErpServiceException, IllegalArgumentException;
     
-    JournalCaisse obtenirJournalCaisse(Long journalId) throws GlobalErpServiceException;
+    JournalCaisse obtenirJournalCaisse(Long journalId) throws GlobalErpServiceException, IllegalArgumentException;
     
-    void supprimerJournalCaisse(Long journalId) throws GlobalErpServiceException;
+    JournalCaisse obtenirJournalCaisse(String codeJournal) throws GlobalErpServiceException, IllegalArgumentException;
     
-    Page<JournalCaisse> listerJournalCaisse(Pageable p) throws GlobalErpServiceException;
+    void supprimerJournalCaisse(Long journalId) throws GlobalErpServiceException, IllegalArgumentException;
+    
+    Page<JournalCaisse> listerJournalCaisse(Pageable p) throws GlobalErpServiceException, IllegalArgumentException;
     
     OperationDeCaisse ajouterOperationDeCaisse(OperationDeCaisse operation) throws GlobalErpServiceException, IllegalArgumentException;
     
     OperationDeCaisse modifierOperationDeCaisse(OperationDeCaisse operation) throws GlobalErpServiceException, IllegalArgumentException;
     
-    OperationDeCaisse obtenirOperationDeCaisse(Long operationId) throws GlobalErpServiceException;
+    OperationDeCaisse obtenirOperationDeCaisse(Long operationId) throws GlobalErpServiceException, IllegalArgumentException;
     
-    void supprimerOperationDeCaisse(Long operationId) throws GlobalErpServiceException;
+    void supprimerOperationDeCaisse(Long operationId) throws GlobalErpServiceException, IllegalArgumentException;
     
-    void supprimerOperationDeCaisse(JournalCaisse journal) throws GlobalErpServiceException;
+    void supprimerOperationDeCaisse(JournalCaisse journal) throws GlobalErpServiceException, IllegalArgumentException;
     
-    Collection<OperationDeCaisse> listerOperationDeCaisse(Long journalId) throws GlobalErpServiceException;
+    Collection<OperationDeCaisse> listerOperationDeCaisse(Long journalId) throws GlobalErpServiceException, IllegalArgumentException;
     
-    Collection<OperationDeCaisse> listerOperationDeCaisse(Collection<JournalCaisse> journaux) throws GlobalErpServiceException;
+    Collection<OperationDeCaisse> listerOperationDeCaisse(Collection<JournalCaisse> journaux) throws GlobalErpServiceException, IllegalArgumentException;
     
 }

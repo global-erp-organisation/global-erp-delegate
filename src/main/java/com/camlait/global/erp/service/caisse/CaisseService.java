@@ -3,12 +3,14 @@ package com.camlait.global.erp.service.caisse;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import com.camlait.global.erp.dao.operation.caisse.CaisseDao;
@@ -56,11 +58,25 @@ public class CaisseService implements ICaisseService {
         if (caisseId == null) {
             throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("caisseId"));
         }
-        Caisse c = caisseDao.findOne(caisseId);
+        final Caisse c = caisseDao.findOne(caisseId);
         if (c != null) {
             return c;
         } else {
             throw new GlobalErpServiceException(GlobalAppConstants.buildNotFindMessage(Caisse.class, caisseId));
+        }
+    }
+    
+    @Override
+    public Caisse obtenirCaisse(String codeCaisse) {
+        if (codeCaisse == null) {
+            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("codeCaisse"));
+        }
+        final List<Caisse> caisses = caisseDao.findByCodeCaisse(codeCaisse, new PageRequest(0, 1)).getContent();
+        final Caisse c = (caisses.isEmpty()) ? null : caisses.get(0);
+        if (c != null) {
+            return c;
+        } else {
+            throw new GlobalErpServiceException(GlobalAppConstants.buildNotFindMessage(Caisse.class, codeCaisse));
         }
     }
     
@@ -98,12 +114,27 @@ public class CaisseService implements ICaisseService {
         if (journalId == null) {
             throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("journalId"));
         }
-        JournalCaisse j = journalCaisseDao.findOne(journalId);
+        final JournalCaisse j = journalCaisseDao.findOne(journalId);
         if (j != null) {
             Hibernate.initialize(j.getOpreations());
             return j;
         } else {
             throw new GlobalErpServiceException(GlobalAppConstants.buildNotFindMessage(JournalCaisse.class, journalId));
+        }
+    }
+    
+    @Override
+    public JournalCaisse obtenirJournalCaisse(String codeJournal) {
+        if (codeJournal == null) {
+            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("codeJournal"));
+        }
+        final List<JournalCaisse> journaux = journalCaisseDao.findByCodeJournal(codeJournal, new PageRequest(0, 1)).getContent();
+        final JournalCaisse j = (journaux.isEmpty()) ? null : journaux.get(0);
+        if (j != null) {
+            Hibernate.initialize(j.getOpreations());
+            return j;
+        } else {
+            throw new GlobalErpServiceException(GlobalAppConstants.buildNotFindMessage(JournalCaisse.class, codeJournal));
         }
     }
     
@@ -138,7 +169,10 @@ public class CaisseService implements ICaisseService {
     
     @Override
     public OperationDeCaisse obtenirOperationDeCaisse(Long operationId) {
-        OperationDeCaisse o = operationCaisseDao.findOne(operationId);
+        if (operationId == null) {
+            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("operationId"));
+        }
+        final OperationDeCaisse o = operationCaisseDao.findOne(operationId);
         if (o != null) {
             return o;
         } else {
@@ -159,10 +193,10 @@ public class CaisseService implements ICaisseService {
     
     @Override
     public Collection<OperationDeCaisse> listerOperationDeCaisse(Collection<JournalCaisse> journaux) {
-        Collection<OperationDeCaisse> op = new HashSet<>();
-        for (JournalCaisse j : journaux) {
+        final Collection<OperationDeCaisse> op = new HashSet<>();
+        journaux.stream().forEach(j -> {
             op.addAll(listerOperationDeCaisse(j.getJournalId()));
-        }
+        });
         return op;
     }
     

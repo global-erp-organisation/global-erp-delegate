@@ -1,12 +1,14 @@
 package com.camlait.global.erp.service.partenaire;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import com.camlait.global.erp.dao.partenaire.EmployeDao;
@@ -51,12 +53,13 @@ public class PartenaireService implements IPartenaireService {
         return partenaire;
     }
     
+    @SuppressWarnings("unchecked")
     @Override
-    public Partenaire obtanirPartenaire(Long partenaireId) {
+    public <T> T obtanirPartenaire(Class<T> entityClass, Long partenaireId) {
         if (partenaireId == null) {
             throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("partenaireId"));
         }
-        Partenaire p = partenaireDao.findOne(partenaireId);
+        final Partenaire p = partenaireDao.findOne(partenaireId);
         if (p != null) {
             Hibernate.initialize(p.getDocuments());
             if (p instanceof ClientAmarge) {
@@ -66,15 +69,38 @@ public class PartenaireService implements IPartenaireService {
                 Hibernate.initialize(((Vendeur) p).getManquantFinanciers());
                 Hibernate.initialize(((Vendeur) p).getPartenaireImmobilisations());
             }
-            return p;
+            return (T) p;
         } else {
-            throw new GlobalErpServiceException(GlobalAppConstants.buildNotFindMessage(Partenaire.class, partenaireId));
+            throw new GlobalErpServiceException(GlobalAppConstants.buildNotFindMessage(entityClass, partenaireId));
+        }
+    }
+    
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> T obtanirPartenaire(Class<T> entityClass, String codePartenaire) {
+        if (codePartenaire == null) {
+            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("partenaireId"));
+        }
+        final List<Partenaire> partenaires = partenaireDao.findByCodePartenaire(codePartenaire, new PageRequest(0, 1)).getContent();
+        final Partenaire p = (partenaires.isEmpty()) ? null : partenaires.get(0);
+        if (p != null) {
+            Hibernate.initialize(p.getDocuments());
+            if (p instanceof ClientAmarge) {
+                Hibernate.initialize(((ClientAmarge) p).getMargeClients());
+            }
+            if (p instanceof Vendeur) {
+                Hibernate.initialize(((Vendeur) p).getManquantFinanciers());
+                Hibernate.initialize(((Vendeur) p).getPartenaireImmobilisations());
+            }
+            return (T) p;
+        } else {
+            throw new GlobalErpServiceException(GlobalAppConstants.buildNotFindMessage(entityClass, codePartenaire));
         }
     }
     
     @Override
     public void supprimerPartenaire(Long partenaireId) {
-        partenaireDao.delete(obtanirPartenaire(partenaireId));
+        partenaireDao.delete(obtanirPartenaire(Partenaire.class, partenaireId));
     }
     
     @Override
