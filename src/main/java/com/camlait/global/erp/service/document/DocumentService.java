@@ -206,7 +206,7 @@ public class DocumentService implements IDocumentService {
     public double chiffreAffaireHorsTaxe(Document document) {
         final Compute caht = new Compute();
         document.getLigneDocuments().stream().forEach(l -> {
-            caht.compute(l.getPrixunitaiteLigne() * l.getQuantiteLigne());
+            caht.cummuler(l.getPrixunitaiteLigne() * l.getQuantiteLigne());
         });
         return caht.getValue();
     }
@@ -216,7 +216,7 @@ public class DocumentService implements IDocumentService {
         final Compute taxe = new Compute();
         document.getLigneDocuments().stream().forEach(l -> {
             l.getLigneDeDocumentTaxes().stream().forEach(ldt -> {
-                taxe.compute(l.getPrixunitaiteLigne() * l.getQuantiteLigne() * ldt.getTauxDeTaxe());
+                taxe.cummuler(l.getPrixunitaiteLigne() * l.getQuantiteLigne() * ldt.getTauxDeTaxe());
             });
         });
         return taxe.getValue();
@@ -233,7 +233,7 @@ public class DocumentService implements IDocumentService {
         document.getLigneDocuments().stream().forEach(ld -> {
             ld.getLigneDeDocumentTaxes().stream().filter(ldt -> ldt.getTaxe().getTaxeId() == taxe.getTaxeId())
                     .forEach(ldt -> {
-                valeur.compute(ld.getPrixunitaiteLigne() * ld.getQuantiteLigne() * ldt.getTauxDeTaxe());
+                valeur.cummuler(ld.getPrixunitaiteLigne() * ld.getQuantiteLigne() * ldt.getTauxDeTaxe());
             });
         });
         return valeur.getValue();
@@ -243,7 +243,7 @@ public class DocumentService implements IDocumentService {
     public double valeurMarge(Document document) {
         final Compute marge = new Compute();
         document.getLigneDocuments().stream().forEach(l -> {
-            marge.compute(l.getProduit().getPrixUnitaireMarge() * l.getQuantiteLigne());
+            marge.cummuler(l.getProduit().getPrixUnitaireMarge() * l.getQuantiteLigne());
         });
         return marge.getValue();
     }
