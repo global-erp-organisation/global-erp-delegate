@@ -1,5 +1,8 @@
 package com.camlait.global.erp.service.bmq;
 
+import static com.camlait.global.erp.domain.config.GlobalAppConstants.verifyIllegalArgumentException;
+import static com.camlait.global.erp.domain.config.GlobalAppConstants.verifyObjectNoFindException;
+
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
@@ -20,7 +23,6 @@ import com.camlait.global.erp.dao.operation.RecouvrementDao;
 import com.camlait.global.erp.domain.bmq.Bmq;
 import com.camlait.global.erp.domain.bmq.LigneBmq;
 import com.camlait.global.erp.domain.bmq.LigneBmqTaxe;
-import com.camlait.global.erp.domain.config.GlobalAppConstants;
 import com.camlait.global.erp.domain.document.Document;
 import com.camlait.global.erp.domain.document.LigneDeDocument;
 import com.camlait.global.erp.domain.document.LigneDeDocumentTaxe;
@@ -30,7 +32,6 @@ import com.camlait.global.erp.domain.operation.Recouvrement;
 import com.camlait.global.erp.domain.partenaire.ClientComptant;
 import com.camlait.global.erp.domain.util.Compute;
 import com.camlait.global.erp.domain.util.Utility;
-import com.camlait.global.erp.service.GlobalErpServiceException;
 import com.camlait.global.erp.service.document.IDocumentService;
 import com.camlait.global.erp.service.inventaire.IInventaireService;
 import com.camlait.global.erp.service.util.IUtilService;
@@ -61,9 +62,7 @@ public class BmqService implements IBmqService {
     
     @Override
     public Bmq ajouterBmq(Bmq bmq) {
-        if (bmq == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("bmq"));
-        }
+        verifyIllegalArgumentException(bmq, "bmq");
         bmq.setCodeBmq(utilService.genererCode(bmq));
         bmqDao.save(bmq);
         return bmq;
@@ -71,9 +70,7 @@ public class BmqService implements IBmqService {
     
     @Override
     public Bmq modifierBmq(Bmq bmq) {
-        if (bmq == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("bmq"));
-        }
+        verifyIllegalArgumentException(bmq, "bmq");
         bmq.setDerniereMiseAJour(new Date());
         bmqDao.saveAndFlush(bmq);
         return bmq;
@@ -81,35 +78,25 @@ public class BmqService implements IBmqService {
     
     @Override
     public Bmq obtenirBmq(Long bmqId) {
-        if (bmqId == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("bmqId"));
-        }
+        verifyIllegalArgumentException(bmqId, "bmqId");
         final Bmq b = bmqDao.findOne(bmqId);
-        if (b != null) {
-            Hibernate.initialize(b.getLigneBmqs());
-            Hibernate.initialize(b.getDocuments());
-            Hibernate.initialize(b.getRecouvrements());
-            return b;
-        } else {
-            throw new GlobalErpServiceException(GlobalAppConstants.buildNotFindMessage(Bmq.class, bmqId));
-        }
+        verifyObjectNoFindException(b, Bmq.class, bmqId);
+        Hibernate.initialize(b.getLigneBmqs());
+        Hibernate.initialize(b.getDocuments());
+        Hibernate.initialize(b.getRecouvrements());
+        return b;
     }
     
     @Override
     public Bmq obtenirBmq(String codeBmq) {
-        if (codeBmq == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("codeBmq"));
-        }
+        verifyIllegalArgumentException(codeBmq, "codeBmq");
         final List<Bmq> bmqs = bmqDao.findByCodeBmq(codeBmq, new PageRequest(0, 1)).getContent();
         final Bmq b = (bmqs.isEmpty()) ? null : bmqs.get(0);
-        if (b != null) {
-            Hibernate.initialize(b.getLigneBmqs());
-            Hibernate.initialize(b.getDocuments());
-            Hibernate.initialize(b.getRecouvrements());
-            return b;
-        } else {
-            throw new GlobalErpServiceException(GlobalAppConstants.buildNotFindMessage(Bmq.class, codeBmq));
-        }
+        verifyObjectNoFindException(b, Bmq.class, codeBmq);
+        Hibernate.initialize(b.getLigneBmqs());
+        Hibernate.initialize(b.getDocuments());
+        Hibernate.initialize(b.getRecouvrements());
+        return b;
     }
     
     @Override
@@ -139,9 +126,7 @@ public class BmqService implements IBmqService {
     
     @Override
     public Collection<LigneBmq> ajouterLigneBmq(Collection<LigneBmq> ligneBmqs) {
-        if (ligneBmqs == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("ligneBmqs"));
-        }
+        verifyIllegalArgumentException(ligneBmqs, "ligneBmqs");
         ligneBmqDao.save(ligneBmqs);
         ajouterLigneBmqTaxe(ligneBmqs);
         return ligneBmqs;
@@ -149,16 +134,11 @@ public class BmqService implements IBmqService {
     
     @Override
     public LigneBmq obtenirLigneBmq(Long ligneBmqId) {
-        if (ligneBmqId == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("ligneBmqId"));
-        }
+        verifyIllegalArgumentException(ligneBmqId, "ligneBmqId");
         final LigneBmq lb = ligneBmqDao.findOne(ligneBmqId);
-        if (lb != null) {
-            lb.getLigneBmqTaxes();
-            return lb;
-        } else {
-            throw new GlobalErpServiceException(GlobalAppConstants.buildNotFindMessage(LigneBmq.class, ligneBmqId));
-        }
+        verifyObjectNoFindException(lb, LigneBmq.class, ligneBmqId);
+        lb.getLigneBmqTaxes();
+        return lb;
     }
     
     @Override
@@ -177,18 +157,14 @@ public class BmqService implements IBmqService {
     
     @Override
     public Recouvrement ajouterRecouvrement(Recouvrement recouvrement) {
-        if (recouvrement == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("recouvrement"));
-        }
+        verifyIllegalArgumentException(recouvrement, "recouvrement");
         recouvrementDao.save(recouvrement);
         return recouvrement;
     }
     
     @Override
     public Recouvrement modifierRecouvrement(Recouvrement recouvrement) {
-        if (recouvrement == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("recouvrement"));
-        }
+        verifyIllegalArgumentException(recouvrement, "recouvrement");
         recouvrement.setDerniereMiseAJour(new Date());
         recouvrementDao.saveAndFlush(recouvrement);
         return recouvrement;
@@ -196,16 +172,10 @@ public class BmqService implements IBmqService {
     
     @Override
     public Recouvrement obtenirRecouvrement(Long recouvrementId) {
-        if (recouvrementId == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("recouvrementId"));
-        }
+        verifyIllegalArgumentException(recouvrementId, "recouvrementId");
         final Recouvrement r = recouvrementDao.findOne(recouvrementId);
-        if (r != null) {
-            return r;
-        } else {
-            throw new GlobalErpServiceException(
-                    GlobalAppConstants.buildNotFindMessage(Recouvrement.class, recouvrementId));
-        }
+        verifyObjectNoFindException(r, Recouvrement.class, recouvrementId);
+        return r;
     }
     
     @Override
@@ -220,18 +190,14 @@ public class BmqService implements IBmqService {
     
     @Override
     public LigneBmqTaxe ajouterLigneBmqTaxe(LigneBmqTaxe ligneBmqTaxe) {
-        if (ligneBmqTaxe == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("ligneBmqTaxe"));
-        }
+        verifyIllegalArgumentException(ligneBmqTaxe, "ligneBmqTaxe");
         ligneBmqTaxeDao.save(ligneBmqTaxe);
         return ligneBmqTaxe;
     }
     
     @Override
     public LigneBmqTaxe modifierLigneBmqTaxe(LigneBmqTaxe ligneBmqTaxe) {
-        if (ligneBmqTaxe == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("ligneBmqTaxe"));
-        }
+        verifyIllegalArgumentException(ligneBmqTaxe, "ligneBmqTaxe");
         ligneBmqTaxe.setDerniereMiseAJour(new Date());
         ligneBmqTaxeDao.saveAndFlush(ligneBmqTaxe);
         return ligneBmqTaxe;
@@ -239,16 +205,10 @@ public class BmqService implements IBmqService {
     
     @Override
     public LigneBmqTaxe trouverLigneBmqTaxe(Long ligneBmqTaxeId) {
-        if (ligneBmqTaxeId == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("ligneBmqTaxeId"));
-        }
+        verifyIllegalArgumentException(ligneBmqTaxeId, "ligneBmqTaxeId");
         final LigneBmqTaxe l = ligneBmqTaxeDao.findOne(ligneBmqTaxeId);
-        if (l != null) {
-            return l;
-        } else {
-            throw new GlobalErpServiceException(
-                    GlobalAppConstants.buildNotFindMessage(LigneBmqTaxe.class, ligneBmqTaxeId));
-        }
+        verifyObjectNoFindException(l, LigneBmqTaxe.class, ligneBmqTaxeId);
+        return l;
     }
     
     @Override
@@ -266,6 +226,7 @@ public class BmqService implements IBmqService {
      * @return
      */
     private Collection<LigneBmq> genererLigneBmq(Bmq bmq, Collection<Document> documents) {
+        verifyIllegalArgumentException(documents, "documents");
         final Collection<LigneBmq> lignes = new HashSet<>();
         documents.parallelStream().forEach(d -> {
             d.getLigneDocuments().parallelStream().forEach(ld -> {
@@ -288,6 +249,7 @@ public class BmqService implements IBmqService {
      * @return
      */
     private Collection<LigneBmqTaxe> genererLigneBmqTaxe(Collection<LigneBmq> ligneBmqs) {
+        verifyIllegalArgumentException(ligneBmqs, "ligneBmqs");
         final Collection<LigneBmqTaxe> ligneBmqTaxes = new HashSet<>();
         ligneBmqs.parallelStream().forEach(ligneBmq -> {
             obtenirLigneDocumentTaxe(ligneBmq.getBmq()).parallelStream().forEach(ligneDeDocumentTaxe -> {
@@ -308,6 +270,7 @@ public class BmqService implements IBmqService {
      * @return
      */
     private Collection<LigneDeDocumentTaxe> obtenirLigneDocumentTaxe(Bmq bmq) {
+        verifyIllegalArgumentException(bmq, "bmq");
         final Collection<LigneDeDocumentTaxe> ligneDeDocumentTaxes = new HashSet<>();
         bmq.getDocuments().parallelStream().filter(d -> Utility.isDocumentDeVente(d)).forEach(d -> {
             d.getLigneDocuments().parallelStream().forEach(ld -> {
@@ -336,6 +299,7 @@ public class BmqService implements IBmqService {
     
     @Override
     public double chiffreAffaireHorsTaxe(Bmq bmq) {
+        verifyIllegalArgumentException(bmq, "bmq");
         final Compute caHTBmq = new Compute();
         bmq.getDocuments().stream().filter(d -> Utility.isFactureClient(d)).forEach(d -> {
             caHTBmq.cummuler(documentService.chiffreAffaireHorsTaxe(d));
@@ -350,6 +314,7 @@ public class BmqService implements IBmqService {
     
     @Override
     public double valeurTotaleTaxe(Bmq bmq) {
+        verifyIllegalArgumentException(bmq, "bmq");
         final Compute taxeBmq = new Compute();
         bmq.getDocuments().stream().filter(d -> Utility.isFactureClient(d)).forEach(d -> {
             taxeBmq.cummuler(documentService.valeurTotaleTaxe(d));
@@ -359,6 +324,7 @@ public class BmqService implements IBmqService {
     
     @Override
     public double valeurTaxe(Taxe taxe, Bmq bmq) {
+        verifyIllegalArgumentException(bmq, "bmq");
         final Compute valeur = new Compute();
         bmq.getDocuments().stream().filter(d -> Utility.isFactureClient(d)).forEach(d -> {
             valeur.cummuler(documentService.valeurTaxe(taxe, d));
@@ -368,6 +334,7 @@ public class BmqService implements IBmqService {
     
     @Override
     public double venteComptant(Bmq bmq) {
+        verifyIllegalArgumentException(bmq, "bmq");
         final Compute ca = new Compute();
         bmq.getDocuments().stream().filter(d -> Utility.isFactureComptant(d)).forEach(d -> {
             ca.cummuler(documentService.chiffreAffaireTTC(d));
@@ -377,6 +344,7 @@ public class BmqService implements IBmqService {
     
     @Override
     public double valeurMarge(Bmq bmq) {
+        verifyIllegalArgumentException(bmq, "bmq");
         final Compute marge = new Compute();
         bmq.getDocuments().stream().filter(d -> Utility.isFactureMarge(d)).forEach(d -> {
             marge.cummuler(documentService.valeurMarge(d));
@@ -386,6 +354,7 @@ public class BmqService implements IBmqService {
     
     @Override
     public void genererVenteComptant(Bmq bmq) {
+        verifyIllegalArgumentException(bmq, "bmq");
         final Document facture = creerEnteteFacture(bmq);
         Collection<LigneDeDocument> lignes = new HashSet<>();
         inventaireService.listerStockParMagasin(bmq.getMagasin().getMagasinId()).stream().forEach(s -> {

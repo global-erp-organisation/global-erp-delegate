@@ -11,8 +11,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.camlait.global.erp.dao.auth.UtilisateurDao;
 import com.camlait.global.erp.domain.auth.Utilisateur;
-import com.camlait.global.erp.domain.config.GlobalAppConstants;
-import com.camlait.global.erp.service.GlobalErpServiceException;
+import static com.camlait.global.erp.domain.config.GlobalAppConstants.*;
 
 @Transactional
 public class AuthentificationService implements IAuthentificationService {
@@ -22,18 +21,14 @@ public class AuthentificationService implements IAuthentificationService {
     
     @Override
     public Utilisateur ajouterUtilisateur(Utilisateur utilisateur) {
-        if (utilisateur == null) {
-            throw new IllegalArgumentException(" utilisateur ne peut pa etre null");
-        }
+        verifyIllegalArgumentException(utilisateur, "utilisateur");
         utilisateurDao.save(utilisateur);
         return utilisateur;
     }
     
     @Override
     public Utilisateur modifierUtilisateur(Utilisateur utilisateur) {
-        if (utilisateur == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("utilisateur"));
-        }
+        verifyIllegalArgumentException(utilisateur, "utilisateur");
         utilisateur.setDerniereMiseAJour(new Date());
         utilisateurDao.saveAndFlush(utilisateur);
         return utilisateur;
@@ -41,17 +36,11 @@ public class AuthentificationService implements IAuthentificationService {
     
     @Override
     public Utilisateur obtenirUtilisateur(String codeUtilisateur) {
-        if (codeUtilisateur == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("codeUtilisateur"));
-        }
+        verifyIllegalArgumentException(codeUtilisateur, "codeUtilisateur");
         final Utilisateur u = utilisateurDao.findOne(codeUtilisateur);
-        if (u != null) {
-            Hibernate.initialize(u.getEmployes());
-            return u;
-        } else {
-            throw new GlobalErpServiceException(
-                    GlobalAppConstants.buildNotFindMessage(Utilisateur.class, codeUtilisateur));
-        }
+        verifyObjectNoFindException(u, Utilisateur.class, codeUtilisateur);
+        Hibernate.initialize(u.getEmployes());
+        return u;
     }
     
     @Override

@@ -11,7 +11,7 @@ import com.camlait.global.erp.domain.entrepot.Magasin;
 import com.camlait.global.erp.domain.inventaire.Inventaire;
 import com.camlait.global.erp.domain.inventaire.LigneInventaire;
 import com.camlait.global.erp.domain.inventaire.Stock;
-import com.camlait.global.erp.service.GlobalErpServiceException;
+import com.camlait.global.erp.domain.exception.GlobalErpServiceException;
 
 public interface IInventaireService {
     

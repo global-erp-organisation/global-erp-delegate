@@ -1,5 +1,8 @@
 package com.camlait.global.erp.service.inventaire;
 
+import static com.camlait.global.erp.domain.config.GlobalAppConstants.verifyIllegalArgumentException;
+import static com.camlait.global.erp.domain.config.GlobalAppConstants.verifyObjectNoFindException;
+
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -17,13 +20,11 @@ import com.camlait.global.erp.dao.entrepot.MagasinDao;
 import com.camlait.global.erp.dao.entrepot.StockDao;
 import com.camlait.global.erp.dao.inventaire.InventaireDao;
 import com.camlait.global.erp.dao.inventaire.LigneInventaireDao;
-import com.camlait.global.erp.domain.config.GlobalAppConstants;
 import com.camlait.global.erp.domain.entrepot.Entrepot;
 import com.camlait.global.erp.domain.entrepot.Magasin;
 import com.camlait.global.erp.domain.inventaire.Inventaire;
 import com.camlait.global.erp.domain.inventaire.LigneInventaire;
 import com.camlait.global.erp.domain.inventaire.Stock;
-import com.camlait.global.erp.service.GlobalErpServiceException;
 import com.camlait.global.erp.service.util.IUtilService;
 
 @Transactional
@@ -49,9 +50,7 @@ public class InventaireService implements IInventaireService {
     
     @Override
     public Inventaire ajouterInventaire(Inventaire inventaire) {
-        if (inventaire == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("inventaire"));
-        }
+        verifyIllegalArgumentException(inventaire, "inventaire");
         inventaire.setCodeInventaire(utilService.genererCode(inventaire));
         inventaireDao.save(inventaire);
         return inventaire;
@@ -59,9 +58,7 @@ public class InventaireService implements IInventaireService {
     
     @Override
     public Inventaire modifierInventaire(Inventaire inventaire) {
-        if (inventaire == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("inventaire"));
-        }
+        verifyIllegalArgumentException(inventaire, "inventaire");
         inventaire.setDerniereMiseAJour(new Date());
         inventaireDao.saveAndFlush(inventaire);
         return inventaire;
@@ -69,32 +66,22 @@ public class InventaireService implements IInventaireService {
     
     @Override
     public Inventaire obtenirInventaire(Long inventaireId) {
-        if (inventaireId == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("inventaireId"));
-        }
+        verifyIllegalArgumentException(inventaireId, "inventaireId");
         final Inventaire inv = inventaireDao.findOne(inventaireId);
-        if (inv != null) {
-            Hibernate.initialize(inv.getLigneInventaires());
-            return inv;
-        } else {
-            throw new GlobalErpServiceException(GlobalAppConstants.buildNotFindMessage(Inventaire.class, inventaireId));
-        }
+        verifyObjectNoFindException(inv, Inventaire.class, inventaireId);
+        Hibernate.initialize(inv.getLigneInventaires());
+        return inv;
     }
     
     @Override
     public Inventaire obtenirInventaire(String codeInventaire) {
-        if (codeInventaire == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("codeInventaire"));
-        }
+        verifyIllegalArgumentException(codeInventaire, "codeInventaire");
         final List<Inventaire> inventaires = inventaireDao.findByCodeInventaire(codeInventaire, new PageRequest(0, 1)).getContent();
         final Inventaire inv = (inventaires.isEmpty()) ? null : inventaires.get(0);
-        if (inv != null) {
-            Hibernate.initialize(inv.getLigneInventaires());
-            return inv;
-        } else {
-            throw new GlobalErpServiceException(GlobalAppConstants.buildNotFindMessage(Inventaire.class, codeInventaire));
-        }
-    }
+        verifyObjectNoFindException(inv, Inventaire.class, codeInventaire);
+        Hibernate.initialize(inv.getLigneInventaires());
+        return inv;
+     }
     
     @Override
     public void supprimerInventaire(Long inventaireId) {
@@ -118,27 +105,21 @@ public class InventaireService implements IInventaireService {
     
     @Override
     public LigneInventaire ajouterLigneInventaire(LigneInventaire ligne) {
-        if (ligne == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("ligne"));
-        }
+        verifyIllegalArgumentException(ligne, "ligne");
         ligneInventaireDao.save(ligne);
         return ligne;
     }
     
     @Override
     public Collection<LigneInventaire> ajouterLigneInventaire(Collection<LigneInventaire> lignes) {
-        if (lignes == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("lignes"));
-        }
+        verifyIllegalArgumentException(lignes, "lignes");
         ligneInventaireDao.save(lignes);
         return lignes;
     }
     
     @Override
     public LigneInventaire modifierLigneInventaire(LigneInventaire ligne) {
-        if (ligne == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("ligne"));
-        }
+        verifyIllegalArgumentException(ligne, "ligne");
         ligne.setDerniereMiseAJour(new Date());
         ligneInventaireDao.saveAndFlush(ligne);
         return ligne;
@@ -146,15 +127,10 @@ public class InventaireService implements IInventaireService {
     
     @Override
     public LigneInventaire obtenirLigneInventaire(Long ligneId) {
-        if (ligneId == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("ligneId"));
-        }
+        verifyIllegalArgumentException(ligneId, "ligneId");
         LigneInventaire li = ligneInventaireDao.findOne(ligneId);
-        if (li != null) {
-            return li;
-        } else {
-            throw new GlobalErpServiceException(GlobalAppConstants.buildNotFindMessage(LigneInventaire.class, ligneId));
-        }
+        verifyObjectNoFindException(li, LigneInventaire.class, ligneId);
+        return li;
     }
     
     @Override
@@ -184,9 +160,7 @@ public class InventaireService implements IInventaireService {
     
     @Override
     public Entrepot ajouterEntrepot(Entrepot entrepot) {
-        if (entrepot == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("entrepot"));
-        }
+        verifyIllegalArgumentException(entrepot, "entrepot");
         entrepot.setCodeEntrepot(utilService.genererCode(entrepot));
         entrepotDao.save(entrepot);
         return entrepot;
@@ -194,9 +168,7 @@ public class InventaireService implements IInventaireService {
     
     @Override
     public Entrepot modifierEntrepot(Entrepot entrepot) {
-        if (entrepot == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("entrepot"));
-        }
+        verifyIllegalArgumentException(entrepot, "entrepot");
         entrepot.setDerniereMiseAJour(new Date());
         entrepotDao.saveAndFlush(entrepot);
         return entrepot;
@@ -204,33 +176,23 @@ public class InventaireService implements IInventaireService {
     
     @Override
     public Entrepot obtenirEntrepot(Long entrepotId) {
-        if (entrepotId == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("entrepotId"));
-        }
+        verifyIllegalArgumentException(entrepotId, "entrepotId");
         final Entrepot e = entrepotDao.findOne(entrepotId);
-        if (e != null) {
-            Hibernate.initialize(e.getMagasins());
-            return e;
-        } else {
-            throw new GlobalErpServiceException(GlobalAppConstants.buildNotFindMessage(Entrepot.class, entrepotId));
-        }
+        verifyObjectNoFindException(e, Entrepot.class, entrepotId);
+        Hibernate.initialize(e.getMagasins());
+        return e;
     }
     
     @Override
     public Entrepot obtenirEntrepot(String codeEntrepot) {
-        if (codeEntrepot == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("codeEntrepot"));
-        }
+        verifyIllegalArgumentException(codeEntrepot, "codeEntrepot");
         final List<Entrepot> entrepots = entrepotDao.findByCodeEntrepot(codeEntrepot, new PageRequest(0, 1)).getContent();
         final Entrepot e = (entrepots.isEmpty()) ? null : entrepots.get(0);
-        if (e != null) {
-            Hibernate.initialize(e.getMagasins());
-            return e;
-        } else {
-            throw new GlobalErpServiceException(GlobalAppConstants.buildNotFindMessage(Entrepot.class, codeEntrepot));
-        }
+        verifyObjectNoFindException(e, Entrepot.class, codeEntrepot);
+        Hibernate.initialize(e.getMagasins());
+        return e;
     }
-      
+    
     @Override
     public Collection<Entrepot> listerEntrepot() {
         return entrepotDao.findAll();
@@ -243,9 +205,7 @@ public class InventaireService implements IInventaireService {
     
     @Override
     public Magasin ajouterMagasin(Magasin magasin) {
-        if (magasin == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("magasin"));
-        }
+        verifyIllegalArgumentException(magasin, "magasin");
         magasin.setCodeMagasin(utilService.genererCode(magasin));
         magasinDao.save(magasin);
         return magasin;
@@ -253,9 +213,7 @@ public class InventaireService implements IInventaireService {
     
     @Override
     public Magasin modifierMagasin(Magasin magasin) {
-        if (magasin == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("magasin"));
-        }
+        verifyIllegalArgumentException(magasin, "magasin");
         magasin.setDerniereMiseAJour(new Date());
         magasinDao.saveAndFlush(magasin);
         return magasin;
@@ -264,31 +222,21 @@ public class InventaireService implements IInventaireService {
     @SuppressWarnings("unchecked")
     @Override
     public <T> T obtenirMagasin(Class<T> entityClass, Long magasinId) {
-        if (magasinId == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("magasinId"));
-        }
+        verifyIllegalArgumentException(magasinId, "magasinId");
         final Magasin m = magasinDao.findOne(magasinId);
-        if (m != null) {
-            return (T) m;
-        } else {
-            throw new GlobalErpServiceException(GlobalAppConstants.buildNotFindMessage(Magasin.class, magasinId));
-        }
+        verifyObjectNoFindException(m, entityClass, magasinId);
+        return (T) m;
     }
     
     @SuppressWarnings("unchecked")
     @Override
     public <T> T obtenirMagasin(Class<T> entityClass, String codeMagasin) {
-        if (codeMagasin == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("codeMagasin"));
-        }
+        verifyIllegalArgumentException(codeMagasin, "codeMagasin");
         final List<Magasin> magasins = magasinDao.findByCodeMagasin(codeMagasin, new PageRequest(0, 1)).getContent();
         final Magasin m = (magasins.isEmpty()) ? null : magasins.get(0);
-        if (m != null) {
-            return (T) m;
-        } else {
-            throw new GlobalErpServiceException(GlobalAppConstants.buildNotFindMessage(Magasin.class, codeMagasin));
-        }
-    }
+        verifyObjectNoFindException(m, entityClass, codeMagasin);
+        return (T) m;
+     }
     
     @Override
     public Collection<Magasin> listerMagasin(Entrepot entrepot) {

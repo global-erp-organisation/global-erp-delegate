@@ -10,7 +10,7 @@ import com.camlait.global.erp.domain.produit.CategorieProduit;
 import com.camlait.global.erp.domain.produit.CategorieProduitTaxe;
 import com.camlait.global.erp.domain.produit.Produit;
 import com.camlait.global.erp.domain.produit.ProduitTaxe;
-import com.camlait.global.erp.service.GlobalErpServiceException;
+import com.camlait.global.erp.domain.exception.GlobalErpServiceException;
 
 public interface IProduitService {
     

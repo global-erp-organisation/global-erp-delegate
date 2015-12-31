@@ -4,7 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.camlait.global.erp.domain.auth.Utilisateur;
-import com.camlait.global.erp.service.GlobalErpServiceException;
+import com.camlait.global.erp.domain.exception.GlobalErpServiceException;
 
 public interface IAuthentificationService {
     

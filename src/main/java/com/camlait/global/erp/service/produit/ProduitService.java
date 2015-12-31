@@ -1,5 +1,8 @@
 package com.camlait.global.erp.service.produit;
 
+import static com.camlait.global.erp.domain.config.GlobalAppConstants.verifyIllegalArgumentException;
+import static com.camlait.global.erp.domain.config.GlobalAppConstants.verifyObjectNoFindException;
+
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
@@ -18,14 +21,12 @@ import com.camlait.global.erp.dao.produit.CategorieProduitDao;
 import com.camlait.global.erp.dao.produit.CategorieProduitTaxeDao;
 import com.camlait.global.erp.dao.produit.ProduitDao;
 import com.camlait.global.erp.dao.produit.ProduitTaxeDao;
-import com.camlait.global.erp.domain.config.GlobalAppConstants;
 import com.camlait.global.erp.domain.enumeration.Portee;
 import com.camlait.global.erp.domain.produit.CategorieProduit;
 import com.camlait.global.erp.domain.produit.CategorieProduitTaxe;
 import com.camlait.global.erp.domain.produit.Produit;
 import com.camlait.global.erp.domain.produit.ProduitTaxe;
 import com.camlait.global.erp.domain.util.Utility;
-import com.camlait.global.erp.service.GlobalErpServiceException;
 
 @Transactional
 public class ProduitService implements IProduitService {
@@ -44,18 +45,14 @@ public class ProduitService implements IProduitService {
     
     @Override
     public Produit ajouterProduit(Produit produit) {
-        if (produit == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("produit"));
-        }
+        verifyIllegalArgumentException(produit, "produit");
         produitDao.save(produit);
         return produit;
     }
     
     @Override
     public Produit modifierProduit(Produit produit) {
-        if (produit == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("produit"));
-        }
+        verifyIllegalArgumentException(produit, "produit");
         produit.setDerniereMiseAJour(new Date());
         produitDao.saveAndFlush(produit);
         return produit;
@@ -63,31 +60,21 @@ public class ProduitService implements IProduitService {
     
     @Override
     public Produit obtenirProduit(Long produitId) {
-        if (produitId == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("produitId"));
-        }
+        verifyIllegalArgumentException(produitId, "produitId");
         final Produit p = produitDao.findOne(produitId);
-        if (p != null) {
-            Hibernate.initialize(p.getProduitTaxes());
-            return p;
-        } else {
-            throw new GlobalErpServiceException(GlobalAppConstants.buildNotFindMessage(Produit.class, produitId));
-        }
+        verifyObjectNoFindException(p, Produit.class, produitId);
+        Hibernate.initialize(p.getProduitTaxes());
+        return p;
     }
     
     @Override
     public Produit obtenirProduit(String codeProduit) {
-        if (codeProduit == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("codeProduit"));
-        }
+        verifyIllegalArgumentException(codeProduit, "codeProduit");
         final List<Produit> produits = produitDao.findByCodeProduit(codeProduit, new PageRequest(0, 1)).getContent();
         final Produit p = (produits.isEmpty()) ? null : produits.get(0);
-        if (p != null) {
-            Hibernate.initialize(p.getProduitTaxes());
-            return p;
-        } else {
-            throw new GlobalErpServiceException(GlobalAppConstants.buildNotFindMessage(Produit.class, codeProduit));
-        }
+        verifyObjectNoFindException(p, Produit.class, codeProduit);
+        Hibernate.initialize(p.getProduitTaxes());
+        return p;
     }
     
     @Override
@@ -118,18 +105,14 @@ public class ProduitService implements IProduitService {
     
     @Override
     public CategorieProduit ajouterCategorieProduit(CategorieProduit categorie) {
-        if (categorie == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("categorie"));
-        }
+        verifyIllegalArgumentException(categorie, "categorie");
         categorieProduitDao.save(categorie);
         return categorie;
     }
     
     @Override
     public CategorieProduit modifierCategorieProduit(CategorieProduit categorie) {
-        if (categorie == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("categorie"));
-        }
+        verifyIllegalArgumentException(categorie, "categorie");
         categorie.setDerniereMiseAJour(new Date());
         categorieProduitDao.save(categorie);
         return categorie;
@@ -137,35 +120,23 @@ public class ProduitService implements IProduitService {
     
     @Override
     public CategorieProduit obtenirCategorieProduit(Long categorieId) {
-        if (categorieId == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("categorieId"));
-        }
+        verifyIllegalArgumentException(categorieId, "categorieId");
         final CategorieProduit c = categorieProduitDao.findOne(categorieId);
-        if (c != null) {
-            Hibernate.initialize(c.getProduits());
-            Hibernate.initialize(c.getCategorieProduitTaxes());
-            return c;
-        } else {
-            throw new GlobalErpServiceException(
-                    GlobalAppConstants.buildNotFindMessage(CategorieProduit.class, categorieId));
-        }
+        verifyObjectNoFindException(c, CategorieProduit.class, categorieId);
+        Hibernate.initialize(c.getProduits());
+        Hibernate.initialize(c.getCategorieProduitTaxes());
+        return c;
     }
     
     @Override
     public CategorieProduit obtenirCategorieProduit(String codeCategorie) {
-        if (codeCategorie == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("codeCategorie"));
-        }
+        verifyIllegalArgumentException(codeCategorie, "codeCategorie");
         final List<CategorieProduit> categories = categorieProduitDao.findBycodeCategorieProduit(codeCategorie, new PageRequest(0, 1)).getContent();
         final CategorieProduit c = (categories.isEmpty()) ? null : categories.get(0);
-        if (c != null) {
-            Hibernate.initialize(c.getProduits());
-            Hibernate.initialize(c.getCategorieProduitTaxes());
-            return c;
-        } else {
-            throw new GlobalErpServiceException(
-                    GlobalAppConstants.buildNotFindMessage(CategorieProduit.class, codeCategorie));
-        }
+        verifyObjectNoFindException(c, CategorieProduit.class, codeCategorie);
+        Hibernate.initialize(c.getProduits());
+        Hibernate.initialize(c.getCategorieProduitTaxes());
+        return c;
     }
     
     @Override
@@ -200,19 +171,14 @@ public class ProduitService implements IProduitService {
     
     @Override
     public ProduitTaxe ajouterProduitTaxe(ProduitTaxe produitTaxe) {
-        
-        if (produitTaxe == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("produitTaxe"));
-        }
+        verifyIllegalArgumentException(produitTaxe, "produitTaxe");
         produitTaxeDao.save(produitTaxe);
         return produitTaxe;
     }
     
     @Override
     public ProduitTaxe modifierProduitTaxe(ProduitTaxe produitTaxe) {
-        if (produitTaxe == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("produitTaxe"));
-        }
+        verifyIllegalArgumentException(produitTaxe, "produitTaxe");
         produitTaxe.setDerniereMiseAJour(new Date());
         produitTaxeDao.saveAndFlush(produitTaxe);
         return produitTaxe;
@@ -220,16 +186,10 @@ public class ProduitService implements IProduitService {
     
     @Override
     public ProduitTaxe obtenirProduitTaxe(Long produitTaxeId) {
-        if (produitTaxeId == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("produitTaxeId"));
-        }
+        verifyIllegalArgumentException(produitTaxeId, "produitTaxeId");
         final ProduitTaxe p = produitTaxeDao.findOne(produitTaxeId);
-        if (p != null) {
-            return p;
-        } else {
-            throw new GlobalErpServiceException(
-                    GlobalAppConstants.buildNotFindMessage(ProduitTaxe.class, produitTaxeId));
-        }
+        verifyObjectNoFindException(p, ProduitTaxe.class, produitTaxeId);
+        return p;
     }
     
     @Override
@@ -239,35 +199,24 @@ public class ProduitService implements IProduitService {
     
     @Override
     public CategorieProduitTaxe ajouterCategorieProduitTaxe(CategorieProduitTaxe categorieProduitTaxe) {
-        if (categorieProduitTaxe == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("categorieProduitTaxe"));
-        }
+        verifyIllegalArgumentException(categorieProduitTaxe, "categorieProduitTaxe");
         categorieProduitTaxeDao.save(categorieProduitTaxe);
         return categorieProduitTaxe;
     }
     
     @Override
     public CategorieProduitTaxe modifierCategorieProduitTaxe(CategorieProduitTaxe categorieProduitTaxe) {
-        if (categorieProduitTaxe == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("categorieProduitTaxe"));
-        }
+        verifyIllegalArgumentException(categorieProduitTaxe, "categorieProduitTaxe");
         categorieProduitTaxeDao.saveAndFlush(categorieProduitTaxe);
         return categorieProduitTaxe;
     }
     
     @Override
     public CategorieProduitTaxe obtenirCategorieProduitTaxe(Long categorieProduitTaxeId) {
-        if (categorieProduitTaxeId == null) {
-            throw new IllegalArgumentException(
-                    GlobalAppConstants.buildIllegalArgumentMessage("categorieProduitTaxeId"));
-        }
+        verifyIllegalArgumentException(categorieProduitTaxeId, "categorieProduitTaxeId");
         final CategorieProduitTaxe c = categorieProduitTaxeDao.findOne(categorieProduitTaxeId);
-        if (c != null) {
-            return c;
-        } else {
-            throw new GlobalErpServiceException(
-                    GlobalAppConstants.buildNotFindMessage(CategorieProduitTaxe.class, categorieProduitTaxeId));
-        }
+        verifyObjectNoFindException(c, CategorieProduitTaxe.class, categorieProduitTaxeId);
+        return c;
     }
     
     @Override

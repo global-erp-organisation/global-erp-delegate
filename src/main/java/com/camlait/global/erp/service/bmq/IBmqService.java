@@ -12,7 +12,7 @@ import com.camlait.global.erp.domain.bmq.LigneBmqTaxe;
 import com.camlait.global.erp.domain.document.Document;
 import com.camlait.global.erp.domain.document.commerciaux.Taxe;
 import com.camlait.global.erp.domain.operation.Recouvrement;
-import com.camlait.global.erp.service.GlobalErpServiceException;
+import com.camlait.global.erp.domain.exception.GlobalErpServiceException;
 
 public interface IBmqService {
 

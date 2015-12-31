@@ -1,5 +1,8 @@
 package com.camlait.global.erp.service.organisation;
 
+import static com.camlait.global.erp.domain.config.GlobalAppConstants.verifyIllegalArgumentException;
+import static com.camlait.global.erp.domain.config.GlobalAppConstants.verifyObjectNoFindException;
+
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -13,13 +16,11 @@ import com.camlait.global.erp.dao.organisation.LocalisationDao;
 import com.camlait.global.erp.dao.organisation.RegionDao;
 import com.camlait.global.erp.dao.organisation.SecteurDao;
 import com.camlait.global.erp.dao.organisation.ZoneDao;
-import com.camlait.global.erp.domain.config.GlobalAppConstants;
 import com.camlait.global.erp.domain.organisation.Centre;
 import com.camlait.global.erp.domain.organisation.Localisation;
 import com.camlait.global.erp.domain.organisation.Region;
 import com.camlait.global.erp.domain.organisation.Secteur;
 import com.camlait.global.erp.domain.organisation.Zone;
-import com.camlait.global.erp.service.GlobalErpServiceException;
 import com.camlait.global.erp.service.util.IUtilService;
 
 public class LocalisationService implements ILocalisationService {
@@ -44,9 +45,7 @@ public class LocalisationService implements ILocalisationService {
     
     @Override
     public Localisation ajouterLocalisation(Localisation local) {
-        if (local == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("local"));
-        }
+        verifyIllegalArgumentException(local, "local");
         local.setCode(utilService.genererCode(local));
         localisationDao.save(local);
         return local;
@@ -54,9 +53,7 @@ public class LocalisationService implements ILocalisationService {
     
     @Override
     public Localisation modifierLocalisation(Localisation local) {
-        if (local == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("local"));
-        }
+        verifyIllegalArgumentException(local, "local");
         local.setDerniereMiseAJour(new Date());
         localisationDao.saveAndFlush(local);
         return local;
@@ -65,45 +62,35 @@ public class LocalisationService implements ILocalisationService {
     @SuppressWarnings("unchecked")
     @Override
     public <T> T obtenirLocalisation(Class<T> entityClass, Long localId) {
-        if (localId == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("localId"));
-        }
+        verifyIllegalArgumentException(localId, "localId");
         final Localisation local = localisationDao.findOne(localId);
-        if (local != null) {
-            if (local instanceof Centre) {
-                Hibernate.initialize((((Centre) local).getRegions()));
-            } else if (local instanceof Region) {
-                Hibernate.initialize((((Region) local).getSecteurs()));
-            } else if (local instanceof Secteur) {
-                Hibernate.initialize((((Secteur) local).getZones()));
-            }
-            return (T) local;
-        } else {
-            throw new GlobalErpServiceException(GlobalAppConstants.buildNotFindMessage(entityClass, localId));
+        verifyObjectNoFindException(local, entityClass, localId);
+        if (local instanceof Centre) {
+            Hibernate.initialize((((Centre) local).getRegions()));
+        } else if (local instanceof Region) {
+            Hibernate.initialize((((Region) local).getSecteurs()));
+        } else if (local instanceof Secteur) {
+            Hibernate.initialize((((Secteur) local).getZones()));
         }
-    }
+        return (T) local;
+     }
     
     @SuppressWarnings("unchecked")
     @Override
     public <T> T obtenirLocalisation(Class<T> entityClass, String codeLocalisation) {
-        if (codeLocalisation == null) {
-            throw new IllegalArgumentException(GlobalAppConstants.buildIllegalArgumentMessage("codeLocalisation"));
-        }
+        verifyIllegalArgumentException(codeLocalisation, "codeLocalisation");
         final List<Localisation> locals = localisationDao.findByCode(codeLocalisation, new PageRequest(0, 1)).getContent();
         final Localisation local = (locals.isEmpty()) ? null : locals.get(0);
-        if (local != null) {
-            if (local instanceof Centre) {
-                Hibernate.initialize((((Centre) local).getRegions()));
-            } else if (local instanceof Region) {
-                Hibernate.initialize((((Region) local).getSecteurs()));
-            } else if (local instanceof Secteur) {
-                Hibernate.initialize((((Secteur) local).getZones()));
-            }
-            return (T) local;
-        } else {
-            throw new GlobalErpServiceException(GlobalAppConstants.buildNotFindMessage(entityClass, codeLocalisation));
+        verifyObjectNoFindException(local, entityClass, codeLocalisation);
+        if (local instanceof Centre) {
+            Hibernate.initialize((((Centre) local).getRegions()));
+        } else if (local instanceof Region) {
+            Hibernate.initialize((((Region) local).getSecteurs()));
+        } else if (local instanceof Secteur) {
+            Hibernate.initialize((((Secteur) local).getZones()));
         }
-    }
+        return (T) local;
+     }
     
     @Override
     public Collection<Centre> listerCentre() {

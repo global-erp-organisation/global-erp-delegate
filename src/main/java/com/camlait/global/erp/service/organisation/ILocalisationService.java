@@ -7,7 +7,7 @@ import com.camlait.global.erp.domain.organisation.Localisation;
 import com.camlait.global.erp.domain.organisation.Region;
 import com.camlait.global.erp.domain.organisation.Secteur;
 import com.camlait.global.erp.domain.organisation.Zone;
-import com.camlait.global.erp.service.GlobalErpServiceException;
+import com.camlait.global.erp.domain.exception.GlobalErpServiceException;
 
 public interface ILocalisationService {
     

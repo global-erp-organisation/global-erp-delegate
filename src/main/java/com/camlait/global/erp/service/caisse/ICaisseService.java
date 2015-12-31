@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 import com.camlait.global.erp.domain.operation.caisse.Caisse;
 import com.camlait.global.erp.domain.operation.caisse.JournalCaisse;
 import com.camlait.global.erp.domain.operation.caisse.OperationDeCaisse;
-import com.camlait.global.erp.service.GlobalErpServiceException;
+import com.camlait.global.erp.domain.exception.GlobalErpServiceException;
 
 public interface ICaisseService {
     
