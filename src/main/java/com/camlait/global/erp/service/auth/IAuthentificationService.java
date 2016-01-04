@@ -3,7 +3,6 @@ package com.camlait.global.erp.service.auth;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.camlait.global.erp.domain.auth.Groupe;
 import com.camlait.global.erp.domain.auth.Ressource;
 import com.camlait.global.erp.domain.auth.RessourceUtilisateur;
 import com.camlait.global.erp.domain.auth.Utilisateur;
