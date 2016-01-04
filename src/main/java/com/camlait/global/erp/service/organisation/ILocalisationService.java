@@ -11,13 +11,13 @@ import com.camlait.global.erp.domain.exception.GlobalErpServiceException;
 
 public interface ILocalisationService {
     
-    Localisation ajouterLocalisation(Localisation local) throws GlobalErpServiceException, IllegalArgumentException;
+	Localisation ajouterLocalisation(Localisation local) throws GlobalErpServiceException, IllegalArgumentException;
     
-    Localisation modifierLocalisation(Localisation local) throws GlobalErpServiceException, IllegalArgumentException;
+	Localisation modifierLocalisation(Localisation local) throws GlobalErpServiceException, IllegalArgumentException;
     
-    <T> T obtenirLocalisation(Class<T> entityClass, Long localId) throws GlobalErpServiceException, IllegalArgumentException, ClassCastException;
+	<T> T obtenirLocalisation(Class<T> entityClass,Long localId) throws GlobalErpServiceException, IllegalArgumentException, ClassCastException;
     
-    <T> T obtenirLocalisation(Class<T> entityClass, String codeLocalisation)
+	<T> T obtenirLocalisation(Class<T> entityClass, String codeLocalisation)
             throws GlobalErpServiceException, IllegalArgumentException, ClassCastException;
             
     Collection<Centre> listerCentre() throws GlobalErpServiceException, IllegalArgumentException;
