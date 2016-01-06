@@ -3,9 +3,11 @@ package com.camlait.global.erp.service.partenaire;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.camlait.global.erp.domain.partenaire.Emplois;
 import com.camlait.global.erp.domain.partenaire.Employe;
 import com.camlait.global.erp.domain.partenaire.Partenaire;
 import com.camlait.global.erp.domain.exception.GlobalErpServiceException;
+import com.camlait.global.erp.domain.immobilisation.Immobilisation;
 
 public interface IPartenaireService {
     
@@ -13,12 +15,33 @@ public interface IPartenaireService {
     
     Partenaire modifierPartenaire(Partenaire partenaire) throws GlobalErpServiceException, IllegalArgumentException;
     
-    <T> T obtanirPartenaire(Class<T> entityClass, Long partenaireId) throws GlobalErpServiceException,ClassCastException,IllegalArgumentException;
-    <T> T obtanirPartenaire(Class<T> entityClass, String codePartenaire) throws GlobalErpServiceException,ClassCastException,IllegalArgumentException;
+    <T> T obtenirPartenaire(Class<T> entityClass, Long partenaireId) throws GlobalErpServiceException, ClassCastException, IllegalArgumentException;
     
-    void supprimerPartenaire(Long partenaireId) throws GlobalErpServiceException,IllegalArgumentException,ClassCastException;
+    <T> T obtenirPartenaire(Class<T> entityClass, String codePartenaire) throws GlobalErpServiceException, ClassCastException, IllegalArgumentException;
     
-    Page<Partenaire> listerPartenaire(Pageable p) throws GlobalErpServiceException,IllegalArgumentException;
+    void supprimerPartenaire(Long partenaireId) throws GlobalErpServiceException, IllegalArgumentException, ClassCastException;
     
-    Page<Employe> listerEmploye(String motCle, Pageable p) throws GlobalErpServiceException,IllegalArgumentException;
+    Page<Partenaire> listerPartenaire(Pageable p) throws GlobalErpServiceException, IllegalArgumentException;
+    
+    Page<Employe> listerEmploye(String motCle, Pageable p) throws GlobalErpServiceException, IllegalArgumentException;
+    
+    Emplois ajouterEmplois(Emplois emplois) throws GlobalErpServiceException, IllegalArgumentException;
+    
+    Emplois modifierEmplois(Emplois emplois) throws GlobalErpServiceException, IllegalArgumentException;
+    
+    Emplois obtenirEmplois(Long emploisId) throws GlobalErpServiceException, IllegalArgumentException;
+    
+    Emplois obtenirEmplois(String codeEmplois) throws GlobalErpServiceException, IllegalArgumentException;
+    
+    Page<Emplois> listerEmplois(Pageable p) throws GlobalErpServiceException, IllegalArgumentException;
+    
+    Immobilisation ajouterImmobilisation(Immobilisation immo) throws GlobalErpServiceException, IllegalArgumentException;
+    
+    Immobilisation modifierImmobilisation(Immobilisation immo) throws GlobalErpServiceException, IllegalArgumentException;
+    
+    <T> T obtenirImmobilisation(Class<T> entityClass, Long immoId) throws GlobalErpServiceException, ClassCastException, IllegalArgumentException;
+    
+    <T> T obtenirImmobilisation(Class<T> entityClass, String codeImmo) throws GlobalErpServiceException, ClassCastException, IllegalArgumentException;
+    
+    Page<Immobilisation> listerImmobilsation(Pageable p) throws GlobalErpServiceException, IllegalArgumentException;
 }

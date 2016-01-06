@@ -46,7 +46,7 @@ public class LocalisationService implements ILocalisationService {
 	@Override
 	public Localisation ajouterLocalisation(Localisation local) {
 		verifyIllegalArgumentException(local, "local");
-		local.setCode(utilService.genererCode(local));
+		//local.setCode(utilService.genererCode(local));
 		localisationDao.save(local);
 		return local;
 	}
