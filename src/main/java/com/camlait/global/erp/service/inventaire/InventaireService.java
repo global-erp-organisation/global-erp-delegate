@@ -161,7 +161,7 @@ public class InventaireService implements IInventaireService {
     @Override
     public Entrepot ajouterEntrepot(Entrepot entrepot) {
         verifyIllegalArgumentException(entrepot, "entrepot");
-        entrepot.setCodeEntrepot(utilService.genererCode(entrepot));
+        //entrepot.setCodeEntrepot(utilService.genererCode(entrepot));
         entrepotDao.save(entrepot);
         return entrepot;
     }
@@ -206,7 +206,7 @@ public class InventaireService implements IInventaireService {
     @Override
     public Magasin ajouterMagasin(Magasin magasin) {
         verifyIllegalArgumentException(magasin, "magasin");
-        magasin.setCodeMagasin(utilService.genererCode(magasin));
+        //magasin.setCodeMagasin(utilService.genererCode(magasin));
         magasinDao.save(magasin);
         return magasin;
     }
