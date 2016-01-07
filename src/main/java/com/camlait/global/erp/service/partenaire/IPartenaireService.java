@@ -8,6 +8,7 @@ import com.camlait.global.erp.domain.partenaire.Employe;
 import com.camlait.global.erp.domain.partenaire.Partenaire;
 import com.camlait.global.erp.domain.exception.GlobalErpServiceException;
 import com.camlait.global.erp.domain.immobilisation.Immobilisation;
+import com.camlait.global.erp.domain.immobilisation.PartenaireImmobilisation;
 
 public interface IPartenaireService {
     
@@ -21,6 +22,8 @@ public interface IPartenaireService {
     
     void supprimerPartenaire(Long partenaireId) throws GlobalErpServiceException, IllegalArgumentException, ClassCastException;
     
+    void supprimerPartenaire(String codePartenaire) throws GlobalErpServiceException, IllegalArgumentException, ClassCastException;
+    
     Page<Partenaire> listerPartenaire(Pageable p) throws GlobalErpServiceException, IllegalArgumentException;
     
     Page<Employe> listerEmploye(String motCle, Pageable p) throws GlobalErpServiceException, IllegalArgumentException;
@@ -33,6 +36,10 @@ public interface IPartenaireService {
     
     Emplois obtenirEmplois(String codeEmplois) throws GlobalErpServiceException, IllegalArgumentException;
     
+    void supprimerEmplois(Long enmploiId) throws GlobalErpServiceException, IllegalArgumentException;
+    
+    void supprimerEmplois(String codeEmplois) throws GlobalErpServiceException, IllegalArgumentException;
+    
     Page<Emplois> listerEmplois(Pageable p) throws GlobalErpServiceException, IllegalArgumentException;
     
     Immobilisation ajouterImmobilisation(Immobilisation immo) throws GlobalErpServiceException, IllegalArgumentException;
@@ -43,5 +50,17 @@ public interface IPartenaireService {
     
     <T> T obtenirImmobilisation(Class<T> entityClass, String codeImmo) throws GlobalErpServiceException, ClassCastException, IllegalArgumentException;
     
+    void supprimerImmobilisation(Long immoId) throws GlobalErpServiceException, ClassCastException, IllegalArgumentException;
+    
+    void supprimerImmobilisation(String codeImmo) throws GlobalErpServiceException, ClassCastException, IllegalArgumentException;
+    
     Page<Immobilisation> listerImmobilsation(Pageable p) throws GlobalErpServiceException, IllegalArgumentException;
+    
+    PartenaireImmobilisation ajouterPartenaireImmobilisation(PartenaireImmobilisation pimmo) throws GlobalErpServiceException, IllegalArgumentException;
+    
+    PartenaireImmobilisation modifierPartenaireImmobilisation(PartenaireImmobilisation pimmo) throws GlobalErpServiceException, IllegalArgumentException;
+    
+    PartenaireImmobilisation obtenirPartenaireImmobilisation(Long pimmoId) throws GlobalErpServiceException, IllegalArgumentException;
+    
+    void supprimerPartenaireImmobilisation(Long pimmoId) throws GlobalErpServiceException, IllegalArgumentException;
 }

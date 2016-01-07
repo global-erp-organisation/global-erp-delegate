@@ -15,11 +15,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import com.camlait.global.erp.dao.immobilisation.ImmobilisationDao;
+import com.camlait.global.erp.dao.immobilisation.PartenaireImmobilisationDao;
 import com.camlait.global.erp.dao.partenaire.EmploisDao;
 import com.camlait.global.erp.dao.partenaire.EmployeDao;
 import com.camlait.global.erp.dao.partenaire.PartenaireDao;
 import com.camlait.global.erp.domain.exception.GlobalErpServiceException;
 import com.camlait.global.erp.domain.immobilisation.Immobilisation;
+import com.camlait.global.erp.domain.immobilisation.PartenaireImmobilisation;
 import com.camlait.global.erp.domain.partenaire.ClientAmarge;
 import com.camlait.global.erp.domain.partenaire.Emplois;
 import com.camlait.global.erp.domain.partenaire.Employe;
@@ -45,10 +47,13 @@ public class PartenaireService implements IPartenaireService {
     @Autowired
     private ImmobilisationDao immoDao;
     
+    @Autowired
+    private PartenaireImmobilisationDao pimmoDao;
+    
     @Override
     public Partenaire ajouterPartenaire(Partenaire partenaire) {
         verifyIllegalArgumentException(partenaire, "partenaire");
-        //partenaire.setCodePartenaire(utilService.genererCode(partenaire));
+        // partenaire.setCodePartenaire(utilService.genererCode(partenaire));
         partenaireDao.save(partenaire);
         return partenaire;
     }
@@ -188,4 +193,57 @@ public class PartenaireService implements IPartenaireService {
         return immoDao.findAll(p);
     }
     
+    @Override
+    public PartenaireImmobilisation ajouterPartenaireImmobilisation(PartenaireImmobilisation pimmo)
+            throws GlobalErpServiceException, IllegalArgumentException {
+        verifyIllegalArgumentException(pimmo, "partenaireImmobilisation");
+        pimmoDao.save(pimmo);
+        return pimmo;
+    }
+    
+    @Override
+    public PartenaireImmobilisation modifierPartenaireImmobilisation(PartenaireImmobilisation pimmo)
+            throws GlobalErpServiceException, IllegalArgumentException {
+        verifyIllegalArgumentException(pimmo, "partenaireImmobilisation");
+        pimmoDao.saveAndFlush(pimmo);
+        return pimmo;
+    }
+    
+    @Override
+    public PartenaireImmobilisation obtenirPartenaireImmobilisation(Long pimmoId) throws GlobalErpServiceException, IllegalArgumentException {
+        verifyIllegalArgumentException(pimmoId, "pimmoId");
+        PartenaireImmobilisation p = pimmoDao.findOne(pimmoId);
+        verifyObjectNoFindException(p, PartenaireImmobilisation.class, pimmoId);
+        return p;
+    }
+    
+    @Override
+    public void supprimerPartenaireImmobilisation(Long pimmoId) throws GlobalErpServiceException, IllegalArgumentException {
+        pimmoDao.delete(obtenirPartenaireImmobilisation(pimmoId));
+    }
+    
+    @Override
+    public void supprimerPartenaire(String codePartenaire) throws GlobalErpServiceException, IllegalArgumentException, ClassCastException {
+        partenaireDao.delete(obtenirPartenaire(Partenaire.class, codePartenaire));
+    }
+    
+    @Override
+    public void supprimerEmplois(Long emploisId) throws GlobalErpServiceException, IllegalArgumentException {
+        emploisDao.delete(obtenirEmplois(emploisId));
+    }
+    
+    @Override
+    public void supprimerEmplois(String codeEmplois) throws GlobalErpServiceException, IllegalArgumentException {
+        emploisDao.delete(obtenirEmplois(codeEmplois));
+    }
+    
+    @Override
+    public void supprimerImmobilisation(Long immoId) throws GlobalErpServiceException, ClassCastException, IllegalArgumentException {
+        immoDao.delete(obtenirImmobilisation(Immobilisation.class, immoId));
+    }
+    
+    @Override
+    public void supprimerImmobilisation(String codeImmo) throws GlobalErpServiceException, ClassCastException, IllegalArgumentException {
+        immoDao.delete(obtenirImmobilisation(Immobilisation.class, codeImmo));
+    }   
 }
