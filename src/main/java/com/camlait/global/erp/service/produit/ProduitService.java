@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -83,7 +84,7 @@ public class ProduitService implements IProduitService {
     }
     
     @Override
-    public Collection<Produit> listerProduit(CategorieProduit categorie) {
+    public Set<Produit> listerProduit(CategorieProduit categorie) {
         if (Utility.isDetail(categorie)) {
             return produitDao.listerProduit(categorie.getCategorieProduitId());
         } else {
@@ -97,9 +98,9 @@ public class ProduitService implements IProduitService {
     }
     
     @Override
-    public Collection<Produit> listerProduit(Collection<CategorieProduit> categories) {
-        final Collection<Produit> produits = new HashSet<>();
-        categories.parallelStream().forEach(c -> produits.addAll(listerProduit(c)));
+    public Set<Produit> listerProduit(Collection<CategorieProduit> categories) {
+        final Set<Produit> produits = new HashSet<>();
+        categories.stream().forEach(c -> produits.addAll(listerProduit(c)));
         return produits;
     }
     

@@ -1,6 +1,7 @@
 package com.camlait.global.erp.service.produit;
 
 import java.util.Collection;
+import java.util.Set;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -65,7 +66,7 @@ public interface IProduitService {
      *            Categorie associe
      * @return
      */
-    Collection<Produit> listerProduit(CategorieProduit categorie) throws GlobalErpServiceException, IllegalArgumentException;
+    Set<Produit> listerProduit(CategorieProduit categorie) throws GlobalErpServiceException, IllegalArgumentException;
     
     /**
      * Lister les produit d'une collection de categorie.
@@ -74,7 +75,7 @@ public interface IProduitService {
      *            collection de categorie
      * @return
      */
-    Collection<Produit> listerProduit(Collection<CategorieProduit> categories) throws GlobalErpServiceException, IllegalArgumentException;
+    Set<Produit> listerProduit(Collection<CategorieProduit> categories) throws GlobalErpServiceException, IllegalArgumentException;
     
     /**
      * Lister tous les produits par page.
