@@ -27,7 +27,6 @@ import com.camlait.global.erp.domain.partenaire.Emplois;
 import com.camlait.global.erp.domain.partenaire.Employe;
 import com.camlait.global.erp.domain.partenaire.Partenaire;
 import com.camlait.global.erp.domain.partenaire.Vendeur;
-import com.camlait.global.erp.service.util.IUtilService;
 
 @Transactional
 public class PartenaireService implements IPartenaireService {
@@ -38,8 +37,8 @@ public class PartenaireService implements IPartenaireService {
     @Autowired
     private EmployeDao employeDao;
     
-    @Autowired
-    private IUtilService utilService;
+    //@Autowired
+    //private IUtilService utilService;
     
     @Autowired
     private EmploisDao emploisDao;

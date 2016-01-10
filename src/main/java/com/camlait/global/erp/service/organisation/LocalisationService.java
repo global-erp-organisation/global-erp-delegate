@@ -21,7 +21,6 @@ import com.camlait.global.erp.domain.organisation.Localisation;
 import com.camlait.global.erp.domain.organisation.Region;
 import com.camlait.global.erp.domain.organisation.Secteur;
 import com.camlait.global.erp.domain.organisation.Zone;
-import com.camlait.global.erp.service.util.IUtilService;
 
 public class LocalisationService implements ILocalisationService {
 
@@ -40,8 +39,8 @@ public class LocalisationService implements ILocalisationService {
 	@Autowired
 	private ZoneDao zoneDao;
 
-	@Autowired
-	private IUtilService utilService;
+	//@Autowired
+	//private IUtilService utilService;
 
 	@Override
 	public Localisation ajouterLocalisation(Localisation local) {

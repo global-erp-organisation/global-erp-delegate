@@ -98,6 +98,7 @@ public class AuthentificationService implements IAuthentificationService {
 		verifyIllegalArgumentException(ressourceId, "ressourceId");
 		final Ressource r = ressourceDao.findOne(ressourceId);
 		verifyObjectNoFindException(r, Ressource.class, ressourceId);
+		r.getRessourceFilles();
 		return r;
 	}
 
