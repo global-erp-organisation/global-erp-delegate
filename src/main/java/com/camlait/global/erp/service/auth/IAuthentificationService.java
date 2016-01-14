@@ -1,10 +1,15 @@
 package com.camlait.global.erp.service.auth;
 
+import java.util.Collection;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.camlait.global.erp.domain.auth.Langue;
 import com.camlait.global.erp.domain.auth.Ressource;
 import com.camlait.global.erp.domain.auth.RessourceUtilisateur;
+import com.camlait.global.erp.domain.auth.Terme;
+import com.camlait.global.erp.domain.auth.TermeLangue;
 import com.camlait.global.erp.domain.auth.Utilisateur;
 import com.camlait.global.erp.domain.exception.GlobalErpServiceException;
 
@@ -46,5 +51,37 @@ public interface IAuthentificationService {
 
 	void supprimerRessourceUtilisateur(Long ressourceUtilisateurId)
 			throws GlobalErpServiceException, IllegalArgumentException;
-	
+
+	Langue ajouterLangue(Langue langue) throws GlobalErpServiceException, IllegalArgumentException;
+
+	Langue modifierLangue(Langue langue) throws GlobalErpServiceException, IllegalArgumentException;
+
+	Langue obtenirLangue(Long langueId) throws GlobalErpServiceException, IllegalArgumentException;
+
+	Langue obtenirLangue(String codeLangue) throws GlobalErpServiceException, IllegalArgumentException;
+
+	void supprimerLangue(Long langueId) throws GlobalErpServiceException, IllegalArgumentException;
+
+	Collection<Langue> listerLangue();
+
+	Terme ajouterTerme(Terme terme);
+
+	Terme modifierTerme(Terme terme);
+
+	Terme obtenirTerme(Long termeId);
+
+	Terme obtenirTerme(String descriptionTerme);
+
+	void supprimerTerme(Long termeId);
+
+	Page<Terme> listerTerme(Pageable p);
+	Collection<Terme> listerTerme(Long langueId);
+
+	TermeLangue ajouterTermeLangue(TermeLangue termeLangue);
+
+	TermeLangue modifierTermeLangue(TermeLangue termeLangue);
+
+	TermeLangue obtenirTermeLangue(Long termeLangueId);
+
+	void supprimerTermeLangue(Long termeLangueId);
 }

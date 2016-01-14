@@ -1,6 +1,8 @@
 package com.camlait.global.erp.service.auth;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -11,11 +13,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import com.camlait.global.erp.dao.auth.LanguageDao;
 import com.camlait.global.erp.dao.auth.RessourceDao;
 import com.camlait.global.erp.dao.auth.RessourceUtilisateurDao;
+import com.camlait.global.erp.dao.auth.TermeDao;
+import com.camlait.global.erp.dao.auth.TermeLangueDao;
 import com.camlait.global.erp.dao.auth.UtilisateurDao;
+import com.camlait.global.erp.domain.auth.Langue;
 import com.camlait.global.erp.domain.auth.Ressource;
 import com.camlait.global.erp.domain.auth.RessourceUtilisateur;
+import com.camlait.global.erp.domain.auth.Terme;
+import com.camlait.global.erp.domain.auth.TermeLangue;
 import com.camlait.global.erp.domain.auth.Utilisateur;
 import com.camlait.global.erp.domain.exception.GlobalErpServiceException;
 
@@ -32,6 +40,15 @@ public class AuthentificationService implements IAuthentificationService {
 
 	@Autowired
 	private RessourceUtilisateurDao ressourceUtilisateurDao;
+
+	@Autowired
+	private LanguageDao langueDao;
+
+	@Autowired
+	private TermeDao termeDao;
+
+	@Autowired
+	private TermeLangueDao termeLangueDao;
 
 	@Override
 	public Utilisateur ajouterUtilisateur(Utilisateur utilisateur) {
@@ -54,8 +71,8 @@ public class AuthentificationService implements IAuthentificationService {
 		final Utilisateur u = utilisateurDao.findOne(codeUtilisateur);
 		verifyObjectNoFindException(u, Utilisateur.class, codeUtilisateur);
 		Hibernate.initialize(u.getEmployes());
-		//Hibernate.initialize(u.getRessourceUtilsateurs());
-		//Hibernate.initialize(u.getGroupeUtilisateurs());
+		// Hibernate.initialize(u.getRessourceUtilsateurs());
+		// Hibernate.initialize(u.getGroupeUtilisateurs());
 		return u;
 	}
 
@@ -149,5 +166,104 @@ public class AuthentificationService implements IAuthentificationService {
 			throws GlobalErpServiceException, IllegalArgumentException {
 		verifyIllegalArgumentException(ressourceUtilisateurId, "ressourceUtilisateurId");
 		ressourceUtilisateurDao.delete(obtenirRessourceUtilisateur(ressourceUtilisateurId));
+	}
+
+	@Override
+	public Langue ajouterLangue(Langue langue) throws GlobalErpServiceException, IllegalArgumentException {
+		langueDao.save(langue);
+		return langue;
+	}
+
+	@Override
+	public Langue modifierLangue(Langue langue) throws GlobalErpServiceException, IllegalArgumentException {
+		langueDao.saveAndFlush(langue);
+		return langue;
+	}
+
+	@Override
+	public Langue obtenirLangue(Long langueId) throws GlobalErpServiceException, IllegalArgumentException {
+		Langue l = langueDao.findOne(langueId);
+		if (l != null) {
+			Hibernate.initialize(l.getTermeLangues());
+		}
+		return l;
+	}
+
+	@Override
+	public Langue obtenirLangue(String codeLangue) throws GlobalErpServiceException, IllegalArgumentException {
+		return langueDao.findByCodeLangue(codeLangue);
+	}
+
+	@Override
+	public void supprimerLangue(Long langueId) throws GlobalErpServiceException, IllegalArgumentException {
+		langueDao.delete(obtenirLangue(langueId));
+	}
+
+	@Override
+	public Collection<Langue> listerLangue() {
+		return langueDao.findAll();
+	}
+
+	@Override
+	public Terme ajouterTerme(Terme terme) {
+		termeDao.save(terme);
+		return terme;
+	}
+
+	@Override
+	public Terme modifierTerme(Terme terme) {
+		termeDao.saveAndFlush(terme);
+		return terme;
+	}
+
+	@Override
+	public Terme obtenirTerme(Long termeId) {
+		return termeDao.findOne(termeId);
+	}
+
+	@Override
+	public Terme obtenirTerme(String descriptionTerme) {
+		return termeDao.findByDescriptionTerme(descriptionTerme);
+	}
+
+	@Override
+	public void supprimerTerme(Long termeId) {
+		termeDao.delete(obtenirTerme(termeId));
+	}
+
+	@Override
+	public Page<Terme> listerTerme(Pageable p) {
+		return termeDao.findAll(p);
+	}
+
+	@Override
+	public TermeLangue ajouterTermeLangue(TermeLangue termeLangue) {
+		termeLangueDao.save(termeLangue);
+		return termeLangue;
+	}
+
+	@Override
+	public TermeLangue modifierTermeLangue(TermeLangue termeLangue) {
+		termeLangueDao.saveAndFlush(termeLangue);
+		return termeLangue;
+	}
+
+	@Override
+	public TermeLangue obtenirTermeLangue(Long termeLangueId) {
+		return termeLangueDao.findOne(termeLangueId);
+	}
+
+	@Override
+	public void supprimerTermeLangue(Long termeLangueId) {
+		termeLangueDao.delete(obtenirTermeLangue(termeLangueId));
+	}
+
+	@Override
+	public Collection<Terme> listerTerme(Long langueId) {
+		Collection<Terme> termes = new HashSet<>();
+		obtenirLangue(langueId).getTermeLangues().stream().forEach(tl -> {
+			termes.add(tl.getTerme());
+		});
+		return termes;
 	}
 }

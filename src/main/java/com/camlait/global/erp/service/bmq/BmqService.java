@@ -137,7 +137,7 @@ public class BmqService implements IBmqService {
         verifyIllegalArgumentException(ligneBmqId, "ligneBmqId");
         final LigneBmq lb = ligneBmqDao.findOne(ligneBmqId);
         verifyObjectNoFindException(lb, LigneBmq.class, ligneBmqId);
-        lb.getLigneBmqTaxes();
+        Hibernate.initialize(lb.getLigneBmqTaxes());
         return lb;
     }
     
