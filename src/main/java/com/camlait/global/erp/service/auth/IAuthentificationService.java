@@ -1,6 +1,7 @@
 package com.camlait.global.erp.service.auth;
 
 import java.util.Collection;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,6 +13,7 @@ import com.camlait.global.erp.domain.auth.Terme;
 import com.camlait.global.erp.domain.auth.TermeLangue;
 import com.camlait.global.erp.domain.auth.Utilisateur;
 import com.camlait.global.erp.domain.exception.GlobalErpServiceException;
+import com.camlait.global.erp.domain.model.json.auth.LangueModel;
 
 public interface IAuthentificationService {
 
@@ -62,7 +64,7 @@ public interface IAuthentificationService {
 
 	void supprimerLangue(Long langueId) throws GlobalErpServiceException, IllegalArgumentException;
 
-	Collection<Langue> listerLangue();
+	Collection<LangueModel> listerLangue();
 
 	Terme ajouterTerme(Terme terme);
 
@@ -75,7 +77,10 @@ public interface IAuthentificationService {
 	void supprimerTerme(Long termeId);
 
 	Page<Terme> listerTerme(Pageable p);
-	Collection<Terme> listerTerme(Long langueId);
+
+	Map<String, String> listerTerme(Long langueId);
+
+	Map<String, String> listerTerme(String codeLangue);
 
 	TermeLangue ajouterTermeLangue(TermeLangue termeLangue);
 

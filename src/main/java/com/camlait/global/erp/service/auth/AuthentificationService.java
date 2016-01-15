@@ -2,8 +2,10 @@ package com.camlait.global.erp.service.auth;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 
@@ -26,6 +28,7 @@ import com.camlait.global.erp.domain.auth.Terme;
 import com.camlait.global.erp.domain.auth.TermeLangue;
 import com.camlait.global.erp.domain.auth.Utilisateur;
 import com.camlait.global.erp.domain.exception.GlobalErpServiceException;
+import com.camlait.global.erp.domain.model.json.auth.LangueModel;
 
 import static com.camlait.global.erp.domain.config.GlobalAppConstants.*;
 
@@ -200,8 +203,12 @@ public class AuthentificationService implements IAuthentificationService {
 	}
 
 	@Override
-	public Collection<Langue> listerLangue() {
-		return langueDao.findAll();
+	public Collection<LangueModel> listerLangue() {
+		Collection<LangueModel> lms = new HashSet<>();
+		langueDao.findAll().stream().forEach(l -> {
+			lms.add(new LangueModel(l));
+		});
+		return lms;
 	}
 
 	@Override
@@ -259,11 +266,16 @@ public class AuthentificationService implements IAuthentificationService {
 	}
 
 	@Override
-	public Collection<Terme> listerTerme(Long langueId) {
-		Collection<Terme> termes = new HashSet<>();
+	public Map<String, String> listerTerme(Long langueId) {
+		Map<String, String> termes = new HashMap<>();
 		obtenirLangue(langueId).getTermeLangues().stream().forEach(tl -> {
-			termes.add(tl.getTerme());
+			termes.put(tl.getTerme().getDescriptionTerme(), tl.getValue());
 		});
 		return termes;
+	}
+
+	@Override
+	public Map<String, String> listerTerme(String codeLangue) {
+		return listerTerme(obtenirLangue(codeLangue).getLangId());
 	}
 }
