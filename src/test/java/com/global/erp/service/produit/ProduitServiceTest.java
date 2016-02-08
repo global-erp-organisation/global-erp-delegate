@@ -1,15 +1,15 @@
 package com.global.erp.service.produit;
 
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-
+import static org.mockito.Mockito.*;
 import java.util.Date;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.camlait.global.erp.domain.enumeration.Portee;
@@ -37,15 +37,19 @@ public class ProduitServiceTest {
 
 	@Test
 	public void ajouterCategorieProduitTest() {
-		service.ajouterCategorieProduit(categorie);
+		when(service.ajouterCategorieProduit(categorie)).thenReturn(categorie);
+		final CategorieProduit c = service.ajouterCategorieProduit(categorie);
 		verify(service).ajouterCategorieProduit(categorie);
 		verify(service, times(1)).ajouterCategorieProduit(categorie);
+		Assert.assertEquals("Produit laitier", c.getDescriptionCategorie());
 	}
 
 	@Test
 	public void modifierCategorieProduitTest() {
-		service.modifierCategorieProduit(categorie);
+		when(service.modifierCategorieProduit(categorie)).thenReturn(categorie);
+		final CategorieProduit c = service.modifierCategorieProduit(categorie);
 		verify(service, times(1)).modifierCategorieProduit(categorie);
+		Assert.assertEquals("Produit laitier", c.getDescriptionCategorie());
 	}
 
 	@Test

@@ -22,11 +22,15 @@ import com.camlait.global.erp.dao.produit.CategorieProduitDao;
 import com.camlait.global.erp.dao.produit.CategorieProduitTaxeDao;
 import com.camlait.global.erp.dao.produit.ProduitDao;
 import com.camlait.global.erp.dao.produit.ProduitTaxeDao;
+import com.camlait.global.erp.dao.produit.TarifDao;
+import com.camlait.global.erp.dao.produit.TarificationDao;
 import com.camlait.global.erp.domain.enumeration.Portee;
 import com.camlait.global.erp.domain.produit.CategorieProduit;
 import com.camlait.global.erp.domain.produit.CategorieProduitTaxe;
 import com.camlait.global.erp.domain.produit.Produit;
 import com.camlait.global.erp.domain.produit.ProduitTaxe;
+import com.camlait.global.erp.domain.produit.Tarif;
+import com.camlait.global.erp.domain.produit.Tarification;
 import com.camlait.global.erp.domain.util.Utility;
 
 @Transactional
@@ -43,6 +47,12 @@ public class ProduitService implements IProduitService {
 
 	@Autowired
 	private CategorieProduitTaxeDao categorieProduitTaxeDao;
+
+	@Autowired
+	private TarifDao tarifDao;
+
+	@Autowired
+	private TarificationDao tarificationDao;
 
 	@Override
 	public Produit ajouterProduit(Produit produit) {
@@ -65,6 +75,9 @@ public class ProduitService implements IProduitService {
 		final Produit p = produitDao.findOne(produitId);
 		verifyObjectNoFindException(p, Produit.class, produitId);
 		Hibernate.initialize(p.getProduitTaxes());
+		Hibernate.initialize(p.getStocks());
+		Hibernate.initialize(p.getFicheDeStocks());
+		Hibernate.initialize(p.getTarifications());
 		return p;
 	}
 
@@ -230,5 +243,53 @@ public class ProduitService implements IProduitService {
 	@Override
 	public Collection<CategorieProduit> listerCategorie(Portee portee) {
 		return listerCategorieProduit().stream().filter(c -> c.getPortee() == portee).collect(Collectors.toList());
+	}
+
+	/** Gestion de la tarification **/
+
+	@Override
+	public Tarif ajouterTarif(Tarif tarif) {
+		tarifDao.save(tarif);
+		return tarif;
+	}
+
+	@Override
+	public Tarif modifierTarif(Tarif tarif) {
+		tarifDao.saveAndFlush(tarif);
+		return tarif;
+	}
+
+	@Override
+	public Tarif obtenirTarif(Long tarifId) {
+		Tarif t = tarifDao.findOne(tarifId);
+		return t;
+	}
+
+	@Override
+	public void supprimerTarif(Long tarifId) {
+		tarifDao.delete(obtenirTarif(tarifId));
+	}
+
+	@Override
+	public Tarification ajouterTarification(Tarification tarification) {
+		tarificationDao.save(tarification);
+		return tarification;
+	}
+
+	@Override
+	public Tarification modifierTarification(Tarification tarification) {
+		tarificationDao.saveAndFlush(tarification);
+		return tarification;
+	}
+
+	@Override
+	public Tarification obtenirTarification(Long tarificationId) {
+		Tarification t = tarificationDao.findOne(tarificationId);
+		return t;
+	}
+
+	@Override
+	public void supprimerTarification(Long tarificationId) {
+		tarificationDao.delete(obtenirTarification(tarificationId));
 	}
 }

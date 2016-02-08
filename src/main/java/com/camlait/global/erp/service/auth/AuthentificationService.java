@@ -54,6 +54,9 @@ public class AuthentificationService implements IAuthentificationService {
 	@Autowired
 	private TermeLangueDao termeLangueDao;
 
+	@Autowired
+	private RessourceUtilisateurDao ruDao;
+
 	@Override
 	public Utilisateur ajouterUtilisateur(Utilisateur utilisateur) {
 		verifyIllegalArgumentException(utilisateur, "utilisateur");
@@ -119,7 +122,7 @@ public class AuthentificationService implements IAuthentificationService {
 		verifyIllegalArgumentException(ressourceId, "ressourceId");
 		final Ressource r = ressourceDao.findOne(ressourceId);
 		verifyObjectNoFindException(r, Ressource.class, ressourceId);
-		Hibernate.initialize(r.getRessourceFilles());
+		Hibernate.initialize(r.getItems());
 		;
 		return r;
 	}
@@ -283,8 +286,8 @@ public class AuthentificationService implements IAuthentificationService {
 			resultat = construireMenu(resultat, ressource, true);
 		} else {
 			resultat = construireMenu(resultat, ressource, false);
-			for (Ressource r : ressource.getRessourceFilles()) {
-				genererMenu(resultat, r);
+			for (Ressource r : ressource.getItems()) {
+				resultat = genererMenu(resultat, r);
 			}
 			resultat += "</ul>\n" + "</li>\n";
 		}
@@ -294,14 +297,13 @@ public class AuthentificationService implements IAuthentificationService {
 	private String construireMenu(String resultat, Ressource r, boolean isFeuille) {
 
 		if (isFeuille) {
-			resultat += "<li data-ui-sref-active=\"active\">" + "<a data-ui-sref=" + format(r.getAppLocalisation())
-					+ " title=" + format(r.getDescriptionRessource()) + ">" + getClassIcon(r.getClasseIcon()) + "\t"
-					+ "<span class=\"menu-item-parent\">{{getWord('" + r.getDescriptionRessource()
-					+ "')}}</span> </a></li>\n";
+			resultat += "<li data-ui-sref-active=\"active\">" + "<a data-ui-sref=" + format(r.getSref()) + " title="
+					+ format(r.getTitle()) + ">" + getClassIcon(r.getIcon()) + "\t"
+					+ "<span class=\"menu-item-parent\">{{getWord('" + r.getTitle() + "')}}</span> </a></li>\n";
 		} else {
-			resultat += "<li data-menu-collapse>\n" + "\t" + "<a href=\"#\">" + getClassIcon(r.getClasseIcon())
-					+ "<span class=\"menu-item-parent\">{{getWord('" + r.getDescriptionRessource().trim() + "')}}</span>"
-					+ "</a>\n" + "<ul>\n";
+			resultat += "<li data-menu-collapse>\n" + "\t" + "<a href=\"#\">" + getClassIcon(r.getIcon())
+					+ "<span class=\"menu-item-parent\">{{getWord('" + r.getTitle().trim() + "')}}</span>" + "</a>\n"
+					+ "<ul>\n";
 		}
 
 		return resultat;
@@ -331,8 +333,26 @@ public class AuthentificationService implements IAuthentificationService {
 	}
 
 	@Override
+	public Map<String, Object> menuItem() {
+		Map<String, Object> m = new HashMap<>();
+		ressourceDao.findAll().stream().forEach(r -> {
+			// String title = "{{getWord('" + r.getTitle() + "'}}";
+			m.put("items", r);
+		});
+		return m;
+	}
+
+	@Override
 	public Collection<Ressource> listerRessource(String codeUtilisateur) {
-		return listerRessource();
+
+		Collection<Ressource> rs = new HashSet<>();
+		ruDao.obtenirResssource(codeUtilisateur).stream().forEach(ru -> {
+			String title = "{{getWord('" + ru.getRessource().getTitle() + "'}}";
+			Ressource r = ru.getRessource();
+			r.setTitle(title);
+			rs.add(r);
+		});
+		return rs;
 	}
 
 	@Override
