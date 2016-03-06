@@ -1,7 +1,10 @@
 package com.global.erp.service.produit;
 
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import java.util.Date;
 
 import org.junit.Assert;
@@ -9,7 +12,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.camlait.global.erp.domain.enumeration.Portee;
@@ -25,14 +27,9 @@ public class ProduitServiceTest {
 
 	@Before
 	public void setup() {
-		categorie = new CategorieProduit();
-		categorie.setCategorieProduitId(1L);
-		categorie.setCodeCategorieProduit("PL");
-		categorie.setCategorieTaxable(true);
-		categorie.setDateDeCreation(new Date());
-		categorie.setDerniereMiseAJour(new Date());
-		categorie.setDescriptionCategorie("Produits laitiers");
-		categorie.setPortee(Portee.DETAIL);
+		categorie = CategorieProduit.builder().categorieProduitId(1L).codeCategorieProduit("PL").categorieTaxable(true)
+				.dateDeCreation(new Date()).derniereMiseAJour(new Date()).descriptionCategorie("Produits laitiers")
+				.portee(Portee.DETAIL).build();
 	}
 
 	@Test

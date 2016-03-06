@@ -24,6 +24,8 @@ import com.camlait.global.erp.domain.organisation.Localisation;
 import com.camlait.global.erp.domain.partenaire.Partenaire;
 import com.camlait.global.erp.domain.util.Utility;
 
+import lombok.NonNull;
+
 public class UtilService implements IUtilService {
 
 	@Autowired
@@ -60,7 +62,7 @@ public class UtilService implements IUtilService {
 	 *            Entite associe au code.
 	 * @return le nouveau code.
 	 */
-	private String dernierId(Entite entite) {
+	private String dernierId(@NonNull Entite entite) {
 		EnumTypeEntite type = Utility.obtenirPrefixe(entite);
 		String dernierCode = null;
 		if (entite instanceof Document) {

@@ -15,8 +15,26 @@ public interface ILocalisationService {
     
 	Localisation modifierLocalisation(Localisation local) throws GlobalErpServiceException, IllegalArgumentException;
     
+	/**
+	 * Obtenir une localisation
+	 * @param entityClass Type de localisation (Zone, Region ou centre)
+	 * @param localId
+	 * @return
+	 * @throws GlobalErpServiceException
+	 * @throws IllegalArgumentException
+	 * @throws ClassCastException
+	 */
 	<T> T obtenirLocalisation(Class<T> entityClass,Long localId) throws GlobalErpServiceException, IllegalArgumentException, ClassCastException;
     
+	/**
+	 * 
+	 * @param entityClass Type de localisation (Zone, Region ou centre)
+	 * @param codeLocalisation
+	 * @return
+	 * @throws GlobalErpServiceException
+	 * @throws IllegalArgumentException
+	 * @throws ClassCastException
+	 */
 	<T> T obtenirLocalisation(Class<T> entityClass, String codeLocalisation)
             throws GlobalErpServiceException, IllegalArgumentException, ClassCastException;
             

@@ -1,6 +1,5 @@
 package com.camlait.global.erp.service.partenaire;
 
-import static com.camlait.global.erp.domain.config.GlobalAppConstants.verifyIllegalArgumentException;
 import static com.camlait.global.erp.domain.config.GlobalAppConstants.verifyObjectNoFindException;
 
 import java.util.Date;
@@ -30,6 +29,8 @@ import com.camlait.global.erp.domain.partenaire.GroupePartenaire;
 import com.camlait.global.erp.domain.partenaire.Partenaire;
 import com.camlait.global.erp.domain.partenaire.Vendeur;
 
+import lombok.NonNull;
+
 @Transactional
 public class PartenaireService implements IPartenaireService {
 
@@ -55,16 +56,14 @@ public class PartenaireService implements IPartenaireService {
 	private GroupePartenaireDao groupePartenaireDao;
 
 	@Override
-	public Partenaire ajouterPartenaire(Partenaire partenaire) {
-		verifyIllegalArgumentException(partenaire, "partenaire");
+	public Partenaire ajouterPartenaire(@NonNull Partenaire partenaire) {
 		// partenaire.setCodePartenaire(utilService.genererCode(partenaire));
 		partenaireDao.save(partenaire);
 		return partenaire;
 	}
 
 	@Override
-	public Partenaire modifierPartenaire(Partenaire partenaire) {
-		verifyIllegalArgumentException(partenaire, "partenaire");
+	public Partenaire modifierPartenaire(@NonNull Partenaire partenaire) {
 		partenaire.setDerniereMiseAJour(new Date());
 		partenaireDao.saveAndFlush(partenaire);
 		return partenaire;
@@ -72,8 +71,7 @@ public class PartenaireService implements IPartenaireService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T> T obtenirPartenaire(Class<T> entityClass, Long partenaireId) {
-		verifyIllegalArgumentException(partenaireId, "partenaireId");
+	public <T> T obtenirPartenaire(@NonNull Class<T> entityClass, @NonNull Long partenaireId) {
 		final Partenaire p = partenaireDao.findOne(partenaireId);
 		verifyObjectNoFindException(p, entityClass, partenaireId);
 		Hibernate.initialize(p.getDocuments());
@@ -90,8 +88,7 @@ public class PartenaireService implements IPartenaireService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T> T obtenirPartenaire(Class<T> entityClass, String codePartenaire) {
-		verifyIllegalArgumentException(codePartenaire, "codePartenaire");
+	public <T> T obtenirPartenaire(@NonNull Class<T> entityClass, @NonNull String codePartenaire) {
 		final List<Partenaire> partenaires = partenaireDao.findByCodePartenaire(codePartenaire, new PageRequest(0, 1))
 				.getContent();
 		final Partenaire p = (partenaires.isEmpty()) ? null : partenaires.get(0);
@@ -108,37 +105,34 @@ public class PartenaireService implements IPartenaireService {
 	}
 
 	@Override
-	public void supprimerPartenaire(Long partenaireId) {
+	public void supprimerPartenaire(@NonNull Long partenaireId) {
 		partenaireDao.delete(obtenirPartenaire(Partenaire.class, partenaireId));
 	}
 
 	@Override
-	public Page<Partenaire> listerPartenaire(Pageable p) {
+	public Page<Partenaire> listerPartenaire(@NonNull Pageable p) {
 		return partenaireDao.findAll(p);
 	}
 
 	@Override
-	public Page<Employe> listerEmploye(String motCle, Pageable p) {
+	public Page<Employe> listerEmploye(@NonNull String motCle, @NonNull Pageable p) {
 		return employeDao.listerEmploye(motCle, p);
 	}
 
 	@Override
-	public Emplois ajouterEmplois(Emplois emplois) throws GlobalErpServiceException, IllegalArgumentException {
-		verifyIllegalArgumentException(emplois, "emplois");
+	public Emplois ajouterEmplois(@NonNull Emplois emplois) throws GlobalErpServiceException, IllegalArgumentException {
 		emploisDao.save(emplois);
 		return emplois;
 	}
 
 	@Override
-	public Emplois modifierEmplois(Emplois emplois) throws GlobalErpServiceException, IllegalArgumentException {
-		verifyIllegalArgumentException(emplois, "emplois");
+	public Emplois modifierEmplois(@NonNull Emplois emplois) throws GlobalErpServiceException, IllegalArgumentException {
 		emploisDao.saveAndFlush(emplois);
 		return emplois;
 	}
 
 	@Override
-	public Emplois obtenirEmplois(Long emploisId) throws GlobalErpServiceException, IllegalArgumentException {
-		verifyIllegalArgumentException(emploisId, "emploisId");
+	public Emplois obtenirEmplois(@NonNull Long emploisId) throws GlobalErpServiceException, IllegalArgumentException {
 		Emplois e = emploisDao.findOne(emploisId);
 		verifyObjectNoFindException(e, Emplois.class, emploisId);
 		Hibernate.initialize(e.getEmployes());
@@ -146,8 +140,7 @@ public class PartenaireService implements IPartenaireService {
 	}
 
 	@Override
-	public Emplois obtenirEmplois(String codeEmplois) throws GlobalErpServiceException, IllegalArgumentException {
-		verifyIllegalArgumentException(codeEmplois, "codeEmplois");
+	public Emplois obtenirEmplois(@NonNull String codeEmplois) throws GlobalErpServiceException, IllegalArgumentException {
 		List<Emplois> emplois = emploisDao.findByCodeEmplois(codeEmplois, new PageRequest(0, 1)).getContent();
 		Emplois e = (emplois.isEmpty()) ? null : emplois.get(0);
 		verifyObjectNoFindException(e, Emplois.class, codeEmplois);
@@ -156,31 +149,28 @@ public class PartenaireService implements IPartenaireService {
 	}
 
 	@Override
-	public Page<Emplois> listerEmplois(Pageable p) throws GlobalErpServiceException, IllegalArgumentException {
+	public Page<Emplois> listerEmplois(@NonNull Pageable p) throws GlobalErpServiceException, IllegalArgumentException {
 		return emploisDao.findAll(p);
 	}
 
 	@Override
-	public Immobilisation ajouterImmobilisation(Immobilisation immo)
+	public Immobilisation ajouterImmobilisation(@NonNull Immobilisation immo)
 			throws GlobalErpServiceException, IllegalArgumentException {
-		verifyIllegalArgumentException(immo, "immo");
 		immoDao.save(immo);
 		return immo;
 	}
 
 	@Override
-	public Immobilisation modifierImmobilisation(Immobilisation immo)
+	public Immobilisation modifierImmobilisation(@NonNull Immobilisation immo)
 			throws GlobalErpServiceException, IllegalArgumentException {
-		verifyIllegalArgumentException(immo, "immo");
 		immoDao.saveAndFlush(immo);
 		return immo;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T> T obtenirImmobilisation(Class<T> entityClass, Long immoId)
+	public <T> T obtenirImmobilisation(@NonNull Class<T> entityClass, @NonNull Long immoId)
 			throws GlobalErpServiceException, ClassCastException, IllegalArgumentException {
-		verifyIllegalArgumentException(immoId, "immoId");
 		Immobilisation i = immoDao.findOne(immoId);
 		verifyObjectNoFindException(i, entityClass, immoId);
 		return (T) i;
@@ -188,9 +178,8 @@ public class PartenaireService implements IPartenaireService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T> T obtenirImmobilisation(Class<T> entityClass, String codeImmo)
+	public <T> T obtenirImmobilisation(@NonNull Class<T> entityClass, @NonNull String codeImmo)
 			throws GlobalErpServiceException, ClassCastException, IllegalArgumentException {
-		verifyIllegalArgumentException(codeImmo, "codeImmo");
 		List<Immobilisation> immos = immoDao.findByCodeImmo(codeImmo, new PageRequest(0, 1)).getContent();
 		Immobilisation i = (immos.isEmpty()) ? null : immos.get(0);
 		verifyObjectNoFindException(i, entityClass, codeImmo);
@@ -198,90 +187,87 @@ public class PartenaireService implements IPartenaireService {
 	}
 
 	@Override
-	public Page<Immobilisation> listerImmobilsation(Pageable p)
+	public Page<Immobilisation> listerImmobilsation(@NonNull Pageable p)
 			throws GlobalErpServiceException, IllegalArgumentException {
 		return immoDao.findAll(p);
 	}
 
 	@Override
-	public PartenaireImmobilisation ajouterPartenaireImmobilisation(PartenaireImmobilisation pimmo)
+	public PartenaireImmobilisation ajouterPartenaireImmobilisation(@NonNull PartenaireImmobilisation pimmo)
 			throws GlobalErpServiceException, IllegalArgumentException {
-		verifyIllegalArgumentException(pimmo, "partenaireImmobilisation");
 		pimmoDao.save(pimmo);
 		return pimmo;
 	}
 
 	@Override
-	public PartenaireImmobilisation modifierPartenaireImmobilisation(PartenaireImmobilisation pimmo)
+	public PartenaireImmobilisation modifierPartenaireImmobilisation(@NonNull PartenaireImmobilisation pimmo)
 			throws GlobalErpServiceException, IllegalArgumentException {
-		verifyIllegalArgumentException(pimmo, "partenaireImmobilisation");
 		pimmoDao.saveAndFlush(pimmo);
 		return pimmo;
 	}
 
 	@Override
-	public PartenaireImmobilisation obtenirPartenaireImmobilisation(Long pimmoId)
+	public PartenaireImmobilisation obtenirPartenaireImmobilisation(@NonNull Long pimmoId)
 			throws GlobalErpServiceException, IllegalArgumentException {
-		verifyIllegalArgumentException(pimmoId, "pimmoId");
 		PartenaireImmobilisation p = pimmoDao.findOne(pimmoId);
 		verifyObjectNoFindException(p, PartenaireImmobilisation.class, pimmoId);
 		return p;
 	}
 
 	@Override
-	public void supprimerPartenaireImmobilisation(Long pimmoId)
+	public void supprimerPartenaireImmobilisation(@NonNull Long pimmoId)
 			throws GlobalErpServiceException, IllegalArgumentException {
 		pimmoDao.delete(obtenirPartenaireImmobilisation(pimmoId));
 	}
 
 	@Override
-	public void supprimerPartenaire(String codePartenaire)
+	public void supprimerPartenaire(@NonNull String codePartenaire)
 			throws GlobalErpServiceException, IllegalArgumentException, ClassCastException {
 		partenaireDao.delete(obtenirPartenaire(Partenaire.class, codePartenaire));
 	}
 
 	@Override
-	public void supprimerEmplois(Long emploisId) throws GlobalErpServiceException, IllegalArgumentException {
+	public void supprimerEmplois(@NonNull Long emploisId) throws GlobalErpServiceException, IllegalArgumentException {
 		emploisDao.delete(obtenirEmplois(emploisId));
 	}
 
 	@Override
-	public void supprimerEmplois(String codeEmplois) throws GlobalErpServiceException, IllegalArgumentException {
+	public void supprimerEmplois(@NonNull String codeEmplois) throws GlobalErpServiceException, IllegalArgumentException {
 		emploisDao.delete(obtenirEmplois(codeEmplois));
 	}
 
 	@Override
-	public void supprimerImmobilisation(Long immoId)
+	public void supprimerImmobilisation(@NonNull Long immoId)
 			throws GlobalErpServiceException, ClassCastException, IllegalArgumentException {
 		immoDao.delete(obtenirImmobilisation(Immobilisation.class, immoId));
 	}
 
 	@Override
-	public void supprimerImmobilisation(String codeImmo)
+	public void supprimerImmobilisation(@NonNull String codeImmo)
 			throws GlobalErpServiceException, ClassCastException, IllegalArgumentException {
 		immoDao.delete(obtenirImmobilisation(Immobilisation.class, codeImmo));
 	}
 
 	@Override
-	public GroupePartenaire ajouterGroupePartenaire(GroupePartenaire groupePartenaire) {
+	public GroupePartenaire ajouterGroupePartenaire(@NonNull GroupePartenaire groupePartenaire) {
 		groupePartenaireDao.save(groupePartenaire);
 		return groupePartenaire;
 	}
 
 	@Override
-	public GroupePartenaire modifierGroupePartenaire(GroupePartenaire groupePartenaire) {
+	public GroupePartenaire modifierGroupePartenaire(@NonNull GroupePartenaire groupePartenaire) {
 		groupePartenaireDao.saveAndFlush(groupePartenaire);
 		return groupePartenaire;
 	}
 
 	@Override
-	public GroupePartenaire obtenirGroupePartenaire(Long groupePartenaireId) {
+	public GroupePartenaire obtenirGroupePartenaire(@NonNull Long groupePartenaireId) {
 		GroupePartenaire g = groupePartenaireDao.findOne(groupePartenaireId);
 		return g;
 	}
 
 	@Override
-	public void supprimerGroupePartenaire(Long groupePartenaireId) {
+	public void supprimerGroupePartenaire(@NonNull Long groupePartenaireId) {
 		groupePartenaireDao.delete(obtenirGroupePartenaire(groupePartenaireId));
 	}
 }

@@ -1,7 +1,6 @@
 package com.camlait.global.erp.service.document;
 
 import static com.camlait.global.erp.domain.config.GlobalAppConstants.produitIndiponibleMessage;
-import static com.camlait.global.erp.domain.config.GlobalAppConstants.verifyIllegalArgumentException;
 import static com.camlait.global.erp.domain.config.GlobalAppConstants.verifyObjectNoFindException;
 
 import java.util.Collection;
@@ -34,6 +33,8 @@ import com.camlait.global.erp.service.partenaire.IPartenaireService;
 import com.camlait.global.erp.service.produit.IProduitService;
 import com.camlait.global.erp.service.util.IUtilService;
 
+import lombok.NonNull;
+
 @Transactional
 public class DocumentService implements IDocumentService {
 
@@ -56,8 +57,7 @@ public class DocumentService implements IDocumentService {
 	private IProduitService produitService;
 
 	@Override
-	public Document ajouterDocument(Document document) {
-		verifyIllegalArgumentException(document, "document");
+	public Document ajouterDocument(@NonNull Document document) {
 		document.setCodeDocument(utilService.genererCode(document));
 		documentDao.save(document);
 		ajouterLigneDocument(document.getLigneDocuments());
@@ -65,8 +65,7 @@ public class DocumentService implements IDocumentService {
 	}
 
 	@Override
-	public Document modifierDocument(Document document) {
-		verifyIllegalArgumentException(document, "document");
+	public Document modifierDocument(@NonNull Document document) {
 		document.setDerniereMiseAJour(new Date());
 		documentDao.saveAndFlush(document);
 		return document;
@@ -74,8 +73,7 @@ public class DocumentService implements IDocumentService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T> T obtenirDocument(Class<T> entityClass, Long documentId) {
-		verifyIllegalArgumentException(documentId, "documentId");
+	public <T> T obtenirDocument(@NonNull Class<T> entityClass, @NonNull Long documentId) {
 		final Document d = documentDao.findOne(documentId);
 		verifyObjectNoFindException(d, entityClass, documentId);
 		Hibernate.initialize(d.getLigneDocuments());
@@ -87,8 +85,7 @@ public class DocumentService implements IDocumentService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T> T obtenirDocument(Class<T> entityClass, String codeDocument) {
-		verifyIllegalArgumentException(codeDocument, "codeDocument");
+	public <T> T obtenirDocument(@NonNull Class<T> entityClass, @NonNull String codeDocument) {
 		final List<Document> documents = documentDao.findByCodeDocument(codeDocument, new PageRequest(0, 1))
 				.getContent();
 		final Document d = (documents.isEmpty()) ? null : documents.get(0);
@@ -101,18 +98,17 @@ public class DocumentService implements IDocumentService {
 	}
 
 	@Override
-	public void supprimerDocument(Long documentId) {
+	public void supprimerDocument(@NonNull Long documentId) {
 		documentDao.delete(obtenirDocument(Document.class, documentId));
 	}
 
 	@Override
-	public Page<Document> listerDocument(Date debut, Date fin, Pageable p) {
+	public Page<Document> listerDocument(@NonNull Date debut, @NonNull Date fin, @NonNull Pageable p) {
 		return documentDao.listerDocument(debut, fin, p);
 	}
 
 	@Override
-	public LigneDeDocument ajouterLigneDocument(LigneDeDocument ligne) {
-		verifyIllegalArgumentException(ligne, "ligne");
+	public LigneDeDocument ajouterLigneDocument(@NonNull LigneDeDocument ligne) {
 		if (!Utility.isDisponible(ligne)) {
 			throw new GlobalErpServiceException(produitIndiponibleMessage(ligne));
 		}
@@ -122,8 +118,7 @@ public class DocumentService implements IDocumentService {
 	}
 
 	@Override
-	public Collection<LigneDeDocument> ajouterLigneDocument(Collection<LigneDeDocument> lignes) {
-		verifyIllegalArgumentException(lignes, "lignes");
+	public Collection<LigneDeDocument> ajouterLigneDocument(@NonNull Collection<LigneDeDocument> lignes) {
 		lignes.stream().forEach(l -> {
 			ajouterLigneDocument(l);
 		});
@@ -132,16 +127,14 @@ public class DocumentService implements IDocumentService {
 	}
 
 	@Override
-	public LigneDeDocument modifierLigneDocument(LigneDeDocument ligne) {
-		verifyIllegalArgumentException(ligne, "ligne");
+	public LigneDeDocument modifierLigneDocument(@NonNull LigneDeDocument ligne) {
 		ligne.setDerniereMiseAJour(new Date());
 		ligneDeDocumentDao.saveAndFlush(ligne);
 		return ligne;
 	}
 
 	@Override
-	public LigneDeDocument obtenirLigneDocument(Long ligneId) {
-		verifyIllegalArgumentException(ligneId, "ligneId");
+	public LigneDeDocument obtenirLigneDocument(@NonNull Long ligneId) {
 		LigneDeDocument ld = ligneDeDocumentDao.findOne(ligneId);
 		verifyObjectNoFindException(ld, LigneDeDocument.class, ligneId);
 		Hibernate.initialize(ld.getLigneDeDocumentTaxes());
@@ -149,40 +142,37 @@ public class DocumentService implements IDocumentService {
 	}
 
 	@Override
-	public void supprimerLigneDocument(Long ligneId) {
+	public void supprimerLigneDocument(@NonNull Long ligneId) {
 		ligneDeDocumentDao.delete(obtenirLigneDocument(ligneId));
 	}
 
 	@Override
-	public void supprimerLigneDocument(Document document) {
+	public void supprimerLigneDocument(@NonNull Document document) {
 		ligneDeDocumentDao.delete(document.getLigneDocuments());
 	}
 
 	@Override
-	public LigneDeDocumentTaxe ajouterLigneDeDocumentTaxe(LigneDeDocumentTaxe ligneDeDocumentTaxe) {
-		verifyIllegalArgumentException(ligneDeDocumentTaxe, "ligneDeDocumentTaxe");
+	public LigneDeDocumentTaxe ajouterLigneDeDocumentTaxe(@NonNull LigneDeDocumentTaxe ligneDeDocumentTaxe) {
 		ligneDeDocumentTaxeDao.save(ligneDeDocumentTaxe);
 		return ligneDeDocumentTaxe;
 	}
 
 	@Override
-	public LigneDeDocumentTaxe modifierLigneDeDocumentTaxe(LigneDeDocumentTaxe ligneDeDocumentTaxe) {
-		verifyIllegalArgumentException(ligneDeDocumentTaxe, "ligneDeDocumentTaxe");
+	public LigneDeDocumentTaxe modifierLigneDeDocumentTaxe(@NonNull LigneDeDocumentTaxe ligneDeDocumentTaxe) {
 		ligneDeDocumentTaxe.setDerniereMiseAJour(new Date());
 		ligneDeDocumentTaxeDao.saveAndFlush(ligneDeDocumentTaxe);
 		return ligneDeDocumentTaxe;
 	}
 
 	@Override
-	public LigneDeDocumentTaxe obtenirLigneDeDocumentTaxe(Long ligneDeDocumentTaxeId) {
-		verifyIllegalArgumentException(ligneDeDocumentTaxeId, "ligneDeDocumentTaxeId");
+	public LigneDeDocumentTaxe obtenirLigneDeDocumentTaxe(@NonNull Long ligneDeDocumentTaxeId) {
 		LigneDeDocumentTaxe l = ligneDeDocumentTaxeDao.findOne(ligneDeDocumentTaxeId);
 		verifyObjectNoFindException(l, LigneDeDocumentTaxe.class, ligneDeDocumentTaxeId);
 		return l;
 	}
 
 	@Override
-	public void spprimerLigneDeDocumentTaxe(Long ligneDeDocumentTaxeId) {
+	public void spprimerLigneDeDocumentTaxe(@NonNull Long ligneDeDocumentTaxeId) {
 		ligneDeDocumentTaxeDao.delete(obtenirLigneDeDocumentTaxe(ligneDeDocumentTaxeId));
 	}
 
@@ -191,8 +181,7 @@ public class DocumentService implements IDocumentService {
 	 * 
 	 * @param ligneDeDocument
 	 */
-	private void ajouterLigneDeDocumentTaxe(LigneDeDocument ligneDeDocument) {
-		verifyIllegalArgumentException(ligneDeDocument, "ligneDeDocument");
+	private void ajouterLigneDeDocumentTaxe(@NonNull LigneDeDocument ligneDeDocument) {
 		ligneDeDocument.getProduit().getProduitTaxes().parallelStream().forEach(pt -> {
 			LigneDeDocumentTaxe l = new LigneDeDocumentTaxe();
 			l.setLigneDeDocument(ligneDeDocument);
@@ -207,14 +196,12 @@ public class DocumentService implements IDocumentService {
 	 * 
 	 * @param lignes
 	 */
-	private void ajouterLigneDeDocumentTaxe(Collection<LigneDeDocument> lignes) {
-		verifyIllegalArgumentException(lignes, "lignes");
+	private void ajouterLigneDeDocumentTaxe(@NonNull Collection<LigneDeDocument> lignes) {
 		lignes.parallelStream().forEach(ligne -> ajouterLigneDeDocumentTaxe(ligne));
 	}
 
 	@Override
-	public double chiffreAffaireHorsTaxe(Document document) {
-		verifyIllegalArgumentException(document, "document");
+	public double chiffreAffaireHorsTaxe(@NonNull Document document) {
 		final Compute caht = new Compute();
 		document.getLigneDocuments().stream().forEach(l -> {
 			caht.cummuler(l.getPrixunitaiteLigne() * l.getQuantiteLigne());
@@ -223,8 +210,7 @@ public class DocumentService implements IDocumentService {
 	}
 
 	@Override
-	public double valeurTotaleTaxe(Document document) {
-		verifyIllegalArgumentException(document, "document");
+	public double valeurTotaleTaxe(@NonNull Document document) {
 		final Compute taxe = new Compute();
 		document.getLigneDocuments().stream().forEach(l -> {
 			l.getLigneDeDocumentTaxes().stream().forEach(ldt -> {
@@ -235,13 +221,12 @@ public class DocumentService implements IDocumentService {
 	}
 
 	@Override
-	public double chiffreAffaireTTC(Document document) {
+	public double chiffreAffaireTTC(@NonNull Document document) {
 		return chiffreAffaireHorsTaxe(document) + valeurTotaleTaxe(document);
 	}
 
 	@Override
-	public double valeurTaxe(Taxe taxe, Document document) {
-		verifyIllegalArgumentException(document, "document");
+	public double valeurTaxe(@NonNull Taxe taxe, @NonNull Document document) {
 		final Compute valeur = new Compute();
 		document.getLigneDocuments().stream().forEach(ld -> {
 			ld.getLigneDeDocumentTaxes().stream().filter(ldt -> ldt.getTaxe().getTaxeId() == taxe.getTaxeId())
@@ -253,8 +238,7 @@ public class DocumentService implements IDocumentService {
 	}
 
 	@Override
-	public double valeurMarge(Document document) {
-		verifyIllegalArgumentException(document, "document");
+	public double valeurMarge(@NonNull Document document) {
 		final Compute marge = new Compute();
 		document.getLigneDocuments().stream().forEach(l -> {
 			marge.cummuler(l.getProduit().getPrixUnitaireMarge() * l.getQuantiteLigne());
@@ -263,7 +247,7 @@ public class DocumentService implements IDocumentService {
 	}
 
 	@Override
-	public double obtenirPrixUnitaire(Long partenaireId, Long produitId) {
+	public double obtenirPrixUnitaire(@NonNull Long partenaireId, @NonNull Long produitId) {
 		Client c = partenaireService.obtenirPartenaire(Client.class, partenaireId);
 		Produit p = produitService.obtenirProduit(produitId);
 		if (p != null) {
@@ -275,7 +259,7 @@ public class DocumentService implements IDocumentService {
 	}
 
 	@Override
-	public double obtenirPrixUnitaireMarge(Long partenaireId, Long produitId) {
+	public double obtenirPrixUnitaireMarge(@NonNull Long partenaireId, @NonNull Long produitId) {
 		Client c = partenaireService.obtenirPartenaire(Client.class, partenaireId);
 		Produit p = produitService.obtenirProduit(produitId);
 		if (p != null) {

@@ -99,6 +99,6 @@ public interface IAuthentificationService {
 	Collection<Ressource> listerRessource(String codeUtilisateur);
 
 	String genererMenu(String codeUtilisateur);
-	
+
 	Map<String, Object> menuItem();
 }

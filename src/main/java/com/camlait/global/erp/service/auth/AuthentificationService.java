@@ -1,6 +1,5 @@
 package com.camlait.global.erp.service.auth;
 
-import static com.camlait.global.erp.domain.config.GlobalAppConstants.verifyIllegalArgumentException;
 import static com.camlait.global.erp.domain.config.GlobalAppConstants.verifyObjectNoFindException;
 
 import java.util.Collection;
@@ -33,6 +32,8 @@ import com.camlait.global.erp.domain.exception.GlobalErpServiceException;
 import com.camlait.global.erp.domain.model.json.auth.LangueModel;
 import com.camlait.global.erp.domain.util.Utility;
 
+import lombok.NonNull;
+
 @Transactional
 public class AuthentificationService implements IAuthentificationService {
 
@@ -58,68 +59,61 @@ public class AuthentificationService implements IAuthentificationService {
 	private RessourceUtilisateurDao ruDao;
 
 	@Override
-	public Utilisateur ajouterUtilisateur(Utilisateur utilisateur) {
-		verifyIllegalArgumentException(utilisateur, "utilisateur");
+	public Utilisateur ajouterUtilisateur(@NonNull Utilisateur utilisateur) {
 		utilisateurDao.save(utilisateur);
 		return utilisateur;
 	}
 
 	@Override
-	public Utilisateur modifierUtilisateur(Utilisateur utilisateur) {
-		verifyIllegalArgumentException(utilisateur, "utilisateur");
+	public Utilisateur modifierUtilisateur(@NonNull Utilisateur utilisateur) {
 		utilisateur.setDerniereMiseAJour(new Date());
 		utilisateurDao.saveAndFlush(utilisateur);
 		return utilisateur;
 	}
 
 	@Override
-	public Utilisateur obtenirUtilisateur(String codeUtilisateur) {
-		verifyIllegalArgumentException(codeUtilisateur, "codeUtilisateur");
+	public Utilisateur obtenirUtilisateur(@NonNull String codeUtilisateur) {
 		final Utilisateur u = utilisateurDao.findOne(codeUtilisateur);
 		verifyObjectNoFindException(u, Utilisateur.class, codeUtilisateur);
 		Hibernate.initialize(u.getEmployes());
 		Hibernate.initialize(u.getRessourceUtilisateurs());
-		// Hibernate.initialize(u.getGroupeUtilisateurs());
 		return u;
 	}
 
 	@Override
-	public Page<Utilisateur> obtenirUtilisateurParCourriel(String courriel, Pageable p) {
+	public Page<Utilisateur> obtenirUtilisateurParCourriel(@NonNull String courriel, @NonNull Pageable p) {
 		return utilisateurDao.findUtilisateurByCourriel(courriel, p);
 	}
 
 	@Override
-	public Page<Utilisateur> listerUtilisateur(String motCle, Pageable p) {
+	public Page<Utilisateur> listerUtilisateur(@NonNull String motCle, @NonNull Pageable p) {
 		return utilisateurDao.listerUtilisateur(motCle, p);
 	}
 
 	@Override
-	public Page<Utilisateur> listerUtilisateur(Pageable p) {
+	public Page<Utilisateur> listerUtilisateur(@NonNull Pageable p) {
 		return utilisateurDao.findAll(p);
 	}
 
 	@Override
-	public void supprimerUtilisateur(String codeUtilisateur) {
+	public void supprimerUtilisateur(@NonNull String codeUtilisateur) {
 		utilisateurDao.delete(obtenirUtilisateur(codeUtilisateur));
 	}
 
 	@Override
-	public Ressource ajouterRessource(Ressource ressource) throws GlobalErpServiceException, IllegalArgumentException {
-		verifyIllegalArgumentException(ressource, "ressource");
+	public Ressource ajouterRessource(@NonNull Ressource ressource) throws GlobalErpServiceException, IllegalArgumentException {
 		ressourceDao.save(ressource);
 		return ressource;
 	}
 
 	@Override
-	public Ressource modifierRessource(Ressource ressource) throws GlobalErpServiceException, IllegalArgumentException {
-		verifyIllegalArgumentException(ressource, "ressource");
+	public Ressource modifierRessource(@NonNull Ressource ressource) throws GlobalErpServiceException, IllegalArgumentException {
 		ressourceDao.saveAndFlush(ressource);
 		return ressource;
 	}
 
 	@Override
-	public Ressource obtenirRessource(Long ressourceId) throws GlobalErpServiceException, IllegalArgumentException {
-		verifyIllegalArgumentException(ressourceId, "ressourceId");
+	public Ressource obtenirRessource(@NonNull Long ressourceId) throws GlobalErpServiceException, IllegalArgumentException {
 		final Ressource r = ressourceDao.findOne(ressourceId);
 		verifyObjectNoFindException(r, Ressource.class, ressourceId);
 		Hibernate.initialize(r.getItems());
@@ -128,57 +122,53 @@ public class AuthentificationService implements IAuthentificationService {
 	}
 
 	@Override
-	public void supprimerRessource(Long ressourceId) throws GlobalErpServiceException, IllegalArgumentException {
-		verifyIllegalArgumentException(ressourceId, "ressourceId");
+	public void supprimerRessource(@NonNull Long ressourceId) throws GlobalErpServiceException, IllegalArgumentException {
 		ressourceDao.delete(obtenirRessource(ressourceId));
 	}
 
 	@Override
-	public RessourceUtilisateur ajouterRessourceUtilisateur(RessourceUtilisateur ressourceUtilisateur)
+	public RessourceUtilisateur ajouterRessourceUtilisateur(@NonNull RessourceUtilisateur ressourceUtilisateur)
 			throws GlobalErpServiceException, IllegalArgumentException {
-		verifyIllegalArgumentException(ressourceUtilisateur, "ressourceUtilisateur");
+
 		ressourceUtilisateurDao.save(ressourceUtilisateur);
 		return ressourceUtilisateur;
 	}
 
 	@Override
-	public RessourceUtilisateur modifierRessourceUtilisateur(RessourceUtilisateur ressourceUtilisateur)
+	public RessourceUtilisateur modifierRessourceUtilisateur(@NonNull RessourceUtilisateur ressourceUtilisateur)
 			throws GlobalErpServiceException, IllegalArgumentException {
-		verifyIllegalArgumentException(ressourceUtilisateur, "ressourceUtilisateur");
 		ressourceUtilisateurDao.saveAndFlush(ressourceUtilisateur);
 		return ressourceUtilisateur;
 	}
 
 	@Override
-	public RessourceUtilisateur obtenirRessourceUtilisateur(Long ressourceUtilisateurId)
+	public RessourceUtilisateur obtenirRessourceUtilisateur(@NonNull Long ressourceUtilisateurId)
 			throws GlobalErpServiceException, IllegalArgumentException {
-		verifyIllegalArgumentException(ressourceUtilisateurId, "ressourceUtilisateurId");
 		RessourceUtilisateur ru = ressourceUtilisateurDao.findOne(ressourceUtilisateurId);
 		verifyObjectNoFindException(ru, RessourceUtilisateur.class, ressourceUtilisateurId);
 		return ru;
 	}
 
 	@Override
-	public void supprimerRessourceUtilisateur(Long ressourceUtilisateurId)
+	public void supprimerRessourceUtilisateur(@NonNull Long ressourceUtilisateurId)
 			throws GlobalErpServiceException, IllegalArgumentException {
-		verifyIllegalArgumentException(ressourceUtilisateurId, "ressourceUtilisateurId");
 		ressourceUtilisateurDao.delete(obtenirRessourceUtilisateur(ressourceUtilisateurId));
 	}
 
 	@Override
-	public Langue ajouterLangue(Langue langue) throws GlobalErpServiceException, IllegalArgumentException {
+	public Langue ajouterLangue(@NonNull Langue langue) throws GlobalErpServiceException, IllegalArgumentException {
 		langueDao.save(langue);
 		return langue;
 	}
 
 	@Override
-	public Langue modifierLangue(Langue langue) throws GlobalErpServiceException, IllegalArgumentException {
+	public Langue modifierLangue(@NonNull Langue langue) throws GlobalErpServiceException, IllegalArgumentException {
 		langueDao.saveAndFlush(langue);
 		return langue;
 	}
 
 	@Override
-	public Langue obtenirLangue(Long langueId) throws GlobalErpServiceException, IllegalArgumentException {
+	public Langue obtenirLangue(@NonNull Long langueId) throws GlobalErpServiceException, IllegalArgumentException {
 		Langue l = langueDao.findOne(langueId);
 		if (l != null) {
 			Hibernate.initialize(l.getTermeLangues());
@@ -187,12 +177,12 @@ public class AuthentificationService implements IAuthentificationService {
 	}
 
 	@Override
-	public Langue obtenirLangue(String codeLangue) throws GlobalErpServiceException, IllegalArgumentException {
+	public Langue obtenirLangue( @NonNull String codeLangue) throws GlobalErpServiceException, IllegalArgumentException {
 		return langueDao.findByCodeLangue(codeLangue);
 	}
 
 	@Override
-	public void supprimerLangue(Long langueId) throws GlobalErpServiceException, IllegalArgumentException {
+	public void supprimerLangue(@NonNull Long langueId) throws GlobalErpServiceException, IllegalArgumentException {
 		langueDao.delete(obtenirLangue(langueId));
 	}
 
@@ -206,61 +196,61 @@ public class AuthentificationService implements IAuthentificationService {
 	}
 
 	@Override
-	public Terme ajouterTerme(Terme terme) {
+	public Terme ajouterTerme(@NonNull Terme terme) {
 		termeDao.save(terme);
 		return terme;
 	}
 
 	@Override
-	public Terme modifierTerme(Terme terme) {
+	public Terme modifierTerme(@NonNull Terme terme) {
 		termeDao.saveAndFlush(terme);
 		return terme;
 	}
 
 	@Override
-	public Terme obtenirTerme(Long termeId) {
+	public Terme obtenirTerme(@NonNull Long termeId) {
 		return termeDao.findOne(termeId);
 	}
 
 	@Override
-	public Terme obtenirTerme(String descriptionTerme) {
+	public Terme obtenirTerme(@NonNull String descriptionTerme) {
 		return termeDao.findByDescriptionTerme(descriptionTerme);
 	}
 
 	@Override
-	public void supprimerTerme(Long termeId) {
+	public void supprimerTerme(@NonNull Long termeId) {
 		termeDao.delete(obtenirTerme(termeId));
 	}
 
 	@Override
-	public Page<Terme> listerTerme(Pageable p) {
+	public Page<Terme> listerTerme(@NonNull Pageable p) {
 		return termeDao.findAll(p);
 	}
 
 	@Override
-	public TermeLangue ajouterTermeLangue(TermeLangue termeLangue) {
+	public TermeLangue ajouterTermeLangue(@NonNull TermeLangue termeLangue) {
 		termeLangueDao.save(termeLangue);
 		return termeLangue;
 	}
 
 	@Override
-	public TermeLangue modifierTermeLangue(TermeLangue termeLangue) {
+	public TermeLangue modifierTermeLangue(@NonNull TermeLangue termeLangue) {
 		termeLangueDao.saveAndFlush(termeLangue);
 		return termeLangue;
 	}
 
 	@Override
-	public TermeLangue obtenirTermeLangue(Long termeLangueId) {
+	public TermeLangue obtenirTermeLangue(@NonNull Long termeLangueId) {
 		return termeLangueDao.findOne(termeLangueId);
 	}
 
 	@Override
-	public void supprimerTermeLangue(Long termeLangueId) {
+	public void supprimerTermeLangue(@NonNull Long termeLangueId) {
 		termeLangueDao.delete(obtenirTermeLangue(termeLangueId));
 	}
 
 	@Override
-	public Map<String, String> listerTerme(Long langueId) {
+	public Map<String, String> listerTerme(@NonNull Long langueId) {
 		Map<String, String> termes = new HashMap<>();
 		obtenirLangue(langueId).getTermeLangues().stream().forEach(tl -> {
 			termes.put(tl.getTerme().getDescriptionTerme(), tl.getValue());
@@ -269,16 +259,15 @@ public class AuthentificationService implements IAuthentificationService {
 	}
 
 	@Override
-	public Map<String, String> listerTerme(String codeLangue) {
+	public Map<String, String> listerTerme(@NonNull String codeLangue) {
 		return listerTerme(obtenirLangue(codeLangue).getLangId());
 	}
 
 	@Override
-	public boolean termeNonCharge(String descriptionTerme, Langue l) {
+	public boolean termeNonCharge(@NonNull String descriptionTerme, @NonNull Langue l) {
 		return l.getTermeLangues().stream()
 				.filter(tl -> tl.getTerme().getDescriptionTerme().equalsIgnoreCase(descriptionTerme))
 				.collect(Collectors.toList()).isEmpty();
-
 	}
 
 	private String genererMenu(String resultat, Ressource ressource) {
@@ -329,7 +318,7 @@ public class AuthentificationService implements IAuthentificationService {
 
 	@Override
 	public Collection<Ressource> listerRessource() {
-		return ressourceDao.findAll();
+		return ressourceDao.listerRessource();
 	}
 
 	@Override

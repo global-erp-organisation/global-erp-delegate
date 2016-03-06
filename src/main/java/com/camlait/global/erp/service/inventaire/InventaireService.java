@@ -27,6 +27,8 @@ import com.camlait.global.erp.domain.inventaire.LigneInventaire;
 import com.camlait.global.erp.domain.inventaire.Stock;
 import com.camlait.global.erp.service.util.IUtilService;
 
+import lombok.NonNull;
+
 @Transactional
 public class InventaireService implements IInventaireService {
 
@@ -49,24 +51,21 @@ public class InventaireService implements IInventaireService {
 	private MagasinDao magasinDao;
 
 	@Override
-	public Inventaire ajouterInventaire(Inventaire inventaire) {
-		verifyIllegalArgumentException(inventaire, "inventaire");
+	public Inventaire ajouterInventaire(@NonNull Inventaire inventaire) {
 		inventaire.setCodeInventaire(utilService.genererCode(inventaire));
 		inventaireDao.save(inventaire);
 		return inventaire;
 	}
 
 	@Override
-	public Inventaire modifierInventaire(Inventaire inventaire) {
-		verifyIllegalArgumentException(inventaire, "inventaire");
+	public Inventaire modifierInventaire(@NonNull Inventaire inventaire) {
 		inventaire.setDerniereMiseAJour(new Date());
 		inventaireDao.saveAndFlush(inventaire);
 		return inventaire;
 	}
 
 	@Override
-	public Inventaire obtenirInventaire(Long inventaireId) {
-		verifyIllegalArgumentException(inventaireId, "inventaireId");
+	public Inventaire obtenirInventaire(@NonNull Long inventaireId) {
 		final Inventaire inv = inventaireDao.findOne(inventaireId);
 		verifyObjectNoFindException(inv, Inventaire.class, inventaireId);
 		Hibernate.initialize(inv.getLigneInventaires());
@@ -74,8 +73,7 @@ public class InventaireService implements IInventaireService {
 	}
 
 	@Override
-	public Inventaire obtenirInventaire(String codeInventaire) {
-		verifyIllegalArgumentException(codeInventaire, "codeInventaire");
+	public Inventaire obtenirInventaire(@NonNull String codeInventaire) {
 		final List<Inventaire> inventaires = inventaireDao.findByCodeInventaire(codeInventaire, new PageRequest(0, 1))
 				.getContent();
 		final Inventaire inv = (inventaires.isEmpty()) ? null : inventaires.get(0);
@@ -85,82 +83,78 @@ public class InventaireService implements IInventaireService {
 	}
 
 	@Override
-	public void supprimerInventaire(Long inventaireId) {
+	public void supprimerInventaire(@NonNull Long inventaireId) {
 		inventaireDao.delete(obtenirInventaire(inventaireId));
 	}
 
 	@Override
-	public Page<Inventaire> listerInventaire(Pageable p) {
+	public Page<Inventaire> listerInventaire(@NonNull Pageable p) {
 		return inventaireDao.findAll(p);
 	}
 
 	@Override
-	public Page<Inventaire> listerInventaire(Date debut, Date fin, Pageable p) {
+	public Page<Inventaire> listerInventaire(@NonNull Date debut, @NonNull Date fin, @NonNull Pageable p) {
 		return inventaireDao.listerInventaire(debut, fin, p);
 	}
 
 	@Override
-	public Page<Inventaire> listerInventaire(Long magasinId, Pageable p) {
+	public Page<Inventaire> listerInventaire(@NonNull Long magasinId, @NonNull Pageable p) {
 		return inventaireDao.listerInventaire(magasinId, p);
 	}
 
 	@Override
-	public LigneInventaire ajouterLigneInventaire(LigneInventaire ligne) {
-		verifyIllegalArgumentException(ligne, "ligne");
+	public LigneInventaire ajouterLigneInventaire(@NonNull LigneInventaire ligne) {
 		ligneInventaireDao.save(ligne);
 		return ligne;
 	}
 
 	@Override
-	public Collection<LigneInventaire> ajouterLigneInventaire(Collection<LigneInventaire> lignes) {
-		verifyIllegalArgumentException(lignes, "lignes");
+	public Collection<LigneInventaire> ajouterLigneInventaire(@NonNull Collection<LigneInventaire> lignes) {
 		ligneInventaireDao.save(lignes);
 		return lignes;
 	}
 
 	@Override
-	public LigneInventaire modifierLigneInventaire(LigneInventaire ligne) {
-		verifyIllegalArgumentException(ligne, "ligne");
+	public LigneInventaire modifierLigneInventaire(@NonNull LigneInventaire ligne) {
 		ligne.setDerniereMiseAJour(new Date());
 		ligneInventaireDao.saveAndFlush(ligne);
 		return ligne;
 	}
 
 	@Override
-	public LigneInventaire obtenirLigneInventaire(Long ligneId) {
-		verifyIllegalArgumentException(ligneId, "ligneId");
+	public LigneInventaire obtenirLigneInventaire(@NonNull Long ligneId) {
 		LigneInventaire li = ligneInventaireDao.findOne(ligneId);
 		verifyObjectNoFindException(li, LigneInventaire.class, ligneId);
 		return li;
 	}
 
 	@Override
-	public void supprimerLigneInventaire(Long ligneId) {
+	public void supprimerLigneInventaire(@NonNull Long ligneId) {
 		ligneInventaireDao.delete(obtenirLigneInventaire(ligneId));
 	}
 
 	@Override
-	public void supprimerLigneInventaire(Inventaire inventaire) {
+	public void supprimerLigneInventaire(@NonNull Inventaire inventaire) {
 		ligneInventaireDao.delete(inventaire.getLigneInventaires());
 	}
 
 	@Override
-	public Stock obtenirStock(Long magasinId, Long produitId) {
+	public Stock obtenirStock(@NonNull Long magasinId, @NonNull Long produitId) {
 		return stockDao.obtenirStock(magasinId, produitId);
 	}
 
 	@Override
-	public Collection<Stock> listerStockParProduit(Long produitId) {
+	public Collection<Stock> listerStockParProduit(@NonNull Long produitId) {
 		return stockDao.listerStockParProduit(produitId);
 	}
 
 	@Override
-	public Collection<Stock> listerStockParMagasin(Long magasinId) {
+	public Collection<Stock> listerStockParMagasin(@NonNull Long magasinId) {
 		return stockDao.listerStockParMagasin(magasinId);
 	}
 
 	@Override
-	public Entrepot ajouterEntrepot(Entrepot entrepot) {
+	public Entrepot ajouterEntrepot(@NonNull Entrepot entrepot) {
 		Function<Object, Entite> f = (e) -> {
 			entrepotDao.save(entrepot);
 			return entrepot;
@@ -169,7 +163,7 @@ public class InventaireService implements IInventaireService {
 	}
 
 	@Override
-	public Entrepot modifierEntrepot(Entrepot entrepot) {
+	public Entrepot modifierEntrepot(@NonNull Entrepot entrepot) {
 		Function<Object, Entite> f = (e) -> {
 			entrepot.setDerniereMiseAJour(new Date());
 			entrepotDao.saveAndFlush(entrepot);
@@ -179,7 +173,7 @@ public class InventaireService implements IInventaireService {
 	}
 
 	@Override
-	public Entrepot obtenirEntrepot(Long entrepotId) {
+	public Entrepot obtenirEntrepot(@NonNull Long entrepotId) {
 		final Function<Object, Entite> f = (e) -> {
 			final Entrepot en = entrepotDao.findOne(entrepotId);
 			verifyObjectNoFindException(en, Entrepot.class, entrepotId);
@@ -190,7 +184,7 @@ public class InventaireService implements IInventaireService {
 	}
 
 	@Override
-	public Entrepot obtenirEntrepot(String codeEntrepot) {
+	public Entrepot obtenirEntrepot(@NonNull String codeEntrepot) {
 		verifyIllegalArgumentException(codeEntrepot, "codeEntrepot");
 		final List<Entrepot> entrepots = entrepotDao.findByCodeEntrepot(codeEntrepot, new PageRequest(0, 1))
 				.getContent();
@@ -206,12 +200,12 @@ public class InventaireService implements IInventaireService {
 	}
 
 	@Override
-	public void supprimerEntrepot(Long entrepotId) {
+	public void supprimerEntrepot(@NonNull Long entrepotId) {
 		entrepotDao.delete(obtenirEntrepot(entrepotId));
 	}
 
 	@Override
-	public Magasin ajouterMagasin(Magasin magasin) {
+	public Magasin ajouterMagasin(@NonNull Magasin magasin) {
 		verifyIllegalArgumentException(magasin, "magasin");
 		// magasin.setCodeMagasin(utilService.genererCode(magasin));
 		magasinDao.save(magasin);
@@ -219,7 +213,7 @@ public class InventaireService implements IInventaireService {
 	}
 
 	@Override
-	public Magasin modifierMagasin(Magasin magasin) {
+	public Magasin modifierMagasin(@NonNull Magasin magasin) {
 		verifyIllegalArgumentException(magasin, "magasin");
 		magasin.setDerniereMiseAJour(new Date());
 		magasinDao.saveAndFlush(magasin);
@@ -228,7 +222,7 @@ public class InventaireService implements IInventaireService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T> T obtenirMagasin(Class<T> entityClass, Long magasinId) {
+	public <T> T obtenirMagasin(@NonNull Class<T> entityClass, @NonNull Long magasinId) {
 		verifyIllegalArgumentException(magasinId, "magasinId");
 		final Magasin m = magasinDao.findOne(magasinId);
 		verifyObjectNoFindException(m, entityClass, magasinId);
@@ -239,7 +233,7 @@ public class InventaireService implements IInventaireService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T> T obtenirMagasin(Class<T> entityClass, String codeMagasin) {
+	public <T> T obtenirMagasin(@NonNull Class<T> entityClass, @NonNull String codeMagasin) {
 		verifyIllegalArgumentException(codeMagasin, "codeMagasin");
 		final List<Magasin> magasins = magasinDao.findByCodeMagasin(codeMagasin, new PageRequest(0, 1)).getContent();
 		final Magasin m = (magasins.isEmpty()) ? null : magasins.get(0);
@@ -250,17 +244,17 @@ public class InventaireService implements IInventaireService {
 	}
 
 	@Override
-	public Collection<Magasin> listerMagasin(Entrepot entrepot) {
+	public Collection<Magasin> listerMagasin(@NonNull Entrepot entrepot) {
 		return magasinDao.listerMagasin(entrepot.getEntrepotId());
 	}
 
 	@Override
-	public Collection<Magasin> listerMagasin(String motCle) {
+	public Collection<Magasin> listerMagasin(@NonNull String motCle) {
 		return magasinDao.listerMagasin(motCle);
 	}
 
 	@Override
-	public void supprimerMagasin(Long magasinId) {
+	public void supprimerMagasin(@NonNull Long magasinId) {
 		magasinDao.delete(obtenirMagasin(Magasin.class, magasinId));
 	}
 }

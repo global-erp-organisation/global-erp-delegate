@@ -1,6 +1,5 @@
 package com.camlait.global.erp.service.organisation;
 
-import static com.camlait.global.erp.domain.config.GlobalAppConstants.verifyIllegalArgumentException;
 import static com.camlait.global.erp.domain.config.GlobalAppConstants.verifyObjectNoFindException;
 
 import java.util.Collection;
@@ -21,6 +20,8 @@ import com.camlait.global.erp.domain.organisation.Localisation;
 import com.camlait.global.erp.domain.organisation.Region;
 import com.camlait.global.erp.domain.organisation.Secteur;
 import com.camlait.global.erp.domain.organisation.Zone;
+
+import lombok.NonNull;
 
 public class LocalisationService implements ILocalisationService {
 
@@ -43,16 +44,14 @@ public class LocalisationService implements ILocalisationService {
 	//private IUtilService utilService;
 
 	@Override
-	public Localisation ajouterLocalisation(Localisation local) {
-		verifyIllegalArgumentException(local, "local");
+	public Localisation ajouterLocalisation(@NonNull Localisation local) {
 		//local.setCode(utilService.genererCode(local));
 		localisationDao.save(local);
 		return local;
 	}
 
 	@Override
-	public Localisation modifierLocalisation(Localisation local) {
-		verifyIllegalArgumentException(local, "local");
+	public Localisation modifierLocalisation(@NonNull Localisation local) {
 		local.setDerniereMiseAJour(new Date());
 		localisationDao.saveAndFlush(local);
 		return local;
@@ -61,8 +60,7 @@ public class LocalisationService implements ILocalisationService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T> T obtenirLocalisation(Class<T> entityClass, Long localId) {
-		verifyIllegalArgumentException(localId, "localId");
+	public <T> T obtenirLocalisation(@NonNull Class<T> entityClass, @NonNull Long localId) {
 		final Localisation local = localisationDao.findOne(localId);
 		verifyObjectNoFindException(local, entityClass, localId);
 		if (local instanceof Centre) {
@@ -77,8 +75,7 @@ public class LocalisationService implements ILocalisationService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T> T obtenirLocalisation(Class<T> entityClass, String codeLocalisation) {
-		verifyIllegalArgumentException(codeLocalisation, "codeLocalisation");
+	public <T> T obtenirLocalisation(@NonNull Class<T> entityClass, @NonNull String codeLocalisation) {
 		final List<Localisation> locals = localisationDao.findByCode(codeLocalisation, new PageRequest(0, 1))
 				.getContent();
 		final Localisation local = (locals.isEmpty()) ? null : locals.get(0);
@@ -99,22 +96,22 @@ public class LocalisationService implements ILocalisationService {
 	}
 
 	@Override
-	public Collection<Region> listerRegion(Centre centre) {
+	public Collection<Region> listerRegion(@NonNull Centre centre) {
 		return regionDao.listerRegion(centre.getLocalId());
 	}
 
 	@Override
-	public Collection<Secteur> listerSecteur(Region region) {
+	public Collection<Secteur> listerSecteur(@NonNull Region region) {
 		return secteurDao.listerSecteur(region.getLocalId());
 	}
 
 	@Override
-	public Collection<Zone> listerZone(Secteur secteur) {
+	public Collection<Zone> listerZone(@NonNull Secteur secteur) {
 		return zoneDao.listerZone(secteur.getLocalId());
 	}
 
 	@Override
-	public void supprimerLocalisation(Long localId) {
+	public void supprimerLocalisation(@NonNull Long localId) {
 		localisationDao.delete(obtenirLocalisation(Localisation.class, localId));
 	}
 
