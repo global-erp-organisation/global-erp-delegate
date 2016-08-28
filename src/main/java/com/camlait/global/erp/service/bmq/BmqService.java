@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -29,7 +30,6 @@ import com.camlait.global.erp.domain.document.commerciaux.Taxe;
 import com.camlait.global.erp.domain.document.commerciaux.vente.FactureClientComptant;
 import com.camlait.global.erp.domain.operation.Recouvrement;
 import com.camlait.global.erp.domain.partenaire.ClientComptant;
-import com.camlait.global.erp.domain.util.Compute;
 import com.camlait.global.erp.domain.util.Utility;
 import com.camlait.global.erp.service.document.IDocumentService;
 import com.camlait.global.erp.service.inventaire.IInventaireService;
@@ -39,42 +39,42 @@ import lombok.NonNull;
 
 @Transactional
 public class BmqService implements IBmqService {
-    
+
     @Autowired
     private BmqDao bmqDao;
-    
+
     @Autowired
     private LigneBmqDao ligneBmqDao;
-    
+
     @Autowired
     private RecouvrementDao recouvrementDao;
-    
+
     @Autowired
     private LigneBmqTaxeDao ligneBmqTaxeDao;
-    
+
     @Autowired
     private IDocumentService documentService;
-    
+
     @Autowired
     private IInventaireService inventaireService;
-    
+
     @Autowired
     private IUtilService utilService;
-    
+
     @Override
     public Bmq ajouterBmq(@NonNull Bmq bmq) {
         bmq.setCodeBmq(utilService.genererCode(bmq));
         bmqDao.save(bmq);
         return bmq;
     }
-    
+
     @Override
     public Bmq modifierBmq(@NonNull Bmq bmq) {
         bmq.setDerniereMiseAJour(new Date());
         bmqDao.saveAndFlush(bmq);
         return bmq;
     }
-    
+
     @Override
     public Bmq obtenirBmq(@NonNull Long bmqId) {
         final Bmq b = bmqDao.findOne(bmqId);
@@ -84,7 +84,7 @@ public class BmqService implements IBmqService {
         Hibernate.initialize(b.getRecouvrements());
         return b;
     }
-    
+
     @Override
     public Bmq obtenirBmq(@NonNull String codeBmq) {
         final List<Bmq> bmqs = bmqDao.findByCodeBmq(codeBmq, new PageRequest(0, 1)).getContent();
@@ -95,39 +95,39 @@ public class BmqService implements IBmqService {
         Hibernate.initialize(b.getRecouvrements());
         return b;
     }
-    
+
     @Override
     public void supprimerBmq(@NonNull Long bmqId) {
         bmqDao.delete(obtenirBmq(bmqId));
     }
-    
+
     @Override
     public Page<Bmq> listerBmq(@NonNull Pageable p) {
         return bmqDao.findAll(p);
     }
-    
+
     @Override
     public Page<Bmq> listerBmq(@NonNull Long vendeurId, @NonNull Pageable p) {
         return bmqDao.listerBmq(vendeurId, p);
     }
-    
+
     @Override
     public Page<Bmq> listerBmq(@NonNull Date debut, @NonNull Date fin, @NonNull Pageable p) {
         return bmqDao.listerBmq(debut, fin, p);
     }
-    
+
     @Override
     public Page<Bmq> listerBmq(@NonNull Long vendeurId, @NonNull Date debut, @NonNull Date fin, @NonNull Pageable p) {
         return bmqDao.listerBmq(vendeurId, debut, fin, p);
     }
-    
+
     @Override
     public Collection<LigneBmq> ajouterLigneBmq(@NonNull Collection<LigneBmq> ligneBmqs) {
         ligneBmqDao.save(ligneBmqs);
         ajouterLigneBmqTaxe(ligneBmqs);
         return ligneBmqs;
     }
-    
+
     @Override
     public LigneBmq obtenirLigneBmq(@NonNull Long ligneBmqId) {
         final LigneBmq lb = ligneBmqDao.findOne(ligneBmqId);
@@ -135,12 +135,12 @@ public class BmqService implements IBmqService {
         Hibernate.initialize(lb.getLigneBmqTaxes());
         return lb;
     }
-    
+
     @Override
     public void supprimerLigneBmq(Long ligneBmqId) {
         ligneBmqDao.delete(obtenirLigneBmq(ligneBmqId));
     }
-    
+
     @Override
     public Bmq genererBmq(Long bmqId, Collection<Document> documents, Collection<Recouvrement> recouvrements) {
         final Bmq bmq = obtenirBmq(bmqId);
@@ -149,62 +149,62 @@ public class BmqService implements IBmqService {
         bmq.setDocuments(documents);
         return bmq;
     }
-    
+
     @Override
     public Recouvrement ajouterRecouvrement(@NonNull Recouvrement recouvrement) {
         recouvrementDao.save(recouvrement);
         return recouvrement;
     }
-    
+
     @Override
     public Recouvrement modifierRecouvrement(@NonNull Recouvrement recouvrement) {
         recouvrement.setDerniereMiseAJour(new Date());
         recouvrementDao.saveAndFlush(recouvrement);
         return recouvrement;
     }
-    
+
     @Override
     public Recouvrement obtenirRecouvrement(@NonNull Long recouvrementId) {
         final Recouvrement r = recouvrementDao.findOne(recouvrementId);
         verifyObjectNoFindException(r, Recouvrement.class, recouvrementId);
         return r;
     }
-    
+
     @Override
     public void supprimerRecouvrement(@NonNull Long recouvrementId) {
         recouvrementDao.delete(obtenirRecouvrement(recouvrementId));
     }
-    
+
     @Override
-    public void supprimerLigneBmq( @NonNull Bmq bmq) {
+    public void supprimerLigneBmq(@NonNull Bmq bmq) {
         ligneBmqDao.delete(bmq.getLigneBmqs());
     }
-    
+
     @Override
     public LigneBmqTaxe ajouterLigneBmqTaxe(@NonNull LigneBmqTaxe ligneBmqTaxe) {
         ligneBmqTaxeDao.save(ligneBmqTaxe);
         return ligneBmqTaxe;
     }
-    
+
     @Override
     public LigneBmqTaxe modifierLigneBmqTaxe(@NonNull LigneBmqTaxe ligneBmqTaxe) {
         ligneBmqTaxe.setDerniereMiseAJour(new Date());
         ligneBmqTaxeDao.saveAndFlush(ligneBmqTaxe);
         return ligneBmqTaxe;
     }
-    
+
     @Override
     public LigneBmqTaxe trouverLigneBmqTaxe(@NonNull Long ligneBmqTaxeId) {
         final LigneBmqTaxe l = ligneBmqTaxeDao.findOne(ligneBmqTaxeId);
         verifyObjectNoFindException(l, LigneBmqTaxe.class, ligneBmqTaxeId);
         return l;
     }
-    
+
     @Override
     public void supprimerLigneBmqTaxe(@NonNull Long ligneBmqTaxeId) {
         ligneBmqTaxeDao.delete(trouverLigneBmqTaxe(ligneBmqTaxeId));
     }
-    
+
     /**
      * Genere les ligne du bmq à partir des documents associés.
      * 
@@ -229,7 +229,7 @@ public class BmqService implements IBmqService {
         });
         return lignes;
     }
-    
+
     /**
      * Genere la liste de taxe associee a chaque ligne de bmq
      * 
@@ -249,7 +249,7 @@ public class BmqService implements IBmqService {
         });
         return ligneBmqTaxes;
     }
-    
+
     /**
      * Extraire la liste des taxe associe a un bmq
      * 
@@ -271,7 +271,7 @@ public class BmqService implements IBmqService {
         });
         return ligneDeDocumentTaxes;
     }
-    
+
     /**
      * Ajouter de maniere groupe une collection de taxe a une ligne de bmq.
      * 
@@ -282,73 +282,58 @@ public class BmqService implements IBmqService {
             ajouterLigneBmqTaxe(l);
         });
     }
-    
+
     @Override
     public double chiffreAffaireHorsTaxe(@NonNull Bmq bmq) {
-        final Compute caHTBmq = new Compute();
-        bmq.getDocuments().stream().filter(d -> Utility.isFactureClient(d)).forEach(d -> {
-            caHTBmq.cummuler(documentService.chiffreAffaireHorsTaxe(d));
-        });
-        return caHTBmq.getValue();
+        return bmq.getDocuments().stream().filter(d -> Utility.isFactureClient(d)).map(d -> {
+            return documentService.chiffreAffaireHorsTaxe(d);
+        }).mapToDouble(Double::doubleValue).sum();
     }
-    
+
     @Override
     public double chiffreAffaireTTC(@NonNull Bmq bmq) {
         return chiffreAffaireHorsTaxe(bmq) + valeurTotaleTaxe(bmq);
     }
-    
+
     @Override
     public double valeurTotaleTaxe(@NonNull Bmq bmq) {
-        final Compute taxeBmq = new Compute();
-        bmq.getDocuments().stream().filter(d -> Utility.isFactureClient(d)).forEach(d -> {
-            taxeBmq.cummuler(documentService.valeurTotaleTaxe(d));
-        });
-        return taxeBmq.getValue();
+        return bmq.getDocuments().stream().filter(d -> Utility.isFactureClient(d)).map(d -> {
+            return documentService.valeurTotaleTaxe(d);
+        }).mapToDouble(Double::doubleValue).sum();
     }
-    
+
     @Override
     public double valeurTaxe(@NonNull Taxe taxe, @NonNull Bmq bmq) {
-        final Compute valeur = new Compute();
-        bmq.getDocuments().stream().filter(d -> Utility.isFactureClient(d)).forEach(d -> {
-            valeur.cummuler(documentService.valeurTaxe(taxe, d));
-        });
-        return valeur.getValue();
+        return bmq.getDocuments().stream().filter(d -> Utility.isFactureClient(d)).map(d -> {
+            return documentService.valeurTaxe(taxe, d);
+        }).mapToDouble(Double::doubleValue).sum();
     }
-    
+
     @Override
     public double venteComptant(@NonNull Bmq bmq) {
-        final Compute ca = new Compute();
-        bmq.getDocuments().stream().filter(d -> Utility.isFactureComptant(d)).forEach(d -> {
-            ca.cummuler(documentService.chiffreAffaireTTC(d));
-        });
-        return ca.getValue();
+        return bmq.getDocuments().stream().filter(d -> Utility.isFactureComptant(d)).map(d -> {
+            return documentService.chiffreAffaireTTC(d);
+        }).mapToDouble(Double::doubleValue).sum();
     }
-    
+
     @Override
     public double valeurMarge(@NonNull Bmq bmq) {
-        final Compute marge = new Compute();
-        bmq.getDocuments().stream().filter(d -> Utility.isFactureMarge(d)).forEach(d -> {
-            marge.cummuler(documentService.valeurMarge(d));
-        });
-        return marge.getValue();
+        return bmq.getDocuments().stream().filter(d -> Utility.isFactureMarge(d)).map(d -> {
+            return documentService.valeurMarge(d);
+        }).mapToDouble(Double::doubleValue).sum();
     }
-    
+
     @Override
     public void genererVenteComptant(@NonNull Bmq bmq) {
         final Document facture = creerEnteteFacture(bmq);
-        Collection<LigneDeDocument> lignes = new HashSet<>();
-        inventaireService.listerStockParMagasin(bmq.getMagasin().getMagasinId()).stream().forEach(s -> {
-            LigneDeDocument l = new LigneDeDocument();
-            l.setDocument(facture);
-            l.setPrixunitaiteLigne(s.getProduit().getPrixUnitaireProduit());
-            l.setProduit(s.getProduit());
-            l.setQuantiteLigne(s.getQuantiteDisponible());
-            lignes.add(l);
-        });
+        List<LigneDeDocument> lignes = inventaireService.listerStockParMagasin(bmq.getMagasin().getMagasinId()).parallelStream().map(s -> {
+            return LigneDeDocument.builder().document(facture).prixunitaiteLigne(s.getProduit().getPrixUnitaireProduit()).produit(s.getProduit())
+                    .quantiteLigne(s.getQuantiteDisponible()).build();
+        }).collect(Collectors.toList());
         facture.setLigneDocuments(lignes);
         documentService.ajouterDocument(facture);
     }
-    
+
     /**
      * Creer l'entete de facture.
      * 
