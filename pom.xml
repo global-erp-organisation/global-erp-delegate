@@ -4,12 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>global-erp</groupId>
-    <artifactId>global-erp-service</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>global-erp-delagate</artifactId>
+    <version>1.0</version>
     <packaging>jar</packaging>
 
     <name>global-erp-service</name>
-    <description>global erp service API</description>
+    <description>global erp delagate data access layer API</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -43,7 +43,7 @@
         <dependency>
             <groupId>global-erp</groupId>
             <artifactId>global-erp-dao</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
@@ -70,6 +70,4 @@
             </plugin>
         </plugins>
     </build>
-
-
 </project>
