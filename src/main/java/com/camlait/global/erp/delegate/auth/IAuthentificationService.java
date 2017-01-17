@@ -6,12 +6,12 @@ import java.util.Map;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.camlait.global.erp.domain.auth.Langue;
-import com.camlait.global.erp.domain.auth.Ressource;
-import com.camlait.global.erp.domain.auth.RessourceUtilisateur;
-import com.camlait.global.erp.domain.auth.Terme;
-import com.camlait.global.erp.domain.auth.TermeLangue;
-import com.camlait.global.erp.domain.auth.Utilisateur;
+import com.camlait.global.erp.domain.auth.ressource.Langue;
+import com.camlait.global.erp.domain.auth.ressource.Terme;
+import com.camlait.global.erp.domain.auth.ressource.TermeLangue;
+import com.camlait.global.erp.domain.auth.ressource.Utilisateur;
+import com.camlait.global.erp.domain.auth.user.Ressource;
+import com.camlait.global.erp.domain.auth.user.RessourceUtilisateur;
 import com.camlait.global.erp.domain.exception.GlobalErpServiceException;
 import com.camlait.global.erp.domain.model.json.auth.LangueModel;
 
