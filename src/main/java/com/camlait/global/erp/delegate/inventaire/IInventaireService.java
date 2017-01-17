@@ -1,4 +1,4 @@
-package com.camlait.global.erp.service.inventaire;
+package com.camlait.global.erp.delegate.inventaire;
 
 import java.util.Collection;
 import java.util.Date;

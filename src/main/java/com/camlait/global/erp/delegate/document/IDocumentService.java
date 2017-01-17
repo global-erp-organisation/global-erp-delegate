@@ -1,4 +1,4 @@
-package com.camlait.global.erp.service.document;
+package com.camlait.global.erp.delegate.document;
 
 import java.util.Collection;
 import java.util.Date;

@@ -1,4 +1,4 @@
-package com.camlait.global.erp.service.util;
+package com.camlait.global.erp.delegate.util;
 
 import com.camlait.global.erp.domain.Entite;
 import com.camlait.global.erp.domain.exception.GlobalErpServiceException;

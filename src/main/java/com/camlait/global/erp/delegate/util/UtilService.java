@@ -1,4 +1,4 @@
-package com.camlait.global.erp.service.util;
+package com.camlait.global.erp.delegate.util;
 
 import java.util.List;
 

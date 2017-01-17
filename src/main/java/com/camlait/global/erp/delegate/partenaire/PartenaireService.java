@@ -1,4 +1,4 @@
-package com.camlait.global.erp.service.partenaire;
+package com.camlait.global.erp.delegate.partenaire;
 
 import static com.camlait.global.erp.domain.config.GlobalAppConstants.verifyObjectNoFindException;
 

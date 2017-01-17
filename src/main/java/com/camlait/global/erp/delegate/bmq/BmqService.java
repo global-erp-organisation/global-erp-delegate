@@ -1,4 +1,4 @@
-package com.camlait.global.erp.service.bmq;
+package com.camlait.global.erp.delegate.bmq;
 
 import static com.camlait.global.erp.domain.config.GlobalAppConstants.verifyObjectNoFindException;
 
@@ -20,6 +20,9 @@ import com.camlait.global.erp.dao.bmq.BmqDao;
 import com.camlait.global.erp.dao.bmq.LigneBmqDao;
 import com.camlait.global.erp.dao.bmq.LigneBmqTaxeDao;
 import com.camlait.global.erp.dao.operation.RecouvrementDao;
+import com.camlait.global.erp.delegate.document.IDocumentService;
+import com.camlait.global.erp.delegate.inventaire.IInventaireService;
+import com.camlait.global.erp.delegate.util.IUtilService;
 import com.camlait.global.erp.domain.bmq.Bmq;
 import com.camlait.global.erp.domain.bmq.LigneBmq;
 import com.camlait.global.erp.domain.bmq.LigneBmqTaxe;
@@ -31,9 +34,6 @@ import com.camlait.global.erp.domain.document.commerciaux.vente.FactureClientCom
 import com.camlait.global.erp.domain.operation.Recouvrement;
 import com.camlait.global.erp.domain.partenaire.ClientComptant;
 import com.camlait.global.erp.domain.util.Utility;
-import com.camlait.global.erp.service.document.IDocumentService;
-import com.camlait.global.erp.service.inventaire.IInventaireService;
-import com.camlait.global.erp.service.util.IUtilService;
 
 import lombok.NonNull;
 

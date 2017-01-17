@@ -1,4 +1,4 @@
-package com.camlait.global.erp.service.document;
+package com.camlait.global.erp.delegate.document;
 
 import static com.camlait.global.erp.domain.config.GlobalAppConstants.produitIndiponibleMessage;
 import static com.camlait.global.erp.domain.config.GlobalAppConstants.verifyObjectNoFindException;
@@ -19,6 +19,9 @@ import org.springframework.data.domain.Pageable;
 import com.camlait.global.erp.dao.document.DocumentDao;
 import com.camlait.global.erp.dao.document.LigneDeDocumentTaxeDao;
 import com.camlait.global.erp.dao.document.LigneDocumentDao;
+import com.camlait.global.erp.delegate.partenaire.IPartenaireService;
+import com.camlait.global.erp.delegate.produit.IProduitService;
+import com.camlait.global.erp.delegate.util.IUtilService;
 import com.camlait.global.erp.domain.document.Document;
 import com.camlait.global.erp.domain.document.LigneDeDocument;
 import com.camlait.global.erp.domain.document.LigneDeDocumentTaxe;
@@ -29,9 +32,6 @@ import com.camlait.global.erp.domain.partenaire.Client;
 import com.camlait.global.erp.domain.produit.Produit;
 import com.camlait.global.erp.domain.util.Compute;
 import com.camlait.global.erp.domain.util.Utility;
-import com.camlait.global.erp.service.partenaire.IPartenaireService;
-import com.camlait.global.erp.service.produit.IProduitService;
-import com.camlait.global.erp.service.util.IUtilService;
 
 import lombok.NonNull;
 

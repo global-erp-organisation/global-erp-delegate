@@ -1,4 +1,4 @@
-package com.camlait.global.erp.service.inventaire;
+package com.camlait.global.erp.delegate.inventaire;
 
 import static com.camlait.global.erp.domain.config.GlobalAppConstants.*;
 import java.util.Collection;
@@ -19,13 +19,13 @@ import com.camlait.global.erp.dao.entrepot.MagasinDao;
 import com.camlait.global.erp.dao.entrepot.StockDao;
 import com.camlait.global.erp.dao.inventaire.InventaireDao;
 import com.camlait.global.erp.dao.inventaire.LigneInventaireDao;
+import com.camlait.global.erp.delegate.util.IUtilService;
 import com.camlait.global.erp.domain.Entite;
 import com.camlait.global.erp.domain.entrepot.Entrepot;
 import com.camlait.global.erp.domain.entrepot.Magasin;
 import com.camlait.global.erp.domain.inventaire.Inventaire;
 import com.camlait.global.erp.domain.inventaire.LigneInventaire;
 import com.camlait.global.erp.domain.inventaire.Stock;
-import com.camlait.global.erp.service.util.IUtilService;
 
 import lombok.NonNull;
 

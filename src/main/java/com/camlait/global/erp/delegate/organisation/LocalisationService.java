@@ -1,4 +1,4 @@
-package com.camlait.global.erp.service.organisation;
+package com.camlait.global.erp.delegate.organisation;
 
 import static com.camlait.global.erp.domain.config.GlobalAppConstants.verifyObjectNoFindException;
 

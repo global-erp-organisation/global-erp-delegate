@@ -1,4 +1,4 @@
-package com.camlait.global.erp.service.caisse;
+package com.camlait.global.erp.delegate.caisse;
 
 import static com.camlait.global.erp.domain.config.GlobalAppConstants.verifyIllegalArgumentException;
 import static com.camlait.global.erp.domain.config.GlobalAppConstants.verifyObjectNoFindException;

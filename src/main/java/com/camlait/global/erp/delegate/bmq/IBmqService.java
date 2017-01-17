@@ -1,4 +1,4 @@
-package com.camlait.global.erp.service.bmq;
+package com.camlait.global.erp.delegate.bmq;
 
 import java.util.Collection;
 import java.util.Date;

@@ -1,4 +1,4 @@
-package com.camlait.global.erp.service.produit;
+package com.camlait.global.erp.delegate.produit;
 
 import java.util.Collection;
 import java.util.Set;
