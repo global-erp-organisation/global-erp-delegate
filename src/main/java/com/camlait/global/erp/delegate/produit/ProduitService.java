@@ -24,12 +24,12 @@ import com.camlait.global.erp.dao.produit.ProduitTaxeDao;
 import com.camlait.global.erp.dao.produit.TarifDao;
 import com.camlait.global.erp.dao.produit.TarificationDao;
 import com.camlait.global.erp.domain.enumeration.Portee;
+import com.camlait.global.erp.domain.prix.Tarif;
+import com.camlait.global.erp.domain.prix.Tarification;
 import com.camlait.global.erp.domain.produit.CategorieProduit;
 import com.camlait.global.erp.domain.produit.CategorieProduitTaxe;
 import com.camlait.global.erp.domain.produit.Produit;
 import com.camlait.global.erp.domain.produit.ProduitTaxe;
-import com.camlait.global.erp.domain.produit.Tarif;
-import com.camlait.global.erp.domain.produit.Tarification;
 import com.camlait.global.erp.domain.util.Utility;
 
 import lombok.NonNull;

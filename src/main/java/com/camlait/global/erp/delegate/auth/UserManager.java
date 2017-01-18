@@ -3,12 +3,12 @@ package com.camlait.global.erp.delegate.auth;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.camlait.global.erp.delegate.exception.DataStorageExcetion;
-import com.camlait.global.erp.domain.auth.ressource.Utilisateur;
 import com.camlait.global.erp.domain.auth.user.Groupe;
 import com.camlait.global.erp.domain.auth.user.Ressource;
 import com.camlait.global.erp.domain.auth.user.RessourceGroupe;
 import com.camlait.global.erp.domain.auth.user.RessourceUtilisateur;
+import com.camlait.global.erp.domain.auth.user.Utilisateur;
+import com.camlait.global.erp.domain.exception.DataStorageExcetion;
 
 import lombok.NonNull;
 
