@@ -328,7 +328,7 @@ public class BmqService implements IBmqService {
         final Document facture = creerEnteteFacture(bmq);
         List<LigneDeDocument> lignes = inventaireService.listerStockParMagasin(bmq.getMagasin().getMagasinId()).parallelStream().map(s -> {
             return LigneDeDocument.builder().document(facture).prixunitaiteLigne(s.getProduit().getPrixUnitaireProduit()).produit(s.getProduit())
-                    .quantiteLigne(s.getQuantiteDisponible()).build();
+                    .quantiteLigne(s.getQuantiteDisponible()).build().setTaxe();
         }).collect(Collectors.toList());
         facture.setLigneDocuments(lignes);
         documentService.ajouterDocument(facture);

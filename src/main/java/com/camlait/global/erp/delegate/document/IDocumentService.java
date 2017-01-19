@@ -10,6 +10,7 @@ import com.camlait.global.erp.domain.document.Document;
 import com.camlait.global.erp.domain.document.LigneDeDocument;
 import com.camlait.global.erp.domain.document.LigneDeDocumentTaxe;
 import com.camlait.global.erp.domain.document.commerciaux.Taxe;
+import com.camlait.global.erp.domain.document.commerciaux.vente.DocumentDeVente;
 import com.camlait.global.erp.domain.exception.GlobalErpServiceException;
 
 public interface IDocumentService {
@@ -201,7 +202,7 @@ public interface IDocumentService {
 	 * @param document
 	 * @return
 	 */
-	double valeurMarge(Document document);
+	<T extends DocumentDeVente> double valeurMarge(T  document);
 
 	double obtenirPrixUnitaire(Long partenaireId, Long produitId);
 

@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.camlait.global.erp.domain.document.Document;
+import com.camlait.global.erp.domain.document.commerciaux.Taxe;
 import com.camlait.global.erp.domain.exception.DataStorageExcetion;
 
 public interface DocumentManager {
@@ -117,24 +118,24 @@ public interface DocumentManager {
 	/**
 	 * Computes the taxes value for a document.
 	 * 
-	 * @param taxeId
+	 * @param taxId
 	 *            Tax identifier.
 	 * @param documentId
 	 *            Document identifier.
 	 * @return The total tax value for the given tax and the given document.
 	 * @throws DataStorageExcetion
 	 */
-	Double documentTaxesValue(String taxeId, String documentId) throws DataStorageExcetion;
+	Double documentTaxesValue(String taxId, String documentId) throws DataStorageExcetion;
 
 	/**
 	 * Computes the document value including taxes value.
 	 * 
-	 * @param doucmentId
+	 * @param documentId
 	 *            Document identifier.
 	 * @return The document value including taxes value.
 	 * @throws DataStorageExcetion
 	 */
-	Double documentValueWithtaxes(String doucmentId) throws DataStorageExcetion;
+	Double documentValueWithtaxes(String documentId) throws DataStorageExcetion;
 
 	/**
 	 * Computes the document margin value
@@ -149,19 +150,57 @@ public interface DocumentManager {
 	Double documentMarginValue(String documentId) throws DataStorageExcetion;
 
 	/**
-	 * Retrieves the unit price for the given product based on the specific
-	 * partner and the price type category.
+	 * Add a tax in the data storage.
 	 * 
-	 * @param priceTypeId
-	 *            Price type category identifier.
-	 * @param partenerId
-	 *            Partner identifier.
-	 * @param productId
-	 *            Product identifier
-	 * @return The unit price that belong to the provided product for the
-	 *         provided partner
+	 * @param tax
+	 *            Tax to store
+	 * @return The stored tax.
 	 * @throws DataStorageExcetion
 	 */
-	Double retrieveUnitPrice(String priceTypeId, String partenerId, String productId) throws DataStorageExcetion;
+	Taxe addTax(Taxe tax) throws DataStorageExcetion;
+
+	/**
+	 * Update a tax
+	 * 
+	 * @param tax
+	 *            Tax to update
+	 * @return The updated tax
+	 * @throws DataStorageExcetion
+	 */
+	Taxe updateTax(Taxe tax) throws DataStorageExcetion;
+
+	/**
+	 * Retrieves a tax type from the data storage.
+	 * 
+	 * @param taxId
+	 *            Tax Identifier
+	 * @return The tax that belongs to the given identifier.
+	 * @throws DataStorageExcetion
+	 */
+	Taxe retrieveTax(String taxId) throws DataStorageExcetion;
+
+	/**
+	 * Permanently removes a tax from the data storage.
+	 * 
+	 * @param taxId
+	 *            Tax identifier.
+	 * @return true if the operation is performed without error or false
+	 *         otherwise.
+	 * @throws DataStorageExcetion
+	 */
+	Boolean removeTax(String taxId) throws DataStorageExcetion;
+
+	/**
+	 * Retrieves taxes type from the data storage based on the given key word.
+	 * 
+	 * @param keyWord
+	 *            Key word
+	 * @param p
+	 *            Pageable object that indicated how many records need to be
+	 *            extracted per page.
+	 * @return
+	 * @throws DataStorageExcetion
+	 */
+	Page<Taxe> retrieveTaxes(String keyWord, Pageable p) throws DataStorageExcetion;
 
 }

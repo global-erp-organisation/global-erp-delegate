@@ -20,15 +20,18 @@ import com.camlait.global.erp.dao.document.DocumentDao;
 import com.camlait.global.erp.dao.document.LigneDeDocumentTaxeDao;
 import com.camlait.global.erp.dao.document.LigneDocumentDao;
 import com.camlait.global.erp.delegate.partenaire.IPartenaireService;
+import com.camlait.global.erp.delegate.price.TarificationManager;
 import com.camlait.global.erp.delegate.produit.IProduitService;
 import com.camlait.global.erp.delegate.util.IUtilService;
 import com.camlait.global.erp.domain.document.Document;
 import com.camlait.global.erp.domain.document.LigneDeDocument;
 import com.camlait.global.erp.domain.document.LigneDeDocumentTaxe;
 import com.camlait.global.erp.domain.document.commerciaux.Taxe;
+import com.camlait.global.erp.domain.document.commerciaux.vente.DocumentDeVente;
 import com.camlait.global.erp.domain.document.commerciaux.vente.FactureClient;
 import com.camlait.global.erp.domain.exception.GlobalErpServiceException;
 import com.camlait.global.erp.domain.partenaire.Client;
+import com.camlait.global.erp.domain.prix.PriceType;
 import com.camlait.global.erp.domain.produit.Produit;
 import com.camlait.global.erp.domain.util.Compute;
 import com.camlait.global.erp.domain.util.Utility;
@@ -55,6 +58,9 @@ public class DocumentService implements IDocumentService {
 
 	@Autowired
 	private IProduitService produitService;
+
+	@Autowired
+	private TarificationManager tarif;
 
 	@Override
 	public Document ajouterDocument(@NonNull Document document) {
@@ -202,22 +208,18 @@ public class DocumentService implements IDocumentService {
 
 	@Override
 	public double chiffreAffaireHorsTaxe(@NonNull Document document) {
-		final Compute caht = new Compute();
-		document.getLigneDocuments().stream().forEach(l -> {
-			caht.cummuler(l.getPrixunitaiteLigne() * l.getQuantiteLigne());
-		});
-		return caht.getValue();
+		return document.getLigneDocuments().stream().mapToDouble(l -> {
+			return l.getPrixunitaiteLigne() * l.getQuantiteLigne();
+		}).sum();
 	}
 
 	@Override
 	public double valeurTotaleTaxe(@NonNull Document document) {
-		final Compute taxe = new Compute();
-		document.getLigneDocuments().stream().forEach(l -> {
-			l.getLigneDeDocumentTaxes().stream().forEach(ldt -> {
-				taxe.cummuler(l.getPrixunitaiteLigne() * l.getQuantiteLigne() * ldt.getTauxDeTaxe());
-			});
-		});
-		return taxe.getValue();
+		return document.getLigneDocuments().stream().mapToDouble(l -> {
+			return l.getLigneDeDocumentTaxes().stream().mapToDouble(ldt -> {
+				return l.getPrixunitaiteLigne() * l.getQuantiteLigne() * ldt.getTauxDeTaxe();
+			}).sum();
+		}).sum();
 	}
 
 	@Override
@@ -227,19 +229,27 @@ public class DocumentService implements IDocumentService {
 
 	@Override
 	public double valeurTaxe(@NonNull Taxe taxe, @NonNull Document document) {
-		return document.getLigneDocuments().parallelStream().map(ld -> {
+		return document.getLigneDocuments().parallelStream().mapToDouble(ld -> {
 			return ld.getLigneDeDocumentTaxes().stream().filter(ldt -> ldt.getTaxe().getTaxeId() == taxe.getTaxeId())
-					.map(ldt -> {
+					.mapToDouble(ldt -> {
 						return ld.getPrixunitaiteLigne() * ld.getQuantiteLigne() * ldt.getTauxDeTaxe();
-					}).mapToDouble(Double::doubleValue).sum();
-		}).mapToDouble(Double::doubleValue).sum();
+					}).sum();
+		}).sum();
 	}
 
 	@Override
-	public double valeurMarge(@NonNull Document document) {
-		return document.getLigneDocuments().stream().map(l -> {
-			return l.getProduit().getPrixUnitaireMarge() * l.getQuantiteLigne();
-		}).mapToDouble(Double::doubleValue).sum();
+	public double valeurMarge(@NonNull DocumentDeVente document) {
+		final PriceType type = document.getPriceType();
+		return document.getLigneDocuments().stream().mapToDouble(l -> {
+			Double price = tarif.retrieveUnitPrice(document.getPriceType().getPriceTypeId(),
+					document.getZone().getLocalId(), l.getProduit().getProduitId());
+			if (price == null) {
+				price = l.getProduit().getUnitPriceByType(type);
+			}
+			final Double currentValue = l.getQuantiteLigne() * l.getPrixunitaiteLigne();
+			final Double regularValue = l.getQuantiteLigne() * price;
+			return (currentValue - regularValue);
+		}).sum();
 	}
 
 	@Override
