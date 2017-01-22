@@ -52,7 +52,7 @@ public interface DocumentManager {
 	 * @return Return the document that belongs to the given identifier.
 	 * @throws DataStorageException
 	 */
-	<T> T retrieveDocument(Class<T> clazz, String documentId) throws DataStorageException;
+	<T extends Document> T retrieveDocument(Class<T> clazz, String documentId) throws DataStorageException;
 
 	/**
 	 * Permanently remove a document from the data storage.

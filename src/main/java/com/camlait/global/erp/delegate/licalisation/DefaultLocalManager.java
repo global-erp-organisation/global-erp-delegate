@@ -14,45 +14,45 @@ import com.camlait.global.erp.domain.localisation.Localisation;
 @Component
 public class DefaultLocalManager implements LocalisationManager {
 
-	private final LocalisationDao localDao;
+    private final LocalisationDao localDao;
 
-	@Autowired
-	public DefaultLocalManager(LocalisationDao localDao) {
-		this.localDao = localDao;
-	}
+    @Autowired
+    public DefaultLocalManager(LocalisationDao localDao) {
+        this.localDao = localDao;
+    }
 
-	@Override
-	public Localisation addLocalisation(Localisation local) throws DataStorageException {
-		return localDao.save(local);
-	}
+    @Override
+    public Localisation addLocalisation(Localisation local) throws DataStorageException {
+        return localDao.save(local);
+    }
 
-	@Override
-	public Localisation updateLocalisation(Localisation local) throws DataStorageException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public Localisation updateLocalisation(Localisation local) throws DataStorageException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public Localisation retrieveLocalisation(String localId) throws DataStorageException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public Localisation retrieveLocalisation(String localId) throws DataStorageException {
+        final Localisation l = localDao.findOne(localId);
+        return l == null ? null : l.lazyInit();
+    }
 
-	@Override
-	public <T> T retrieveLocalisation(Class<T> clazz, String localId) throws DataStorageException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public <T> T retrieveLocalisation(Class<T> clazz, String localId) throws DataStorageException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public Boolean removeLocalisation(String localId) throws DataStorageException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public Boolean removeLocalisation(String localId) throws DataStorageException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public Page<Localisation> retriveLocalisations(String keyWord, Pageable p) throws DataStorageException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public Page<Localisation> retriveLocalisations(String keyWord, Pageable p) throws DataStorageException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

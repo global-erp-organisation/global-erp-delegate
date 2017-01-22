@@ -102,7 +102,7 @@ public interface InventoryManager {
 	 * @return
 	 * @throws DataStorageException
 	 */
-	<T> T retrieveStore(Class<T> clazz, String storeId) throws DataStorageException;
+	<T extends Magasin> T retrieveStore(Class<T> clazz, String storeId) throws DataStorageException;
 
 	/**
 	 * remove a store in the data storage.

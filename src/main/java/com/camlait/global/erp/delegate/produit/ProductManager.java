@@ -117,6 +117,4 @@ public interface ProductManager {
 	 * @throws DataStorageException
 	 */
 	Page<CategorieProduit> retriveProductCategories(String keyWord, Pageable p) throws DataStorageException;
-
-
 }

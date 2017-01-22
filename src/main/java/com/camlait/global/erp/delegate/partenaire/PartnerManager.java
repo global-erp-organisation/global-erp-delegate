@@ -44,7 +44,7 @@ public interface PartnerManager {
 	 * @return
 	 * @throws DataStorageException
 	 */
-	<T> T retrievePartner(Class<T> clazz, String partnerId) throws DataStorageException;
+	<T extends Partenaire> T retrievePartner(Class<T> clazz, String partnerId) throws DataStorageException;
 
 	/**
 	 * remove a partner based on the given partner identifier.

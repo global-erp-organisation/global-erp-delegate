@@ -2,7 +2,6 @@ package com.camlait.global.erp.delegate.document;
 
 import java.util.Date;
 
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,7 +12,6 @@ import com.camlait.global.erp.dao.document.comerciaux.TaxeDao;
 import com.camlait.global.erp.delegate.price.TarificationManager;
 import com.camlait.global.erp.domain.document.Document;
 import com.camlait.global.erp.domain.document.commerciaux.Taxe;
-import com.camlait.global.erp.domain.document.commerciaux.vente.FactureClient;
 import com.camlait.global.erp.domain.document.commerciaux.vente.FactureMarge;
 import com.camlait.global.erp.domain.exception.DataStorageException;
 import com.camlait.global.erp.domain.tarif.PriceType;
@@ -55,12 +53,12 @@ public class DefaultDocumentManager implements DocumentManager {
 	@Override
 	public Document retrieveDocument(String documentId) throws DataStorageException {
 		final Document d = documentDao.findOne(documentId);
-		return d == null ? null : lazyInitDocument(d);
+		return d == null ? null : d.lazyInit();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T> T retrieveDocument(Class<T> clazz, String documentId) throws DataStorageException {
+	public <T extends Document> T retrieveDocument(Class<T> clazz, String documentId) throws DataStorageException {
 		return (T) retrieveDocument(documentId);
 
 	}
@@ -156,7 +154,7 @@ public class DefaultDocumentManager implements DocumentManager {
 	@Override
 	public Taxe retrieveTax(String taxId) throws DataStorageException {
 		final Taxe tax = retrieveTax(taxId);
-		return tax == null ? null : lazyInit(tax);
+		return tax == null ? null : tax.lazyInit();
 	}
 
 	@Override
@@ -172,19 +170,5 @@ public class DefaultDocumentManager implements DocumentManager {
 	@Override
 	public Page<Taxe> retrieveTaxes(String keyWord, Pageable p) throws DataStorageException {
 		return taxDao.retrieveTaxes(keyWord, p);
-	}
-
-	private Document lazyInitDocument(Document d) {
-		Hibernate.initialize(d.getLigneDocuments());
-		if (d.isFactureClient()) {
-			Hibernate.initialize(((FactureClient) d).getFactureReglements());
-		}
-		return d;
-	}
-
-	private Taxe lazyInit(Taxe tax) {
-		Hibernate.initialize(tax.getCategorieProduits());
-		Hibernate.initialize(tax.getProduits());
-		return tax;
 	}
 }
