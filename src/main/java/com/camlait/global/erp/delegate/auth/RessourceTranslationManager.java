@@ -7,6 +7,6 @@ package com.camlait.global.erp.delegate.auth;
  * 
  *
  */
-public interface RessourceManager {
+public interface RessourceTranslationManager {
 
 }

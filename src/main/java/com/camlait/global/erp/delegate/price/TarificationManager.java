@@ -3,10 +3,10 @@ package com.camlait.global.erp.delegate.price;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.camlait.global.erp.domain.exception.DataStorageExcetion;
-import com.camlait.global.erp.domain.prix.PriceType;
-import com.camlait.global.erp.domain.prix.Tarif;
-import com.camlait.global.erp.domain.prix.Tarification;
+import com.camlait.global.erp.domain.exception.DataStorageException;
+import com.camlait.global.erp.domain.tarif.PriceType;
+import com.camlait.global.erp.domain.tarif.Tarif;
+import com.camlait.global.erp.domain.tarif.Tarification;
 
 public interface TarificationManager {
 	/**
@@ -15,9 +15,9 @@ public interface TarificationManager {
 	 * @param priceType
 	 *            price type to store
 	 * @return The stored price type.
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	PriceType addPriceType(PriceType priceType) throws DataStorageExcetion;
+	PriceType addPriceType(PriceType priceType) throws DataStorageException;
 
 	/**
 	 * Update a price type
@@ -25,9 +25,9 @@ public interface TarificationManager {
 	 * @param pricetype
 	 *            Price type to update
 	 * @return The updated price type
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	PriceType updatePriceType(PriceType pricetype) throws DataStorageExcetion;
+	PriceType updatePriceType(PriceType pricetype) throws DataStorageException;
 
 	/**
 	 * Retrieves a price type from the data storage.
@@ -35,9 +35,9 @@ public interface TarificationManager {
 	 * @param priceTypeId
 	 *            Price type Identifier
 	 * @return The price type that belongs to the given identifier.
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	PriceType retrievePricetype(String priceTypeId) throws DataStorageExcetion;
+	PriceType retrievePricetype(String priceTypeId) throws DataStorageException;
 
 	/**
 	 * Permanently removes a price type from the data storage.
@@ -46,9 +46,9 @@ public interface TarificationManager {
 	 *            Price type identifier.
 	 * @return true if the operation is performed without error or false
 	 *         otherwise.
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	Boolean removePricetype(String pricetypeId) throws DataStorageExcetion;
+	Boolean removePricetype(String pricetypeId) throws DataStorageException;
 
 	/**
 	 * Retrieves prices type from the data storage based on the given key word.
@@ -59,9 +59,9 @@ public interface TarificationManager {
 	 *            Pageable object that indicated how many records need to be
 	 *            extracted per page.
 	 * @return
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	Page<PriceType> retrievePriceTypes(String keyWord, Pageable p) throws DataStorageExcetion;
+	Page<PriceType> retrievePriceTypes(String keyWord, Pageable p) throws DataStorageException;
 
 	/**
 	 * Add a tariff in the data storage.
@@ -69,9 +69,9 @@ public interface TarificationManager {
 	 * @param tarif
 	 *            Tariff to store
 	 * @return The stored tariff.
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	Tarif addTarif(Tarif tariff) throws DataStorageExcetion;
+	Tarif addTarif(Tarif tariff) throws DataStorageException;
 
 	/**
 	 * Update a tariff
@@ -79,9 +79,9 @@ public interface TarificationManager {
 	 * @param tariff
 	 *            Tariff to update
 	 * @return The updated tariff
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	Tarif updateTarif(Tarif tariff) throws DataStorageExcetion;
+	Tarif updateTarif(Tarif tariff) throws DataStorageException;
 
 	/**
 	 * Retrieves a tariff from the data storage.
@@ -89,9 +89,9 @@ public interface TarificationManager {
 	 * @param tariffId
 	 *            Tariff Identifier
 	 * @return The tariff that belongs to the given identifier.
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	Tarif retrieveTarif(String tariffId) throws DataStorageExcetion;
+	Tarif retrieveTarif(String tariffId) throws DataStorageException;
 
 	/**
 	 * Permanently removes a tariff from the data storage.
@@ -100,9 +100,9 @@ public interface TarificationManager {
 	 *            Tariff identifier.
 	 * @return true if the operation is performed without error or false
 	 *         otherwise.
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	Boolean removeTarif(String tarifId) throws DataStorageExcetion;
+	Boolean removeTarif(String tarifId) throws DataStorageException;
 
 	/**
 	 * Retrieves Tariff from the data storage based on the given key word.
@@ -113,9 +113,9 @@ public interface TarificationManager {
 	 *            Pageable object that indicated how many records need to be
 	 *            extracted per page.
 	 * @return
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	Page<Tarif> retrieveTarifs(String keyWord, Pageable p) throws DataStorageExcetion;
+	Page<Tarif> retrieveTarifs(String keyWord, Pageable p) throws DataStorageException;
 
 	/**
 	 * Add a tarification in the data storage.
@@ -123,9 +123,9 @@ public interface TarificationManager {
 	 * @param tarification
 	 *            Tarification to store
 	 * @return The stored tarification.
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	Tarification addTarification(Tarification tarification) throws DataStorageExcetion;
+	Tarification addTarification(Tarification tarification) throws DataStorageException;
 
 	/**
 	 * Update a tarification
@@ -133,9 +133,9 @@ public interface TarificationManager {
 	 * @param tarification
 	 *            Tarification to update
 	 * @return The updated tarification
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	Tarification updateTarification(Tarification tarification) throws DataStorageExcetion;
+	Tarification updateTarification(Tarification tarification) throws DataStorageException;
 
 	/**
 	 * Retrieves a tarification from the data storage.
@@ -143,9 +143,9 @@ public interface TarificationManager {
 	 * @param tarificationId
 	 *            Tarification Identifier
 	 * @return The tarification that belongs to the given identifier.
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	Tarification retrieveTarification(String tarificationId) throws DataStorageExcetion;
+	Tarification retrieveTarification(String tarificationId) throws DataStorageException;
 
 	/**
 	 * Permanently removes a tarification from the data storage.
@@ -154,9 +154,9 @@ public interface TarificationManager {
 	 *            Tarification identifier.
 	 * @return true if the operation is performed without error or false
 	 *         otherwise.
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	Boolean removeTarification(String tarificationId) throws DataStorageExcetion;
+	Boolean removeTarification(String tarificationId) throws DataStorageException;
 
 	/**
 	 * Retrieves Tarifications from the data storage based on the given key
@@ -168,9 +168,9 @@ public interface TarificationManager {
 	 *            Pageable object that indicated how many records need to be
 	 *            extracted per page.
 	 * @return
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	Page<Tarification> retrieveTarifications(String keyWord, Pageable p) throws DataStorageExcetion;
+	Page<Tarification> retrieveTarifications(String keyWord, Pageable p) throws DataStorageException;
 
 	/**
 	 * Retrieves the unit price for the given product based on the specific zone
@@ -184,8 +184,8 @@ public interface TarificationManager {
 	 *            Product identifier
 	 * @return The unit price that belong to the provided product for the
 	 *         provided partner
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	Double retrieveUnitPrice(String priceTypeId, String zoneId, String productId) throws DataStorageExcetion;
+	Double retrieveUnitPrice(String priceTypeId, String zoneId, String productId) throws DataStorageException;
 
 }

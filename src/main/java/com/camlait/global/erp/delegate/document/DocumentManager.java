@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.camlait.global.erp.domain.document.Document;
 import com.camlait.global.erp.domain.document.commerciaux.Taxe;
-import com.camlait.global.erp.domain.exception.DataStorageExcetion;
+import com.camlait.global.erp.domain.exception.DataStorageException;
 
 public interface DocumentManager {
 
@@ -17,9 +17,9 @@ public interface DocumentManager {
 	 * @param document
 	 *            Document to store.
 	 * @return The stored document.
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	Document addDocument(Document document) throws DataStorageExcetion;
+	Document addDocument(Document document) throws DataStorageException;
 
 	/**
 	 * Update the provided document to the data storage.
@@ -27,9 +27,9 @@ public interface DocumentManager {
 	 * @param document
 	 *            Document thet need to be updated.
 	 * @return The updated document.
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	Document updateDocument(Document document) throws DataStorageExcetion;
+	Document updateDocument(Document document) throws DataStorageException;
 
 	/**
 	 * Retrieves the document from the data storage based on the given
@@ -38,9 +38,9 @@ public interface DocumentManager {
 	 * @param documentId
 	 *            Provided documentId.
 	 * @return The document that belongs to the given documentId.
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	Document retrieveDocument(String documentId) throws DataStorageExcetion;
+	Document retrieveDocument(String documentId) throws DataStorageException;
 
 	/**
 	 * Retrieves a generic type of document
@@ -50,9 +50,9 @@ public interface DocumentManager {
 	 * @param documentId
 	 *            Document identifier.
 	 * @return Return the document that belongs to the given identifier.
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	<T> T retrieveDocument(Class<T> clazz, String documentId) throws DataStorageExcetion;
+	<T> T retrieveDocument(Class<T> clazz, String documentId) throws DataStorageException;
 
 	/**
 	 * Permanently remove a document from the data storage.
@@ -61,9 +61,9 @@ public interface DocumentManager {
 	 *            Document to remove identifier.
 	 * @return true if the operation is performed without error or false
 	 *         otherwise.
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	Boolean removeDocument(String documentId) throws DataStorageExcetion;
+	Boolean removeDocument(String documentId) throws DataStorageException;
 
 	/**
 	 * Retrieves some documents from the data storage based on the given key
@@ -75,9 +75,9 @@ public interface DocumentManager {
 	 *            Pageable object that indicated how many records need to be
 	 *            extracted per page.
 	 * @return All the documents that belong to the provided key word.
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	Page<Document> retrieveDocuments(String keyWord, Pageable p) throws DataStorageExcetion;
+	Page<Document> retrieveDocuments(String keyWord, Pageable p) throws DataStorageException;
 
 	/**
 	 * Retrieves documents base on the given period.
@@ -90,9 +90,9 @@ public interface DocumentManager {
 	 *            Pageable object that indicated how many records need to be
 	 *            extracted per page.
 	 * @return All The documents within the given period.
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	Page<Document> retrieveDocuments(Date start, Date end, Pageable p) throws DataStorageExcetion;
+	Page<Document> retrieveDocuments(Date start, Date end, Pageable p) throws DataStorageException;
 
 	/**
 	 * Computes the value without taxes for the document.
@@ -100,9 +100,9 @@ public interface DocumentManager {
 	 * @param documentId
 	 *            Document identifier.
 	 * @return The value without taxes for the given document.
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	Double documentValueWithoutTaxes(String documentId) throws DataStorageExcetion;
+	Double documentValueWithoutTaxes(String documentId) throws DataStorageException;
 
 	/**
 	 * Computes the taxes value for a document.
@@ -111,9 +111,9 @@ public interface DocumentManager {
 	 *            Document identifier.
 	 * @return The total taxes value that belong to the given document
 	 *         identifier.
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	Double documentTaxesValue(String documentId) throws DataStorageExcetion;
+	Double documentTaxesValue(String documentId) throws DataStorageException;
 
 	/**
 	 * Computes the taxes value for a document.
@@ -123,9 +123,9 @@ public interface DocumentManager {
 	 * @param documentId
 	 *            Document identifier.
 	 * @return The total tax value for the given tax and the given document.
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	Double documentTaxesValue(String taxId, String documentId) throws DataStorageExcetion;
+	Double documentTaxesValue(String taxId, String documentId) throws DataStorageException;
 
 	/**
 	 * Computes the document value including taxes value.
@@ -133,9 +133,9 @@ public interface DocumentManager {
 	 * @param documentId
 	 *            Document identifier.
 	 * @return The document value including taxes value.
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	Double documentValueWithtaxes(String documentId) throws DataStorageExcetion;
+	Double documentValueWithTaxes(String documentId) throws DataStorageException;
 
 	/**
 	 * Computes the document margin value
@@ -145,9 +145,9 @@ public interface DocumentManager {
 	 * @return The document margin value
 	 *         <p>
 	 *         The returned value already include taxes value.
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	Double documentMarginValue(String documentId) throws DataStorageExcetion;
+	Double documentMarginValue(String documentId) throws DataStorageException;
 
 	/**
 	 * Add a tax in the data storage.
@@ -155,9 +155,9 @@ public interface DocumentManager {
 	 * @param tax
 	 *            Tax to store
 	 * @return The stored tax.
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	Taxe addTax(Taxe tax) throws DataStorageExcetion;
+	Taxe addTax(Taxe tax) throws DataStorageException;
 
 	/**
 	 * Update a tax
@@ -165,9 +165,9 @@ public interface DocumentManager {
 	 * @param tax
 	 *            Tax to update
 	 * @return The updated tax
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	Taxe updateTax(Taxe tax) throws DataStorageExcetion;
+	Taxe updateTax(Taxe tax) throws DataStorageException;
 
 	/**
 	 * Retrieves a tax type from the data storage.
@@ -175,9 +175,9 @@ public interface DocumentManager {
 	 * @param taxId
 	 *            Tax Identifier
 	 * @return The tax that belongs to the given identifier.
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	Taxe retrieveTax(String taxId) throws DataStorageExcetion;
+	Taxe retrieveTax(String taxId) throws DataStorageException;
 
 	/**
 	 * Permanently removes a tax from the data storage.
@@ -186,9 +186,9 @@ public interface DocumentManager {
 	 *            Tax identifier.
 	 * @return true if the operation is performed without error or false
 	 *         otherwise.
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	Boolean removeTax(String taxId) throws DataStorageExcetion;
+	Boolean removeTax(String taxId) throws DataStorageException;
 
 	/**
 	 * Retrieves taxes type from the data storage based on the given key word.
@@ -199,8 +199,8 @@ public interface DocumentManager {
 	 *            Pageable object that indicated how many records need to be
 	 *            extracted per page.
 	 * @return
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	Page<Taxe> retrieveTaxes(String keyWord, Pageable p) throws DataStorageExcetion;
+	Page<Taxe> retrieveTaxes(String keyWord, Pageable p) throws DataStorageException;
 
 }

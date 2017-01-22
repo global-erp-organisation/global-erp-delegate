@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.camlait.global.erp.domain.bmq.Bmq;
-import com.camlait.global.erp.domain.exception.DataStorageExcetion;
+import com.camlait.global.erp.domain.exception.DataStorageException;
 
 /**
  * This interface provides operations that belong to The Daily movement
@@ -22,9 +22,9 @@ public interface BmqManager {
 	 * @param bmq
 	 *            Bmq to store
 	 * @return The stored Bmq
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	Bmq addBmq(Bmq bmq) throws DataStorageExcetion;
+	Bmq addBmq(Bmq bmq) throws DataStorageException;
 
 	/**
 	 * Update the given Bmq into the data storage.
@@ -32,9 +32,9 @@ public interface BmqManager {
 	 * @param bmq
 	 *            Bmq to update.
 	 * @return The updated Bmq.
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	Bmq updateBmq(Bmq bmq) throws DataStorageExcetion;
+	Bmq updateBmq(Bmq bmq) throws DataStorageException;
 
 	/**
 	 * Retrieves a Bmq from the data storage based on the given bmqId.
@@ -42,9 +42,9 @@ public interface BmqManager {
 	 * @param bmqId
 	 *            Bmq identifier.
 	 * @return The Bmq tha match with the provided identifier.
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	Bmq retrieveBmq(String bmqId) throws DataStorageExcetion;
+	Bmq retrieveBmq(String bmqId) throws DataStorageException;
 
 	/**
 	 * Build the bmq details and store the detail in the data storage.
@@ -52,12 +52,12 @@ public interface BmqManager {
 	 * The details include Bmq lines generation, Clients payment recovery and
 	 * associated documents
 	 * 
-	 * @param bmq
-	 *            Bmq use to generate.
+	 * @param bmqId
+	 *            Bmq identifier use to generate.
 	 * @return The Bmq including the details.
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	Bmq buildBmqDetails(Bmq bmq) throws DataStorageExcetion;
+	Bmq buildBmqDetails(String bmqId) throws DataStorageException;
 
 	/**
 	 * Permanently removes a Bmq.
@@ -66,9 +66,9 @@ public interface BmqManager {
 	 *            Bmq identifier to remove.
 	 * @return true if the operation is perform without errors and false
 	 *         otherwise.
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	Boolean removeBmq(String bmqId) throws DataStorageExcetion;
+	Boolean removeBmq(String bmqId) throws DataStorageException;
 
 	/**
 	 * Retrieves Bmqs from the data storage based on the given
@@ -78,9 +78,9 @@ public interface BmqManager {
 	 *            Pageable object that indicates how many records can be
 	 *            extracted per page.
 	 * @return
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	Page<Bmq> retrieveBmqs(String keyWord, Pageable p) throws DataStorageExcetion;
+	Page<Bmq> retrieveBmqs(String keyWord, Pageable p) throws DataStorageException;
 
 	/**
 	 * Retrieves Bmqs from the data storage base on the given inclusion period.
@@ -93,18 +93,18 @@ public interface BmqManager {
 	 *            Pageable object that indicates how many records can be
 	 *            extracted per page.
 	 * @return
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	Page<Bmq> retrieveBmqs(Date start, Date end, Pageable p) throws DataStorageExcetion;
+	Page<Bmq> retrieveBmqs(Date start, Date end, Pageable p) throws DataStorageException;
 
 	/**
 	 * Automatically generate the cash sales data related to the given Bmq.
 	 * 
 	 * @param bmqId
 	 *            Given Bmq identifier.
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	void generateCashSales(String bmqId) throws DataStorageExcetion;
+	void generateCashSales(String bmqId) throws DataStorageException;
 
 	/**
 	 * Computes the Bmq value without taxes value.
@@ -112,9 +112,9 @@ public interface BmqManager {
 	 * @param bmqid
 	 *            Given Bmq identifier.
 	 * @return The Bmq value without taxes value.
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	Double bmqValueWithoutTaxes(String bmqId) throws DataStorageExcetion;
+	Double bmqValueWithoutTaxes(String bmqId) throws DataStorageException;
 
 	/**
 	 * Computes the Bmq value including taxes value.
@@ -122,9 +122,9 @@ public interface BmqManager {
 	 * @param bmqid
 	 *            Given Bmq identifier.
 	 * @return The Bmq value including taxes value.
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	Double bmqValueWithTaxes(String bmqId) throws DataStorageExcetion;
+	Double bmqValueWithTaxes(String bmqId) throws DataStorageException;
 
 	/**
 	 * Computes the total taxes values for the given Bmq;
@@ -132,9 +132,9 @@ public interface BmqManager {
 	 * @param bmqId
 	 *            Given Bmq identifier.
 	 * @return The total taxes values for the provided Bmq.
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	Double bmqTaxesValue(String bmqId) throws DataStorageExcetion;
+	Double bmqTaxesValue(String bmqId) throws DataStorageException;
 
 	/**
 	 * Computes the total value for a specific tax ties to the given Bmq.
@@ -144,9 +144,9 @@ public interface BmqManager {
 	 * @param bmqId
 	 *            Bmq identifier that belongs to the tax
 	 * @return The total value for the provided tax and the provide Bmq.
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	Double bmqTaxesValue(String taxId, String bmqId) throws DataStorageExcetion;
+	Double bmqTaxesValue(String taxId, String bmqId) throws DataStorageException;
 
 	/**
 	 * Computes the cash sales value for the given Bmq.
@@ -154,9 +154,9 @@ public interface BmqManager {
 	 * @param bmqId
 	 *            Given Bmq Identifier.
 	 * @return The cash sales value the provided Bmq.
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	Double bmqCashSalesValue(String bmqId) throws DataStorageExcetion;
+	Double bmqCashSalesValue(String bmqId) throws DataStorageException;
 
 	/**
 	 * Computes The margin value for the provided Bmq.
@@ -164,8 +164,8 @@ public interface BmqManager {
 	 * @param bmqId
 	 *            Given Bmq Identifier.
 	 * @return The margin value for the provided Bmq.
-	 * @throws DataStorageExcetion
+	 * @throws DataStorageException
 	 */
-	Double bmqMarginSalesValue(String bmqId) throws DataStorageExcetion;
+	Double bmqMarginSalesValue(String bmqId) throws DataStorageException;
 
 }

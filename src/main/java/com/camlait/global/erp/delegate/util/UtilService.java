@@ -11,7 +11,7 @@ import com.camlait.global.erp.dao.document.DocumentDao;
 import com.camlait.global.erp.dao.entrepot.EntrepotDao;
 import com.camlait.global.erp.dao.entrepot.MagasinDao;
 import com.camlait.global.erp.dao.inventaire.InventaireDao;
-import com.camlait.global.erp.dao.organisation.LocalisationDao;
+import com.camlait.global.erp.dao.localisation.LocalisationDao;
 import com.camlait.global.erp.dao.partenaire.PartenaireDao;
 import com.camlait.global.erp.domain.Entite;
 import com.camlait.global.erp.domain.bmq.Bmq;
@@ -20,7 +20,7 @@ import com.camlait.global.erp.domain.entrepot.Entrepot;
 import com.camlait.global.erp.domain.entrepot.Magasin;
 import com.camlait.global.erp.domain.enumeration.EnumTypeEntite;
 import com.camlait.global.erp.domain.inventaire.Inventaire;
-import com.camlait.global.erp.domain.organisation.Localisation;
+import com.camlait.global.erp.domain.localisation.Localisation;
 import com.camlait.global.erp.domain.partenaire.Partenaire;
 import com.camlait.global.erp.domain.util.Utility;
 
@@ -52,7 +52,8 @@ public class UtilService implements IUtilService {
 
 	@Override
 	public String genererCode(Entite entite) {
-		return dernierId(entite);
+		return null;
+		//return dernierId(entite);
 	}
 
 	/**
@@ -62,7 +63,7 @@ public class UtilService implements IUtilService {
 	 *            Entite associe au code.
 	 * @return le nouveau code.
 	 */
-	private String dernierId(@NonNull Entite entite) {
+	/*private String dernierId(@NonNull Entite entite) {
 		EnumTypeEntite type = Utility.obtenirPrefixe(entite);
 		String dernierCode = null;
 		if (entite instanceof Document) {
@@ -96,6 +97,6 @@ public class UtilService implements IUtilService {
 		}
 		return type.getType().toUpperCase()
 				+ (Utility.convertToLong(StringUtils.removeStart(dernierCode, type.getType())) + 1);
-	}
+	}*/
 
 }
