@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.camlait.global.erp.dao.document.DocumentDao;
 import com.camlait.global.erp.dao.document.comerciaux.TaxeDao;
@@ -23,6 +24,7 @@ import com.camlait.global.erp.domain.tarif.PriceType;
  *
  */
 @Component
+@Transactional
 public class DefaultDocumentManager implements DocumentManager {
 
 	private final DocumentDao documentDao;
@@ -44,31 +46,28 @@ public class DefaultDocumentManager implements DocumentManager {
 	@Override
 	public Document updateDocument(Document document) throws DataStorageException {
 		final Document stored = retrieveDocument(document.getDocumentId());
-		if (stored == null) {
-			throw new DataStorageException("The document you are trying to update does not exist.");
-		}
 		return documentDao.saveAndFlush(document.merge(stored));
 	}
 
 	@Override
 	public Document retrieveDocument(String documentId) throws DataStorageException {
 		final Document d = documentDao.findOne(documentId);
-		return d == null ? null : d.lazyInit();
+		if (d == null) {
+			throw new DataStorageException("The document you are trying to retrieve does not exist.");
+		}
+		return d.lazyInit();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends Document> T retrieveDocument(Class<T> clazz, String documentId) throws DataStorageException {
-		return (T) retrieveDocument(documentId);
-
+		final Document d = retrieveDocument(documentId);
+		return d.instanceOf(clazz) ? (T) d : null;
 	}
 
 	@Override
 	public Boolean removeDocument(String documentId) throws DataStorageException {
 		final Document d = retrieveDocument(documentId);
-		if (d == null) {
-			throw new DataStorageException("The document you are trying to remove does not exist");
-		}
 		documentDao.delete(d);
 		return true;
 	}

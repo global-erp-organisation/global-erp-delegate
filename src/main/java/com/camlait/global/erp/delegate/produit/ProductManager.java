@@ -62,8 +62,7 @@ public interface ProductManager {
 	 * @throws DataStorageException
 	 */
 	Page<Produit> retriveProducts(String keyWord, Pageable p) throws DataStorageException;
-	
-	
+
 	/**
 	 * Add a product category in to the data storage.
 	 * 
@@ -85,11 +84,13 @@ public interface ProductManager {
 	CategorieProduit updateProductCategory(CategorieProduit productCategory) throws DataStorageException;
 
 	/**
-	 * Retrieves a product category from the data storage based on the given identifier.
+	 * Retrieves a product category from the data storage based on the given
+	 * identifier.
 	 * 
 	 * @param productCategoryId
 	 *            Product category Identifier.
-	 * @return The product category informations that belongs to the given identifier.
+	 * @return The product category informations that belongs to the given
+	 *         identifier.
 	 * @throws DataStorageException
 	 */
 	CategorieProduit retrieveProductCategory(String productCategoryId) throws DataStorageException;
@@ -103,10 +104,11 @@ public interface ProductManager {
 	 *         otherwise.
 	 * @throws DataStorageException
 	 */
-	CategorieProduit removeProductCategory(String productCategoryId) throws DataStorageException;
+	Boolean removeProductCategory(String productCategoryId) throws DataStorageException;
 
 	/**
-	 * Retrieves product categories from the data storage based on the given key word.
+	 * Retrieves product categories from the data storage based on the given key
+	 * word.
 	 * 
 	 * @param keyWord
 	 *            provided key word.

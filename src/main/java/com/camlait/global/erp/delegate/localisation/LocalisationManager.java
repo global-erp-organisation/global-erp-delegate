@@ -1,4 +1,4 @@
-package com.camlait.global.erp.delegate.licalisation;
+package com.camlait.global.erp.delegate.localisation;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -186,6 +186,6 @@ public interface TarificationManager {
 	 *         provided partner
 	 * @throws DataStorageException
 	 */
-	Double retrieveUnitPrice(String priceTypeId, String zoneId, String productId) throws DataStorageException;
+	Double retrieveUnitPrice(String tarifId, String zoneId, String productId) throws DataStorageException;
 
 }
