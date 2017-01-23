@@ -89,7 +89,7 @@ public class DefaultInventoryManager implements InventoryManager {
 	@Override
 	public <T extends Magasin> T retrieveStore(Class<T> clazz, String storeId) throws DataStorageException {
 		final Magasin s = retrieveStore(storeId);
-		return s.instanceOf(clazz) ? (T) s : null;
+		return s.isTypeOf(clazz) ? (T) s : null;
 	}
 
 	@Override

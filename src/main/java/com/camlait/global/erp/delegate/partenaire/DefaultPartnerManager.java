@@ -45,7 +45,7 @@ public class DefaultPartnerManager implements PartnerManager {
 	@Override
 	public <T extends Partenaire> T retrievePartner(Class<T> clazz, String partnerId) throws DataStorageException {
 		final Partenaire p = retrievePartner(partnerId);
-		return p.instanceOf(clazz) ? (T) p : null;
+		return p.isTypeOf(clazz) ? (T) p : null;
 	}
 
 	@Override

@@ -62,7 +62,7 @@ public class DefaultDocumentManager implements DocumentManager {
 	@Override
 	public <T extends Document> T retrieveDocument(Class<T> clazz, String documentId) throws DataStorageException {
 		final Document d = retrieveDocument(documentId);
-		return d.instanceOf(clazz) ? (T) d : null;
+		return d.isTypeOf(clazz) ? (T) d : null;
 	}
 
 	@Override

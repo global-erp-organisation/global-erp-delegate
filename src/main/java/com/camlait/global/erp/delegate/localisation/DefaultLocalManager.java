@@ -45,7 +45,7 @@ public class DefaultLocalManager implements LocalisationManager {
 	@Override
 	public <T> T retrieveLocalisation(Class<T> clazz, String localId) throws DataStorageException {
 		final Localisation l = retrieveLocalisation(localId);
-		return l.instanceOf(clazz) ? (T) l : null;
+		return l.isTypeOf(clazz) ? (T) l : null;
 	}
 
 	@Override
