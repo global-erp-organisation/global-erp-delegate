@@ -20,93 +20,93 @@ import com.camlait.global.erp.domain.inventaire.Stock;
 @Component
 public class DefaultInventoryManager implements InventoryManager {
 
-	private final EntrepotDao entrepotDao;
-	private final MagasinDao magasinDao;
-	private final InventaireDao inventaireDao;
+    private final EntrepotDao entrepotDao;
+    private final MagasinDao magasinDao;
+    private final InventaireDao inventaireDao;
 
-	@Autowired
-	public DefaultInventoryManager(EntrepotDao entrepotDao, MagasinDao magasinDao, InventaireDao inventaireDao) {
-		this.entrepotDao = entrepotDao;
-		this.magasinDao = magasinDao;
-		this.inventaireDao = inventaireDao;
+    @Autowired
+    public DefaultInventoryManager(EntrepotDao entrepotDao, MagasinDao magasinDao, InventaireDao inventaireDao) {
+        this.entrepotDao = entrepotDao;
+        this.magasinDao = magasinDao;
+        this.inventaireDao = inventaireDao;
 
-	}
+    }
 
-	@Override
-	public Entrepot addWareHouse(Entrepot wareHouse) throws DataStorageException {
-		return entrepotDao.save(wareHouse);
-	}
+    @Override
+    public Entrepot addWareHouse(Entrepot wareHouse) throws DataStorageException {
+        return entrepotDao.save(wareHouse);
+    }
 
-	@Override
-	public Entrepot updateWareHouse(Entrepot wareHouse) throws DataStorageException {
-		final Entrepot e = retrieveWareHouse(wareHouse.getEntrepotId());
-		return entrepotDao.saveAndFlush(wareHouse.merge(e));
-	}
+    @Override
+    public Entrepot updateWareHouse(Entrepot wareHouse) throws DataStorageException {
+        final Entrepot e = retrieveWareHouse(wareHouse.getEntrepotId());
+        return entrepotDao.saveAndFlush(wareHouse.merge(e));
+    }
 
-	@Override
-	public Entrepot retrieveWareHouse(String wareHouseId) throws DataStorageException {
-		final Entrepot e = entrepotDao.findOne(wareHouseId);
-		if (e == null) {
-			throw new DataStorageException("The warehouse that you are trying to retrieve does not exist.");
-		}
-		return e.lazyInit();
-	}
+    @Override
+    public Entrepot retrieveWareHouse(String wareHouseId) throws DataStorageException {
+        final Entrepot e = entrepotDao.findOne(wareHouseId);
+        if (e == null) {
+            throw new DataStorageException("The warehouse that you are trying to retrieve does not exist.");
+        }
+        return e.lazyInit();
+    }
 
-	@Override
-	public Boolean removeWareHouse(String wareHouseId) throws DataStorageException {
-		final Entrepot e = retrieveWareHouse(wareHouseId);
-		entrepotDao.delete(e);
-		return true;
-	}
+    @Override
+    public Boolean removeWareHouse(String wareHouseId) throws DataStorageException {
+        final Entrepot e = retrieveWareHouse(wareHouseId);
+        entrepotDao.delete(e);
+        return true;
+    }
 
-	@Override
-	public Page<Entrepot> retrieveWareHouses(String keyWord, Pageable p) throws DataStorageException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public Page<Entrepot> retrieveWareHouses(String keyWord, Pageable p) throws DataStorageException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public Magasin addStore(Magasin store) throws DataStorageException {
-		return magasinDao.save(store);
-	}
+    @Override
+    public Magasin addStore(Magasin store) throws DataStorageException {
+        return magasinDao.save(store);
+    }
 
-	@Override
-	public Magasin updateStore(Magasin store) throws DataStorageException {
-		final Magasin s = retrieveStore(store.getMagasinId());
-		return magasinDao.saveAndFlush(store.merge(s));
-	}
+    @Override
+    public Magasin updateStore(Magasin store) throws DataStorageException {
+        final Magasin s = retrieveStore(store.getMagasinId());
+        return magasinDao.saveAndFlush(store.merge(s));
+    }
 
-	@Override
-	public Magasin retrieveStore(String storeId) throws DataStorageException {
-		final Magasin s = magasinDao.findOne(storeId);
-		if (s == null) {
-			throw new DataStorageException("The store that you are trying to retrieve does not exist");
-		}
-		return s.lazyInit();
-	}
+    @Override
+    public Magasin retrieveStore(String storeId) throws DataStorageException {
+        final Magasin s = magasinDao.findOne(storeId);
+        if (s == null) {
+            throw new DataStorageException("The store that you are trying to retrieve does not exist");
+        }
+        return s.lazyInit();
+    }
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T extends Magasin> T retrieveStore(Class<T> clazz, String storeId) throws DataStorageException {
-		final Magasin s = retrieveStore(storeId);
-		return s.isTypeOf(clazz) ? (T) s : null;
-	}
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T extends Magasin> T retrieveStore(Class<T> clazz, String storeId) throws DataStorageException {
+        final Magasin s = retrieveStore(storeId);
+        return s.isTypeOf(clazz) ? (T) s : null;
+    }
 
-	@Override
-	public Boolean removeStore(String storeId) throws DataStorageException {
-		final Magasin s = retrieveStore(storeId);
-		magasinDao.delete(s);
-		return true;
-	}
+    @Override
+    public Boolean removeStore(String storeId) throws DataStorageException {
+        final Magasin s = retrieveStore(storeId);
+        magasinDao.delete(s);
+        return true;
+    }
 
-	@Override
-	public Page<Magasin> retrieveStores(String keyWord, Pageable p) throws DataStorageException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public Page<Magasin> retrieveStores(String keyWord, Pageable p) throws DataStorageException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public Collection<Stock> getInventoryByStore(Magasin store) throws DataStorageException {
-		return null;
-	}
+    @Override
+    public Collection<Stock> getInventoryByStore(Magasin store) throws DataStorageException {
+        return null;
+    }
 }
