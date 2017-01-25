@@ -48,8 +48,7 @@ public interface UserManager {
      * Permanently delete from the data storage a user based on the provided
      * user code.
      * 
-     * @param userCode
-     *            provided user code.
+     * @param userCode provided user code.
      * @return a boolean that indicates if the delete operation where
      *         successfully perform or not
      * @throws DataStorageException
@@ -60,9 +59,7 @@ public interface UserManager {
      * Retrieve user from the data storage based on the provided key word.
      * 
      * @param keyWord Provided key word.
-     * @param page
-     *            Pageable object that indicated how many record need to be
-     *            extracted per page.
+     * @param page Pageable object that indicated how many record need to be extracted per page.
      * @return A page of user that belongs to the given key word.
      * @throws DataStorageException
      */

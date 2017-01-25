@@ -16,79 +16,77 @@ import com.camlait.global.erp.domain.produit.Produit;
 @Component
 public class DefaultProductManager implements ProductManager {
 
-	private final ProduitDao produitDao;
-	private final CategorieProduitDao categorieDao;
+    private final ProduitDao produitDao;
+    private final CategorieProduitDao categorieDao;
 
-	@Autowired
-	public DefaultProductManager(ProduitDao produitDao, CategorieProduitDao categorieDao) {
-		this.produitDao = produitDao;
-		this.categorieDao = categorieDao;
-	}
+    @Autowired
+    public DefaultProductManager(ProduitDao produitDao, CategorieProduitDao categorieDao) {
+        this.produitDao = produitDao;
+        this.categorieDao = categorieDao;
+    }
 
-	@Override
-	public Produit addProduct(Produit product) throws DataStorageException {
-		return produitDao.save(product);
-	}
+    @Override
+    public Produit addProduct(Produit product) throws DataStorageException {
+        return produitDao.save(product);
+    }
 
-	@Override
-	public Produit updateProduct(Produit product) throws DataStorageException {
-		final Produit p = produitDao.findOne(product.getProduitId());
-		return produitDao.saveAndFlush(product.merge(p));
-	}
+    @Override
+    public Produit updateProduct(Produit product) throws DataStorageException {
+        final Produit p = produitDao.findOne(product.getProduitId());
+        return produitDao.saveAndFlush(product.merge(p));
+    }
 
-	@Override
-	public Produit retrieveProduct(String productId) throws DataStorageException {
-		final Produit p = produitDao.findOne(productId);
-		if (p == null) {
-			throw new DataStorageException("The product you are trying to retrieve does not exist.");
-		}
-		return p.lazyInit();
-	}
+    @Override
+    public Produit retrieveProduct(String productId) throws DataStorageException {
+        final Produit p = produitDao.findOne(productId);
+        if (p == null) {
+            throw new DataStorageException("The product you are trying to retrieve does not exist.");
+        }
+        return p.lazyInit();
+    }
 
-	@Override
-	public Boolean removeProduct(String productId) throws DataStorageException {
-		final Produit p = retrieveProduct(productId);
-		produitDao.delete(p);
-		return true;
-	}
+    @Override
+    public Boolean removeProduct(String productId) throws DataStorageException {
+        final Produit p = retrieveProduct(productId);
+        produitDao.delete(p);
+        return true;
+    }
 
-	@Override
-	public Page<Produit> retriveProducts(String keyWord, Pageable p) throws DataStorageException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public Page<Produit> retriveProducts(String keyWord, Pageable p) throws DataStorageException {
+        return produitDao.retriveProducts(keyWord, p);
+    }
 
-	@Override
-	public CategorieProduit addProductCategory(CategorieProduit productCategory) throws DataStorageException {
-		return categorieDao.save(productCategory);
-	}
+    @Override
+    public CategorieProduit addProductCategory(CategorieProduit productCategory) throws DataStorageException {
+        return categorieDao.save(productCategory);
+    }
 
-	@Override
-	public CategorieProduit updateProductCategory(CategorieProduit productCategory) throws DataStorageException {
-		final CategorieProduit c = retrieveProductCategory(productCategory.getCategorieProduitId());
-		return categorieDao.saveAndFlush(productCategory.merge(c));
-	}
+    @Override
+    public CategorieProduit updateProductCategory(CategorieProduit productCategory) throws DataStorageException {
+        final CategorieProduit c = retrieveProductCategory(productCategory.getCategorieProduitId());
+        return categorieDao.saveAndFlush(productCategory.merge(c));
+    }
 
-	@Override
-	public CategorieProduit retrieveProductCategory(String productCategoryId) throws DataStorageException {
-		final CategorieProduit c = categorieDao.findOne(productCategoryId);
-		if (c == null) {
-			throw new DataStorageException("The product category that you are trying to retrieve does not exist.");
-		}
-		return c.lazyInit();
-	}
+    @Override
+    public CategorieProduit retrieveProductCategory(String productCategoryId) throws DataStorageException {
+        final CategorieProduit c = categorieDao.findOne(productCategoryId);
+        if (c == null) {
+            throw new DataStorageException("The product category that you are trying to retrieve does not exist.");
+        }
+        return c.lazyInit();
+    }
 
-	@Override
-	public Boolean removeProductCategory(String productCategoryId) throws DataStorageException {
-		final CategorieProduit c = retrieveProductCategory(productCategoryId);
-		categorieDao.delete(c);
-		return true;
-	}
+    @Override
+    public Boolean removeProductCategory(String productCategoryId) throws DataStorageException {
+        final CategorieProduit c = retrieveProductCategory(productCategoryId);
+        categorieDao.delete(c);
+        return true;
+    }
 
-	@Override
-	public Page<CategorieProduit> retriveProductCategories(String keyWord, Pageable p) throws DataStorageException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public Page<CategorieProduit> retriveProductCategories(String keyWord, Pageable p) throws DataStorageException {
+        return categorieDao.retriveProductCategories(keyWord, p);
+    }
 
 }
