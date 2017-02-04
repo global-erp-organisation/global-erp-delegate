@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import com.camlait.global.erp.domain.entrepot.Entrepot;
 import com.camlait.global.erp.domain.entrepot.Magasin;
 import com.camlait.global.erp.domain.exception.DataStorageException;
+import com.camlait.global.erp.domain.inventaire.Inventaire;
 import com.camlait.global.erp.domain.inventaire.Stock;
 
 public interface InventoryManager {
@@ -115,10 +116,56 @@ public interface InventoryManager {
     /**
      * Retrieves the inventory for the given store.
      * 
-     * @param store
+     * @param storeId Store identifier.
      * @return
      * @throws DataStorageException
      */
-    Collection<Stock> getInventoryByStore(Magasin store) throws DataStorageException;
+    Collection<Stock> getInventoryByStore(String storeId) throws DataStorageException;
+    
+    /**
+     * Add an inventory in the data storage.
+     * 
+     * @param inventory inventory to store.
+     * @return The stored record.
+     * @throws DataStorageException
+     */
+    Inventaire addInventory(Inventaire inventory) throws DataStorageException;
+
+    /**
+     * update an inventory in the data storage.
+     * 
+     * @param inventory Inventory to update.
+     * @return The updated record.
+     * @throws DataStorageException
+     */
+    Inventaire updateInventory(Inventaire inventory) throws DataStorageException;
+
+    /**
+     * Retrieve a warehouse from the data storage.
+     * 
+     * @param inventoryId Inventory identifier.
+     * @return
+     * @throws DataStorageException
+     */
+    Inventaire retrieveInventory(String inventoryId) throws DataStorageException;
+
+    /**
+     * remove an inventory in the data storage.
+     * 
+     * @param inventoryId Inventory identifier to remove.
+     * @return
+     * @throws DataStorageException
+     */
+    Boolean removeInventory(String inventoryId) throws DataStorageException;
+
+    /**
+     * Retrieves stores from the data storage based on the given key word.
+     * 
+     * @param keyWord
+     * @return
+     * @throws DataStorageException
+     */
+    Page<Inventaire> retrieveInventories(String keyWord, Pageable p) throws DataStorageException;
+
 
 }

@@ -14,6 +14,7 @@ import com.camlait.global.erp.dao.inventaire.InventaireDao;
 import com.camlait.global.erp.domain.entrepot.Entrepot;
 import com.camlait.global.erp.domain.entrepot.Magasin;
 import com.camlait.global.erp.domain.exception.DataStorageException;
+import com.camlait.global.erp.domain.inventaire.Inventaire;
 import com.camlait.global.erp.domain.inventaire.Stock;
 
 @Transactional
@@ -106,7 +107,40 @@ public class DefaultInventoryManager implements InventoryManager {
     }
 
     @Override
-    public Collection<Stock> getInventoryByStore(Magasin store) throws DataStorageException {
+    public Collection<Stock> getInventoryByStore(String storeId) throws DataStorageException {
+        final Magasin store = retrieveStore(storeId);
+        return store.getStocks();
+    }
+
+    @Override
+    public Inventaire addInventory(Inventaire inventory) throws DataStorageException {
+        return inventaireDao.save(inventory);
+    }
+
+    @Override
+    public Inventaire updateInventory(Inventaire inventory) throws DataStorageException {
+        final Inventaire i = retrieveInventory(inventory.getInventaireId());
+        return inventaireDao.saveAndFlush(inventory.merge(i));
+    }
+
+    @Override
+    public Inventaire retrieveInventory(String inventoryId) throws DataStorageException {
+        final Inventaire i = inventaireDao.findOne(inventoryId);
+        if (i == null) {
+            throw new DataStorageException("The inventory that you are looking for does not exist.");
+        }
+        return i.lazyInit();
+    }
+
+    @Override
+    public Boolean removeInventory(String inventoryId) throws DataStorageException {
+        final Inventaire i = retrieveInventory(inventoryId);
+        inventaireDao.delete(i);
+        return true;
+    }
+
+    @Override
+    public Page<Inventaire> retrieveInventories(String keyWord, Pageable p) throws DataStorageException {
         return null;
     }
 }
