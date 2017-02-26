@@ -22,18 +22,18 @@ public class DefaultPartnerManager implements PartnerManager {
     }
 
     @Override
-    public Partenaire addPartner(Partenaire partner) throws DataStorageException {
+    public Partenaire addPartner(final Partenaire partner) throws DataStorageException {
         return partenaireDao.save(partner);
     }
 
     @Override
-    public Partenaire updatePartner(Partenaire partner) throws DataStorageException {
+    public Partenaire updatePartner(final Partenaire partner) throws DataStorageException {
         final Partenaire p = retrievePartner(partner.getPartenaireId());
         return partenaireDao.saveAndFlush(p.merge(partner));
     }
 
     @Override
-    public Partenaire retrievePartner(String partnerId) throws DataStorageException {
+    public Partenaire retrievePartner(final String partnerId) throws DataStorageException {
         final Partenaire p = partenaireDao.findOne(partnerId);
         if (p == null) {
             throw new DataStorageException("The partner you are trying to retrieve does not exist.");
@@ -43,20 +43,20 @@ public class DefaultPartnerManager implements PartnerManager {
 
     @SuppressWarnings("unchecked")
     @Override
-    public <T extends Partenaire> T retrievePartner(Class<T> clazz, String partnerId) throws DataStorageException {
+    public <T extends Partenaire> T retrievePartner(Class<T> clazz, final String partnerId) throws DataStorageException {
         final Partenaire p = retrievePartner(partnerId);
         return p.isTypeOf(clazz) ? (T) p : null;
     }
 
     @Override
-    public Boolean removePartner(String partnerId) throws DataStorageException {
+    public Boolean removePartner(final String partnerId) throws DataStorageException {
         final Partenaire p = retrievePartner(partnerId);
         partenaireDao.delete(p);
         return true;
     }
 
     @Override
-    public Page<Partenaire> retrievePartners(String keyWord, Pageable p) throws DataStorageException {
+    public Page<Partenaire> retrievePartners(final String keyWord, Pageable p) throws DataStorageException {
         return null;
     }
 }

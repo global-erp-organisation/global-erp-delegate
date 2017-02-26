@@ -22,18 +22,18 @@ public class DefaultLocalManager implements LocalisationManager {
 	}
 
 	@Override
-	public Localisation addLocalisation(Localisation local) throws DataStorageException {
+	public Localisation addLocalisation(final Localisation local) throws DataStorageException {
 		return localDao.save(local);
 	}
 
 	@Override
-	public Localisation updateLocalisation(Localisation local) throws DataStorageException {
+	public Localisation updateLocalisation(final Localisation local) throws DataStorageException {
 		final Localisation l = retrieveLocalisation(local.getLocalId());
 		return localDao.saveAndFlush(local.merge(l));
 	}
 
 	@Override
-	public Localisation retrieveLocalisation(String localId) throws DataStorageException {
+	public Localisation retrieveLocalisation(final String localId) throws DataStorageException {
 		final Localisation l = localDao.findOne(localId);
 		if (l == null) {
 			throw new DataStorageException("The local that you are trying to retrieve does not exist.");
@@ -43,20 +43,20 @@ public class DefaultLocalManager implements LocalisationManager {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T> T retrieveLocalisation(Class<T> clazz, String localId) throws DataStorageException {
+	public <T> T retrieveLocalisation(Class<T> clazz, final String localId) throws DataStorageException {
 		final Localisation l = retrieveLocalisation(localId);
 		return l.isTypeOf(clazz) ? (T) l : null;
 	}
 
 	@Override
-	public Boolean removeLocalisation(String localId) throws DataStorageException {
+	public Boolean removeLocalisation(final String localId) throws DataStorageException {
 		final Localisation l = retrieveLocalisation(localId);
 		localDao.delete(l);
 		return true;
 	}
 
 	@Override
-	public Page<Localisation> retriveLocalisations(String keyWord, Pageable p) throws DataStorageException {
+	public Page<Localisation> retriveLocalisations(final String keyWord, Pageable p) throws DataStorageException {
 		// TODO Auto-generated method stub
 		return null;
 	}

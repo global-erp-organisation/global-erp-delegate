@@ -35,18 +35,18 @@ public class DefaultBmqManager implements BmqManager {
     }
 
     @Override
-    public Bmq addBmq(Bmq bmq) throws DataStorageException {
+    public Bmq addBmq(final Bmq bmq) throws DataStorageException {
         return bmqDao.save(bmq);
     }
 
     @Override
-    public Bmq updateBmq(Bmq bmq) throws DataStorageException {
+    public Bmq updateBmq(final Bmq bmq) throws DataStorageException {
         final Bmq b = retrieveBmq(bmq.getBmqId());
         return bmqDao.saveAndFlush(bmq.merge(b));
     }
 
     @Override
-    public Bmq retrieveBmq(String bmqId) throws DataStorageException {
+    public Bmq retrieveBmq(final String bmqId) throws DataStorageException {
         final Bmq b = bmqDao.findOne(bmqId);
         if (b == null) {
             throw new DataStorageException("The Bmq that your are looking for does not exist.");
@@ -55,30 +55,30 @@ public class DefaultBmqManager implements BmqManager {
     }
 
     @Override
-    public Bmq buildBmqDetails(String bmqId) throws DataStorageException {
+    public Bmq buildBmqDetails(final String bmqId) throws DataStorageException {
         final Bmq b = retrieveBmq(bmqId);
         return bmqDao.saveAndFlush(b.buildLigne());
     }
 
     @Override
-    public Boolean removeBmq(String bmqId) throws DataStorageException {
+    public Boolean removeBmq(final String bmqId) throws DataStorageException {
         final Bmq b = retrieveBmq(bmqId);
         bmqDao.delete(b);
         return true;
     }
 
     @Override
-    public Page<Bmq> retrieveBmqs(String keyWord, Pageable p) throws DataStorageException {
+    public Page<Bmq> retrieveBmqs(final String keyWord, Pageable p) throws DataStorageException {
         return bmqDao.retrieveBmqs(keyWord, p);
     }
 
     @Override
-    public Page<Bmq> retrieveBmqs(Date start, Date end, Pageable p) throws DataStorageException {
+    public Page<Bmq> retrieveBmqs(final Date start, final Date end, Pageable p) throws DataStorageException {
         return bmqDao.retrieveBmqs(start, end, p);
     }
 
     @Override
-    public void generateCashSales(String bmqId) throws DataStorageException {
+    public void generateCashSales(final String bmqId) throws DataStorageException {
         final Bmq b = retrieveBmq(bmqId);
         final Document d = FactureClientComptant.createHeaderFromBmq(b);
         final Collection<LigneDeDocument> lignes = inventoryManager.getInventoryByStore(b.getMagasin().getMagasinId()).parallelStream().map(s -> {

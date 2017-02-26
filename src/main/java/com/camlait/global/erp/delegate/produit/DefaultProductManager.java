@@ -26,18 +26,18 @@ public class DefaultProductManager implements ProductManager {
     }
 
     @Override
-    public Produit addProduct(Produit product) throws DataStorageException {
+    public Produit addProduct(final Produit product) throws DataStorageException {
         return produitDao.save(product);
     }
 
     @Override
-    public Produit updateProduct(Produit product) throws DataStorageException {
+    public Produit updateProduct(final Produit product) throws DataStorageException {
         final Produit p = produitDao.findOne(product.getProduitId());
         return produitDao.saveAndFlush(product.merge(p));
     }
 
     @Override
-    public Produit retrieveProduct(String productId) throws DataStorageException {
+    public Produit retrieveProduct(final String productId) throws DataStorageException {
         final Produit p = produitDao.findOne(productId);
         if (p == null) {
             throw new DataStorageException("The product you are trying to retrieve does not exist.");
@@ -46,30 +46,30 @@ public class DefaultProductManager implements ProductManager {
     }
 
     @Override
-    public Boolean removeProduct(String productId) throws DataStorageException {
+    public Boolean removeProduct(final String productId) throws DataStorageException {
         final Produit p = retrieveProduct(productId);
         produitDao.delete(p);
         return true;
     }
 
     @Override
-    public Page<Produit> retriveProducts(String keyWord, Pageable p) throws DataStorageException {
+    public Page<Produit> retriveProducts(final String keyWord, Pageable p) throws DataStorageException {
         return produitDao.retriveProducts(keyWord, p);
     }
 
     @Override
-    public CategorieProduit addProductCategory(CategorieProduit productCategory) throws DataStorageException {
+    public CategorieProduit addProductCategory(final CategorieProduit productCategory) throws DataStorageException {
         return categorieDao.save(productCategory);
     }
 
     @Override
-    public CategorieProduit updateProductCategory(CategorieProduit productCategory) throws DataStorageException {
+    public CategorieProduit updateProductCategory(final CategorieProduit productCategory) throws DataStorageException {
         final CategorieProduit c = retrieveProductCategory(productCategory.getCategorieProduitId());
         return categorieDao.saveAndFlush(productCategory.merge(c));
     }
 
     @Override
-    public CategorieProduit retrieveProductCategory(String productCategoryId) throws DataStorageException {
+    public CategorieProduit retrieveProductCategory(final String productCategoryId) throws DataStorageException {
         final CategorieProduit c = categorieDao.findOne(productCategoryId);
         if (c == null) {
             throw new DataStorageException("The product category that you are trying to retrieve does not exist.");
@@ -78,14 +78,14 @@ public class DefaultProductManager implements ProductManager {
     }
 
     @Override
-    public Boolean removeProductCategory(String productCategoryId) throws DataStorageException {
+    public Boolean removeProductCategory(final String productCategoryId) throws DataStorageException {
         final CategorieProduit c = retrieveProductCategory(productCategoryId);
         categorieDao.delete(c);
         return true;
     }
 
     @Override
-    public Page<CategorieProduit> retriveProductCategories(String keyWord, Pageable p) throws DataStorageException {
+    public Page<CategorieProduit> retriveProductCategories(final String keyWord, Pageable p) throws DataStorageException {
         return categorieDao.retriveProductCategories(keyWord, p);
     }
 

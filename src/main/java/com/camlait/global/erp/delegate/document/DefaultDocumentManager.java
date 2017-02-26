@@ -39,18 +39,18 @@ public class DefaultDocumentManager implements DocumentManager {
 	}
 
 	@Override
-	public Document addDocument(Document document) throws DataStorageException {
+	public Document addDocument(final Document document) throws DataStorageException {
 		return documentDao.save(document);
 	}
 
 	@Override
-	public Document updateDocument(Document document) throws DataStorageException {
+	public Document updateDocument(final Document document) throws DataStorageException {
 		final Document stored = retrieveDocument(document.getDocumentId());
 		return documentDao.saveAndFlush(document.merge(stored));
 	}
 
 	@Override
-	public Document retrieveDocument(String documentId) throws DataStorageException {
+	public Document retrieveDocument(final String documentId) throws DataStorageException {
 		final Document d = documentDao.findOne(documentId);
 		if (d == null) {
 			throw new DataStorageException("The document you are trying to retrieve does not exist.");
@@ -60,30 +60,30 @@ public class DefaultDocumentManager implements DocumentManager {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T extends Document> T retrieveDocument(Class<T> clazz, String documentId) throws DataStorageException {
+	public <T extends Document> T retrieveDocument(final Class<T> clazz, final String documentId) throws DataStorageException {
 		final Document d = retrieveDocument(documentId);
 		return d.isTypeOf(clazz) ? (T) d : null;
 	}
 
 	@Override
-	public Boolean removeDocument(String documentId) throws DataStorageException {
+	public Boolean removeDocument(final String documentId) throws DataStorageException {
 		final Document d = retrieveDocument(documentId);
 		documentDao.delete(d);
 		return true;
 	}
 
 	@Override
-	public Page<Document> retrieveDocuments(String keyWord, Pageable p) throws DataStorageException {
+	public Page<Document> retrieveDocuments(final String keyWord, Pageable p) throws DataStorageException {
 		return documentDao.retrieveDocuments(keyWord, p);
 	}
 
 	@Override
-	public Page<Document> retrieveDocuments(Date start, Date end, Pageable p) throws DataStorageException {
+	public Page<Document> retrieveDocuments(final Date start, final Date end, Pageable p) throws DataStorageException {
 		return documentDao.retrieveDocuments(start, end, p);
 	}
 
 	@Override
-	public Double documentValueWithoutTaxes(String documentId) throws DataStorageException {
+	public Double documentValueWithoutTaxes(final String documentId) throws DataStorageException {
 		final Document d = retrieveDocument(documentId);
 		return d == null ? 0.0 : d.getLigneDocuments().stream().mapToDouble(l -> {
 			return l.getPrixunitaiteLigne() * l.getQuantiteLigne();
@@ -91,7 +91,7 @@ public class DefaultDocumentManager implements DocumentManager {
 	}
 
 	@Override
-	public Double documentTaxesValue(String documentId) throws DataStorageException {
+	public Double documentTaxesValue(final String documentId) throws DataStorageException {
 		final Document d = retrieveDocument(documentId);
 		return d == null ? 0.0 : d.getLigneDocuments().stream().mapToDouble(l -> {
 			return l.getLigneDeDocumentTaxes().stream().mapToDouble(ldt -> {
@@ -101,9 +101,9 @@ public class DefaultDocumentManager implements DocumentManager {
 	}
 
 	@Override
-	public Double documentTaxesValue(String taxId, String documentId) throws DataStorageException {
+	public Double documentTaxesValue(final String taxId, final String documentId) throws DataStorageException {
 		final Document d = retrieveDocument(documentId);
-		return d == null ? 0.0 : d.getLigneDocuments().parallelStream().mapToDouble(ld -> {
+		return d == null ? 0.0 : d.getLigneDocuments().stream().mapToDouble(ld -> {
 			return ld.getLigneDeDocumentTaxes().stream().filter(ldt -> ldt.getTaxe().getTaxeId() == taxId)
 					.mapToDouble(ldt -> {
 						return ld.getPrixunitaiteLigne() * ld.getQuantiteLigne() * ldt.getTauxDeTaxe();
@@ -112,12 +112,12 @@ public class DefaultDocumentManager implements DocumentManager {
 	}
 
 	@Override
-	public Double documentValueWithTaxes(String documentId) throws DataStorageException {
+	public Double documentValueWithTaxes(final String documentId) throws DataStorageException {
 		return documentValueWithoutTaxes(documentId) + documentTaxesValue(documentId);
 	}
 
 	@Override
-	public Double documentMarginValue(String documentId) throws DataStorageException {
+	public Double documentMarginValue(final String documentId) throws DataStorageException {
 		final FactureMarge f = retrieveDocument(FactureMarge.class, documentId);
 		if (f == null) {
 			return 0.0;
@@ -136,37 +136,34 @@ public class DefaultDocumentManager implements DocumentManager {
 	}
 
 	@Override
-	public Taxe addTax(Taxe tax) throws DataStorageException {
+	public Taxe addTax(final Taxe tax) throws DataStorageException {
 		return taxDao.save(tax);
 	}
 
 	@Override
-	public Taxe updateTax(Taxe tax) throws DataStorageException {
+	public Taxe updateTax(final Taxe tax) throws DataStorageException {
 		final Taxe t = retrieveTax(tax.getTaxeId());
-		if (t == null) {
-			throw new DataStorageException("The tax your are trying to update does not exist.");
-		}
 		return taxDao.saveAndFlush(tax.merge(t));
 	}
 
 	@Override
-	public Taxe retrieveTax(String taxId) throws DataStorageException {
+	public Taxe retrieveTax(final String taxId) throws DataStorageException {
 		final Taxe tax = retrieveTax(taxId);
+	      if (tax == null) {
+	            throw new DataStorageException("The tax your are trying to retireve does not exist.");
+	        }
 		return tax == null ? null : tax.lazyInit();
 	}
 
 	@Override
-	public Boolean removeTax(String taxId) throws DataStorageException {
+	public Boolean removeTax(final String taxId) throws DataStorageException {
 		final Taxe tax = retrieveTax(taxId);
-		if (tax == null) {
-			throw new DataStorageException("The tax your are trying to remove does not exist.");
-		}
 		taxDao.delete(tax);
 		return true;
 	}
 
 	@Override
-	public Page<Taxe> retrieveTaxes(String keyWord, Pageable p) throws DataStorageException {
+	public Page<Taxe> retrieveTaxes(final String keyWord, Pageable p) throws DataStorageException {
 		return taxDao.retrieveTaxes(keyWord, p);
 	}
 }

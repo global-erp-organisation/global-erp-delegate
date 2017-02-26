@@ -30,18 +30,18 @@ public class DefaultTarificationManager implements TarificationManager {
     }
 
     @Override
-    public PriceType addPriceType(PriceType priceType) throws DataStorageException {
+    public PriceType addPriceType(final PriceType priceType) throws DataStorageException {
         return priceDao.save(priceType);
     }
 
     @Override
-    public PriceType updatePriceType(PriceType priceType) throws DataStorageException {
+    public PriceType updatePriceType(final PriceType priceType) throws DataStorageException {
         final PriceType p = retrievePricetype(priceType.getPriceTypeId());
         return priceDao.saveAndFlush(priceType.merge(p));
     }
 
     @Override
-    public PriceType retrievePricetype(String priceTypeId) throws DataStorageException {
+    public PriceType retrievePricetype(final String priceTypeId) throws DataStorageException {
         final PriceType p = priceDao.findOne(priceTypeId);
         if (p == null) {
             throw new DataStorageException("The price type that you are trying to retrieve does not exist.");
@@ -50,31 +50,31 @@ public class DefaultTarificationManager implements TarificationManager {
     }
 
     @Override
-    public Boolean removePricetype(String priceTypeId) throws DataStorageException {
+    public Boolean removePricetype(final String priceTypeId) throws DataStorageException {
         final PriceType p = retrievePricetype(priceTypeId);
         priceDao.delete(p);
         return true;
     }
 
     @Override
-    public Page<PriceType> retrievePriceTypes(String keyWord, Pageable p) throws DataStorageException {
+    public Page<PriceType> retrievePriceTypes(final String keyWord, Pageable p) throws DataStorageException {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Tarif addTarif(Tarif tariff) throws DataStorageException {
+    public Tarif addTarif(final Tarif tariff) throws DataStorageException {
         return tarifDao.save(tariff);
     }
 
     @Override
-    public Tarif updateTarif(Tarif tariff) throws DataStorageException {
+    public Tarif updateTarif(final Tarif tariff) throws DataStorageException {
         final Tarif t = retrieveTarif(tariff.getTarifId());
         return tarifDao.saveAndFlush(tariff.merge(t));
     }
 
     @Override
-    public Tarif retrieveTarif(String tariffId) throws DataStorageException {
+    public Tarif retrieveTarif(final String tariffId) throws DataStorageException {
         final Tarif t = tarifDao.findOne(tariffId);
         if (t == null) {
             throw new DataStorageException("The tariff that you are trying to retrieve does not exist.");
@@ -83,31 +83,31 @@ public class DefaultTarificationManager implements TarificationManager {
     }
 
     @Override
-    public Boolean removeTarif(String tariffId) throws DataStorageException {
+    public Boolean removeTarif(final String tariffId) throws DataStorageException {
         final Tarif t = retrieveTarif(tariffId);
         tarifDao.delete(t);
         return true;
     }
 
     @Override
-    public Page<Tarif> retrieveTarifs(String keyWord, Pageable p) throws DataStorageException {
+    public Page<Tarif> retrieveTarifs(final String keyWord, Pageable p) throws DataStorageException {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Tarification addTarification(Tarification tarification) throws DataStorageException {
+    public Tarification addTarification(final Tarification tarification) throws DataStorageException {
         return tarificationDao.save(tarification);
     }
 
     @Override
-    public Tarification updateTarification(Tarification tarification) throws DataStorageException {
+    public Tarification updateTarification(final Tarification tarification) throws DataStorageException {
         final Tarification t = retrieveTarification(tarification.getTarificationId());
         return tarificationDao.saveAndFlush(tarification.merge(t));
     }
 
     @Override
-    public Tarification retrieveTarification(String tarificationId) throws DataStorageException {
+    public Tarification retrieveTarification(final String tarificationId) throws DataStorageException {
         final Tarification t = tarificationDao.findOne(tarificationId);
         if (t == null) {
             throw new DataStorageException("The tarification that you are trying to retrieve does not exist.");
@@ -116,19 +116,19 @@ public class DefaultTarificationManager implements TarificationManager {
     }
 
     @Override
-    public Boolean removeTarification(String tarificationId) throws DataStorageException {
+    public Boolean removeTarification(final String tarificationId) throws DataStorageException {
         final Tarification t = retrieveTarification(tarificationId);
         tarificationDao.delete(t);
         return true;
     }
 
     @Override
-    public Page<Tarification> retrieveTarifications(String keyWord, Pageable p) throws DataStorageException {
+    public Page<Tarification> retrieveTarifications(final String keyWord, Pageable p) throws DataStorageException {
         return tarificationDao.retrieveTarifications(keyWord, p);
     }
 
     @Override
-    public Double retrieveUnitPrice(String tarifId, String zoneId, String productId) throws DataStorageException {
+    public Double retrieveUnitPrice(final String tarifId, final String zoneId, final String productId) throws DataStorageException {
         return tarificationDao.retrieveUnitPrice(tarifId, zoneId, productId);
     }
 }
