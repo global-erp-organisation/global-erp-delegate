@@ -118,14 +118,13 @@ public class DefaultDocumentManager implements DocumentManager {
 
 	@Override
 	public Double documentMarginValue(String documentId) throws DataStorageException {
-		final Document d = retrieveDocument(documentId);
-		if (d == null || !d.isFactureMarge()) {
+		final FactureMarge f = retrieveDocument(FactureMarge.class, documentId);
+		if (f == null) {
 			return 0.0;
 		}
-		final FactureMarge f = (FactureMarge) d;
 		final PriceType type = f.getPriceType();
-		return d.getLigneDocuments().stream().mapToDouble(l -> {
-			Double regularPrice = tarif.retrieveUnitPrice(f.getPriceType().getPriceTypeId(), f.getZone().getLocalId(),
+		return f.getLigneDocuments().stream().mapToDouble(l -> {
+			Double regularPrice = tarif.retrieveUnitPrice(type.getPriceTypeId(), f.getZone().getLocalId(),
 					l.getProduit().getProduitId());
 			if (regularPrice == null) {
 				regularPrice = l.getProduit().getUnitPriceByType(type);

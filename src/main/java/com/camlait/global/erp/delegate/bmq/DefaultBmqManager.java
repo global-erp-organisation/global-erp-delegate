@@ -94,7 +94,7 @@ public class DefaultBmqManager implements BmqManager {
         }).collect(Collectors.toList());
         d.setLigneDocuments(lignes);
         b.getDocuments().add(d);
-        bmqDao.saveAndFlush(b);
+        updateBmq(b);
     }
 
     @Override
