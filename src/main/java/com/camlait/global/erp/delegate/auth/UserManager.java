@@ -3,9 +3,9 @@ package com.camlait.global.erp.delegate.auth;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.camlait.global.erp.domain.auth.Groupe;
-import com.camlait.global.erp.domain.auth.Ressource;
-import com.camlait.global.erp.domain.auth.Utilisateur;
+import com.camlait.global.erp.domain.auth.Group;
+import com.camlait.global.erp.domain.auth.Resource;
+import com.camlait.global.erp.domain.auth.User;
 import com.camlait.global.erp.domain.exception.DataStorageException;
 
 import lombok.NonNull;
@@ -23,7 +23,7 @@ public interface UserManager {
      * @return The user that have been added.
      * @throws DataStorageException
      */
-    Utilisateur addUser(@NonNull Utilisateur user) throws DataStorageException;
+    User addUser(@NonNull User user) throws DataStorageException;
 
     /**
      * Update the provided user informations in the data storage.
@@ -32,7 +32,7 @@ public interface UserManager {
      * @return The user that have been updated.
      * @throws DataStorageException
      */
-    Utilisateur updateUser(@NonNull Utilisateur user) throws DataStorageException;
+    User updateUser(@NonNull User user) throws DataStorageException;
 
     /**
      * Retrieve a user informations from the data storage based on the given
@@ -42,7 +42,7 @@ public interface UserManager {
      * @return The user that belongs to the given user code.
      * @throws DataStorageException
      */
-    Utilisateur retrieveUser(@NonNull String userCode) throws DataStorageException;
+    User retrieveUser(@NonNull String userCode) throws DataStorageException;
 
     /**
      * Permanently delete from the data storage a user based on the provided
@@ -63,7 +63,7 @@ public interface UserManager {
      * @return A page of user that belongs to the given key word.
      * @throws DataStorageException
      */
-    Page<Utilisateur> retrieveUsers(String keyWord, Pageable page) throws DataStorageException;
+    Page<User> retrieveUsers(String keyWord, Pageable page) throws DataStorageException;
 
     /**
      * Retrieves all user from the data storage.
@@ -72,7 +72,7 @@ public interface UserManager {
      * @return
      * @throws DataStorageException
      */
-    Page<Utilisateur> retrieveUsers(Pageable page) throws DataStorageException;
+    Page<User> retrieveUsers(Pageable page) throws DataStorageException;
 
     /**
      * Add the provided user group to the data storage.
@@ -81,7 +81,7 @@ public interface UserManager {
      * @return
      * @throws DataStorageException
      */
-    Groupe addGroup(@NonNull Groupe group) throws DataStorageException;
+    Group addGroup(@NonNull Group group) throws DataStorageException;
 
     /**
      * Update the provided user group information in the data storage.
@@ -90,7 +90,7 @@ public interface UserManager {
      * @return The updated user group.
      * @throws DataStorageException
      */
-    Groupe updateGroup(@NonNull Groupe group) throws DataStorageException;
+    Group updateGroup(@NonNull Group group) throws DataStorageException;
 
     /**
      * Retrieves a user group from the data storage based on the given user
@@ -100,7 +100,7 @@ public interface UserManager {
      * @return The user group that belongs to the provided groupId.
      * @throws DataStorageException
      */
-    Groupe retrieveGroup(@NonNull String groupId) throws DataStorageException;
+    Group retrieveGroup(@NonNull String groupId) throws DataStorageException;
 
     /**
      * Permanently delete a user group in the data storage.
@@ -121,7 +121,7 @@ public interface UserManager {
      * @return A page of user group that belongs to the given key word.
      * @throws DataStorageException
      */
-    Page<Utilisateur> retrieveGroups(String keyWord, Pageable page) throws DataStorageException;
+    Page<User> retrieveGroups(String keyWord, Pageable page) throws DataStorageException;
 
     /**
      * Retrieves all user groups from the data storage.
@@ -130,7 +130,7 @@ public interface UserManager {
      * @return
      * @throws DataStorageException
      */
-    Page<Utilisateur> retrieveGroups(Pageable page) throws DataStorageException;
+    Page<User> retrieveGroups(Pageable page) throws DataStorageException;
 
     /**
      * Add the provided resource to the data storage.
@@ -139,7 +139,7 @@ public interface UserManager {
      * @return
      * @throws DataStorageException
      */
-    Ressource addResource(@NonNull Ressource resource) throws DataStorageException;
+    Resource addResource(@NonNull Resource resource) throws DataStorageException;
 
     /**
      * Update the provided resource information in the data storage.
@@ -148,7 +148,7 @@ public interface UserManager {
      * @return The updated resource.
      * @throws DataStorageException
      */
-    Ressource updateResource(@NonNull Ressource resource) throws DataStorageException;
+    Resource updateResource(@NonNull Resource resource) throws DataStorageException;
 
     /**
      * Retrieves a resource from the data storage based on the given ressourceId
@@ -157,7 +157,7 @@ public interface UserManager {
      * @return The resource that belongs to the provided resourceId.
      * @throws DataStorageException
      */
-    Ressource retrieveResource(@NonNull String ressourceId) throws DataStorageException;
+    Resource retrieveResource(@NonNull String ressourceId) throws DataStorageException;
 
     /**
      * Permanently delete a resource in the data storage.
@@ -179,7 +179,7 @@ public interface UserManager {
      * @return A page of resources that belongs to the given key word.
      * @throws DataStorageException
      */
-    Page<Ressource> retrieveResources(String keyWord, Pageable page) throws DataStorageException;
+    Page<Resource> retrieveResources(String keyWord, Pageable page) throws DataStorageException;
 
     /**
      * Retrieves all resources from the data storage.
@@ -188,5 +188,5 @@ public interface UserManager {
      * @return
      * @throws DataStorageException
      */
-    Page<Ressource> retrieveResources(Pageable page) throws DataStorageException;
+    Page<Resource> retrieveResources(Pageable page) throws DataStorageException;
 }

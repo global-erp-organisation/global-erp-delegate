@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component;
 import com.camlait.global.erp.dao.auth.GroupeDao;
 import com.camlait.global.erp.dao.auth.RessourceDao;
 import com.camlait.global.erp.dao.auth.UtilisateurDao;
-import com.camlait.global.erp.domain.auth.Groupe;
-import com.camlait.global.erp.domain.auth.Ressource;
-import com.camlait.global.erp.domain.auth.Utilisateur;
+import com.camlait.global.erp.domain.auth.Group;
+import com.camlait.global.erp.domain.auth.Resource;
+import com.camlait.global.erp.domain.auth.User;
 import com.camlait.global.erp.domain.exception.DataStorageException;
 
 @Component
@@ -31,19 +31,19 @@ public class DefaultUserManager implements UserManager {
     }
 
     @Override
-    public Utilisateur addUser(final Utilisateur user) throws DataStorageException {
+    public User addUser(final User user) throws DataStorageException {
         return userDao.save(user);
     }
 
     @Override
-    public Utilisateur updateUser(final Utilisateur user) throws DataStorageException {
-        final Utilisateur u = retrieveUser(user.getUtilisateurId());
+    public User updateUser(final User user) throws DataStorageException {
+        final User u = retrieveUser(user.getUserId());
         return userDao.saveAndFlush(user.merge(u));
     }
 
     @Override
-    public Utilisateur retrieveUser(final String userCode) throws DataStorageException {
-        final Utilisateur u = userDao.findOne(userCode);
+    public User retrieveUser(final String userCode) throws DataStorageException {
+        final User u = userDao.findOne(userCode);
         if (u == null) {
             throw new DataStorageException("The user you are trying to retrieve does not exist.");
         }
@@ -52,37 +52,37 @@ public class DefaultUserManager implements UserManager {
 
     @Override
     public Boolean removeUser(final String userCode) throws DataStorageException {
-        final Utilisateur u = retrieveUser(userCode);
+        final User u = retrieveUser(userCode);
         userDao.delete(u);
         return true;
     }
 
     @Override
-    public Page<Utilisateur> retrieveUsers(final String keyWord, Pageable page) throws DataStorageException {
+    public Page<User> retrieveUsers(final String keyWord, Pageable page) throws DataStorageException {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Page<Utilisateur> retrieveUsers(Pageable page) throws DataStorageException {
+    public Page<User> retrieveUsers(Pageable page) throws DataStorageException {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Groupe addGroup(final Groupe group) throws DataStorageException {
+    public Group addGroup(final Group group) throws DataStorageException {
         return groupDao.save(group);
     }
 
     @Override
-    public Groupe updateGroup(final Groupe group) throws DataStorageException {
-        final Groupe g = retrieveGroup(group.getGroupeId());
+    public Group updateGroup(final Group group) throws DataStorageException {
+        final Group g = retrieveGroup(group.getGroupId());
         return groupDao.saveAndFlush(group.merge(g));
     }
 
     @Override
-    public Groupe retrieveGroup(final String groupId) throws DataStorageException {
-        final Groupe g = groupDao.findOne(groupId);
+    public Group retrieveGroup(final String groupId) throws DataStorageException {
+        final Group g = groupDao.findOne(groupId);
         if (g == null) {
             throw new DataStorageException("The group you are trying to retrieve does not exist.");
         }
@@ -91,37 +91,37 @@ public class DefaultUserManager implements UserManager {
 
     @Override
     public Boolean removeGroup(final String groupId) throws DataStorageException {
-        final Groupe g = retrieveGroup(groupId);
+        final Group g = retrieveGroup(groupId);
         groupDao.delete(g);
         return true;
     }
 
     @Override
-    public Page<Utilisateur> retrieveGroups(final String keyWord, Pageable page) throws DataStorageException {
+    public Page<User> retrieveGroups(final String keyWord, Pageable page) throws DataStorageException {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Page<Utilisateur> retrieveGroups(Pageable page) throws DataStorageException {
+    public Page<User> retrieveGroups(Pageable page) throws DataStorageException {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Ressource addResource(final Ressource resource) throws DataStorageException {
+    public Resource addResource(final Resource resource) throws DataStorageException {
         return ressourceDao.save(resource);
     }
 
     @Override
-    public Ressource updateResource(final Ressource resource) throws DataStorageException {
-        final Ressource r = retrieveResource(resource.getRessourceId());
+    public Resource updateResource(final Resource resource) throws DataStorageException {
+        final Resource r = retrieveResource(resource.getResourceId());
         return ressourceDao.saveAndFlush(resource.merge(r));
     }
 
     @Override
-    public Ressource retrieveResource(final String ressourceId) throws DataStorageException {
-        final Ressource r = ressourceDao.findOne(ressourceId);
+    public Resource retrieveResource(final String ressourceId) throws DataStorageException {
+        final Resource r = ressourceDao.findOne(ressourceId);
         if (r == null) {
             throw new DataStorageException("The resource that you are trying to retrieve does not exist.");
         }
@@ -130,19 +130,19 @@ public class DefaultUserManager implements UserManager {
 
     @Override
     public Boolean removeResource(final String resourceId) throws DataStorageException {
-        final Ressource r = retrieveResource(resourceId);
+        final Resource r = retrieveResource(resourceId);
         ressourceDao.delete(r);
         return true;
     }
 
     @Override
-    public Page<Ressource> retrieveResources(final String keyWord, Pageable page) throws DataStorageException {
+    public Page<Resource> retrieveResources(final String keyWord, Pageable page) throws DataStorageException {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Page<Ressource> retrieveResources(Pageable page) throws DataStorageException {
+    public Page<Resource> retrieveResources(Pageable page) throws DataStorageException {
         // TODO Auto-generated method stub
         return null;
     }

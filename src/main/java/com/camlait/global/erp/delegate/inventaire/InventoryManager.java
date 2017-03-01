@@ -5,11 +5,11 @@ import java.util.Collection;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.camlait.global.erp.domain.entrepot.Entrepot;
-import com.camlait.global.erp.domain.entrepot.Magasin;
 import com.camlait.global.erp.domain.exception.DataStorageException;
-import com.camlait.global.erp.domain.inventaire.Inventaire;
-import com.camlait.global.erp.domain.inventaire.Stock;
+import com.camlait.global.erp.domain.inventory.Inventory;
+import com.camlait.global.erp.domain.inventory.Stock;
+import com.camlait.global.erp.domain.warehouse.Store;
+import com.camlait.global.erp.domain.warehouse.Warehouse;
 
 public interface InventoryManager {
 
@@ -20,7 +20,7 @@ public interface InventoryManager {
      * @return The stored record.
      * @throws DataStorageException
      */
-    Entrepot addWareHouse(Entrepot wareHouse) throws DataStorageException;
+    Warehouse addWareHouse(Warehouse wareHouse) throws DataStorageException;
 
     /**
      * update a warehouse in the data storage.
@@ -29,7 +29,7 @@ public interface InventoryManager {
      * @return The updated record.
      * @throws DataStorageException
      */
-    Entrepot updateWareHouse(Entrepot wareHouse) throws DataStorageException;
+    Warehouse updateWareHouse(Warehouse wareHouse) throws DataStorageException;
 
     /**
      * Retrieve a warehouse from the data storage.
@@ -38,7 +38,7 @@ public interface InventoryManager {
      * @return
      * @throws DataStorageException
      */
-    Entrepot retrieveWareHouse(String wareHouseId) throws DataStorageException;
+    Warehouse retrieveWareHouse(String wareHouseId) throws DataStorageException;
 
     /**
      * remove a warehouse in the data storage.
@@ -56,7 +56,7 @@ public interface InventoryManager {
      * @return
      * @throws DataStorageException
      */
-    Page<Entrepot> retrieveWareHouses(String keyWord, Pageable p) throws DataStorageException;
+    Page<Warehouse> retrieveWareHouses(String keyWord, Pageable p) throws DataStorageException;
 
     /**
      * Add a store in the data storage.
@@ -65,7 +65,7 @@ public interface InventoryManager {
      * @return The stored record.
      * @throws DataStorageException
      */
-    Magasin addStore(Magasin store) throws DataStorageException;
+    Store addStore(Store store) throws DataStorageException;
 
     /**
      * update a store in the data storage.
@@ -74,7 +74,7 @@ public interface InventoryManager {
      * @return The updated record.
      * @throws DataStorageException
      */
-    Magasin updateStore(Magasin store) throws DataStorageException;
+    Store updateStore(Store store) throws DataStorageException;
 
     /**
      * Retrieve a warehouse from the data storage.
@@ -83,7 +83,7 @@ public interface InventoryManager {
      * @return
      * @throws DataStorageException
      */
-    Magasin retrieveStore(String storeId) throws DataStorageException;
+    Store retrieveStore(String storeId) throws DataStorageException;
 
     /**
      * Retrieve a generic store from the data storage.
@@ -93,7 +93,7 @@ public interface InventoryManager {
      * @return
      * @throws DataStorageException
      */
-    <T extends Magasin> T retrieveStore(Class<T> clazz, String storeId) throws DataStorageException;
+    <T extends Store> T retrieveStore(Class<T> clazz, String storeId) throws DataStorageException;
 
     /**
      * remove a store in the data storage.
@@ -111,7 +111,7 @@ public interface InventoryManager {
      * @return
      * @throws DataStorageException
      */
-    Page<Magasin> retrieveStores(String keyWord, Pageable p) throws DataStorageException;
+    Page<Store> retrieveStores(String keyWord, Pageable p) throws DataStorageException;
 
     /**
      * Retrieves the inventory for the given store.
@@ -129,7 +129,7 @@ public interface InventoryManager {
      * @return The stored record.
      * @throws DataStorageException
      */
-    Inventaire addInventory(Inventaire inventory) throws DataStorageException;
+    Inventory addInventory(Inventory inventory) throws DataStorageException;
 
     /**
      * update an inventory in the data storage.
@@ -138,7 +138,7 @@ public interface InventoryManager {
      * @return The updated record.
      * @throws DataStorageException
      */
-    Inventaire updateInventory(Inventaire inventory) throws DataStorageException;
+    Inventory updateInventory(Inventory inventory) throws DataStorageException;
 
     /**
      * Retrieve a warehouse from the data storage.
@@ -147,7 +147,7 @@ public interface InventoryManager {
      * @return
      * @throws DataStorageException
      */
-    Inventaire retrieveInventory(String inventoryId) throws DataStorageException;
+    Inventory retrieveInventory(String inventoryId) throws DataStorageException;
 
     /**
      * remove an inventory in the data storage.
@@ -165,7 +165,7 @@ public interface InventoryManager {
      * @return
      * @throws DataStorageException
      */
-    Page<Inventaire> retrieveInventories(String keyWord, Pageable p) throws DataStorageException;
+    Page<Inventory> retrieveInventories(String keyWord, Pageable p) throws DataStorageException;
 
 
 }

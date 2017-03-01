@@ -4,8 +4,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.camlait.global.erp.domain.exception.DataStorageException;
-import com.camlait.global.erp.domain.traduction.Langue;
-import com.camlait.global.erp.domain.traduction.Terme;
+import com.camlait.global.erp.domain.translation.Language;
+import com.camlait.global.erp.domain.translation.Term;
 
 /**
  * This interface provides all operations that belong to resources management.
@@ -21,7 +21,7 @@ public interface RessourceTranslationManager {
      * @return
      * @throws DataStorageException
      */
-    Langue addLanguage(Langue language) throws DataStorageException;
+    Language addLanguage(Language language) throws DataStorageException;
 
     /**
      * Update a language in the data storage
@@ -30,7 +30,7 @@ public interface RessourceTranslationManager {
      * @return
      * @throws DataStorageException throws if the item does not exist.
      */
-    Langue updateLanguage(Langue language) throws DataStorageException;
+    Language updateLanguage(Language language) throws DataStorageException;
 
     /**
      * Retrieves a language from the data storage.
@@ -39,7 +39,7 @@ public interface RessourceTranslationManager {
      * @return
      * @throws DataStorageException throws if the item does not exist.
      */
-    Langue retrieveLanguage(String languageId) throws DataStorageException;
+    Language retrieveLanguage(String languageId) throws DataStorageException;
 
     /**
      * Permanently remove a language in the data storage.
@@ -58,7 +58,7 @@ public interface RessourceTranslationManager {
      * @return
      * @throws DataStorageException
      */
-    Page<Langue> RetrieveLanguages(String keyWord, Pageable p) throws DataStorageException;
+    Page<Language> RetrieveLanguages(String keyWord, Pageable p) throws DataStorageException;
 
     /**
      * Add a term in the data storage
@@ -67,7 +67,7 @@ public interface RessourceTranslationManager {
      * @return
      * @throws DataStorageException
      */
-    Terme addTerm(Terme term) throws DataStorageException;
+    Term addTerm(Term term) throws DataStorageException;
 
     /**
      * Update a term in the data storage
@@ -76,7 +76,7 @@ public interface RessourceTranslationManager {
      * @return
      * @throws DataStorageException throws if the item does not exist.
      */
-    Terme updateTerm(Terme term) throws DataStorageException;
+    Term updateTerm(Term term) throws DataStorageException;
 
     /**
      * Retrieves a term from the data storage.
@@ -85,7 +85,7 @@ public interface RessourceTranslationManager {
      * @return
      * @throws DataStorageException throws if the item does not exist.
      */
-    Terme retrieveTerm(String termId) throws DataStorageException;
+    Term retrieveTerm(String termId) throws DataStorageException;
 
     /**
      * Permanently remove a term in the data storage.
@@ -104,6 +104,6 @@ public interface RessourceTranslationManager {
      * @return
      * @throws DataStorageException
      */
-    Page<Terme> RetrieveTerms(String keyWord, Pageable p) throws DataStorageException;
+    Page<Term> RetrieveTerms(String keyWord, Pageable p) throws DataStorageException;
 
 }

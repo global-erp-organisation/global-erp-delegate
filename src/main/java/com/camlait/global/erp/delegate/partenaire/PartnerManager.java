@@ -4,7 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.camlait.global.erp.domain.exception.DataStorageException;
-import com.camlait.global.erp.domain.partenaire.Partenaire;
+import com.camlait.global.erp.domain.partner.Partner;
 
 public interface PartnerManager {
 
@@ -15,7 +15,7 @@ public interface PartnerManager {
      * @return
      * @throws DataStorageException
      */
-    Partenaire addPartner(Partenaire partner) throws DataStorageException;
+    Partner addPartner(Partner partner) throws DataStorageException;
 
     /**
      * Update a partner in the data storage.
@@ -24,7 +24,7 @@ public interface PartnerManager {
      * @return
      * @throws DataStorageException
      */
-    Partenaire updatePartner(Partenaire partner) throws DataStorageException;
+    Partner updatePartner(Partner partner) throws DataStorageException;
 
     /**
      * Retrieve a partner based on the given identifier.
@@ -33,7 +33,7 @@ public interface PartnerManager {
      * @return
      * @throws DataStorageException
      */
-    Partenaire retrievePartner(String partnerId) throws DataStorageException;
+    Partner retrievePartner(String partnerId) throws DataStorageException;
 
     /**
      * Retrieve a generic partner based on the given identifier.
@@ -43,7 +43,7 @@ public interface PartnerManager {
      * @return
      * @throws DataStorageException
      */
-    <T extends Partenaire> T retrievePartner(Class<T> clazz, String partnerId) throws DataStorageException;
+    <T extends Partner> T retrievePartner(Class<T> clazz, String partnerId) throws DataStorageException;
 
     /**
      * remove a partner based on the given partner identifier.
@@ -63,5 +63,5 @@ public interface PartnerManager {
      * @return All the partners that belong to the provided key word.
      * @throws DataStorageException
      */
-    Page<Partenaire> retrievePartners(String keyWord, Pageable p) throws DataStorageException;
+    Page<Partner> retrievePartners(String keyWord, Pageable p) throws DataStorageException;
 }

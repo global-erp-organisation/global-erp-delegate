@@ -14,15 +14,15 @@ import com.camlait.global.erp.dao.inventaire.InventaireDao;
 import com.camlait.global.erp.dao.localisation.LocalisationDao;
 import com.camlait.global.erp.dao.partenaire.PartenaireDao;
 import com.camlait.global.erp.domain.Entite;
-import com.camlait.global.erp.domain.bmq.Bmq;
+import com.camlait.global.erp.domain.dm.DailyMovement;
 import com.camlait.global.erp.domain.document.Document;
-import com.camlait.global.erp.domain.entrepot.Entrepot;
-import com.camlait.global.erp.domain.entrepot.Magasin;
 import com.camlait.global.erp.domain.enumeration.EnumTypeEntite;
-import com.camlait.global.erp.domain.inventaire.Inventaire;
+import com.camlait.global.erp.domain.inventory.Inventory;
 import com.camlait.global.erp.domain.localisation.Localisation;
-import com.camlait.global.erp.domain.partenaire.Partenaire;
+import com.camlait.global.erp.domain.partner.Partner;
 import com.camlait.global.erp.domain.util.Utility;
+import com.camlait.global.erp.domain.warehouse.Store;
+import com.camlait.global.erp.domain.warehouse.Warehouse;
 
 import lombok.NonNull;
 
@@ -69,25 +69,25 @@ public class UtilService implements IUtilService {
      * if (entite instanceof Document) {
      * List<Document> documents = documentDao.obtenirDernierDocument(type, new PageRequest(0, 1)).getContent();
      * dernierCode = (documents.isEmpty()) ? null : documents.get(0).getCodeDocument();
-     * } else if (entite instanceof Partenaire) {
-     * List<Partenaire> partenaires = partenaireDao.obtenirDernierPartenaire(type, new PageRequest(0, 1))
+     * } else if (entite instanceof Partner) {
+     * List<Partner> partenaires = partenaireDao.obtenirDernierPartenaire(type, new PageRequest(0, 1))
      * .getContent();
      * dernierCode = (partenaires.isEmpty()) ? null : partenaires.get(0).getCodePartenaire();
-     * } else if (entite instanceof Inventaire) {
-     * List<Inventaire> inventaires = inventaireDao.obtenirDernierInventaire(new PageRequest(0, 1)).getContent();
+     * } else if (entite instanceof Inventory) {
+     * List<Inventory> inventaires = inventaireDao.obtenirDernierInventaire(new PageRequest(0, 1)).getContent();
      * dernierCode = (inventaires.isEmpty()) ? null : inventaires.get(0).getCodeInventaire();
-     * } else if (entite instanceof Bmq) {
-     * List<Bmq> bmqs = bmqDao.obtenirDernierBmq(new PageRequest(0, 1)).getContent();
+     * } else if (entite instanceof DailyMovement) {
+     * List<DailyMovement> bmqs = bmqDao.obtenirDernierBmq(new PageRequest(0, 1)).getContent();
      * dernierCode = (bmqs.isEmpty()) ? null : bmqs.get(0).getCodeBmq();
      * } else if (entite instanceof Localisation) {
      * List<Localisation> localisations = localisationDao.obtenirDernierLocal(type, new PageRequest(0, 1))
      * .getContent();
      * dernierCode = (localisations.isEmpty()) ? null : localisations.get(0).getCode();
-     * } else if (entite instanceof Magasin) {
-     * List<Magasin> magasins = magasinDao.obtenirDernierMagasin(type, new PageRequest(0, 1)).getContent();
+     * } else if (entite instanceof Store) {
+     * List<Store> magasins = magasinDao.obtenirDernierMagasin(type, new PageRequest(0, 1)).getContent();
      * dernierCode = (magasins.isEmpty()) ? null : magasins.get(0).getCodeMagasin();
-     * } else if (entite instanceof Entrepot) {
-     * List<Entrepot> entrepots = entrepotDao.obtenirDernierEntrepot(new PageRequest(0, 1)).getContent();
+     * } else if (entite instanceof Warehouse) {
+     * List<Warehouse> entrepots = entrepotDao.obtenirDernierEntrepot(new PageRequest(0, 1)).getContent();
      * dernierCode = (entrepots.isEmpty()) ? null : entrepots.get(0).getCodeEntrepot();
      * } else
      * throw new IllegalArgumentException("L'entité " + entite.getClass().getName() + " n'existe pas");

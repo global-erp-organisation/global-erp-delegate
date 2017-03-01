@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.camlait.global.erp.domain.document.Document;
-import com.camlait.global.erp.domain.document.commerciaux.Taxe;
+import com.camlait.global.erp.domain.document.business.Tax;
 import com.camlait.global.erp.domain.exception.DataStorageException;
 
 public interface DocumentManager {
@@ -137,7 +137,7 @@ public interface DocumentManager {
      * @return The stored tax.
      * @throws DataStorageException
      */
-    Taxe addTax(Taxe tax) throws DataStorageException;
+    Tax addTax(Tax tax) throws DataStorageException;
 
     /**
      * Update a tax
@@ -146,7 +146,7 @@ public interface DocumentManager {
      * @return The updated tax
      * @throws DataStorageException
      */
-    Taxe updateTax(Taxe tax) throws DataStorageException;
+    Tax updateTax(Tax tax) throws DataStorageException;
 
     /**
      * Retrieves a tax type from the data storage.
@@ -155,7 +155,7 @@ public interface DocumentManager {
      * @return The tax that belongs to the given identifier.
      * @throws DataStorageException
      */
-    Taxe retrieveTax(String taxId) throws DataStorageException;
+    Tax retrieveTax(String taxId) throws DataStorageException;
 
     /**
      * Permanently removes a tax from the data storage.
@@ -175,6 +175,6 @@ public interface DocumentManager {
      * @return
      * @throws DataStorageException
      */
-    Page<Taxe> retrieveTaxes(String keyWord, Pageable p) throws DataStorageException;
+    Page<Tax> retrieveTaxes(String keyWord, Pageable p) throws DataStorageException;
 
 }
