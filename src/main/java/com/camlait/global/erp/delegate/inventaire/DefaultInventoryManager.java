@@ -8,9 +8,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.camlait.global.erp.dao.entrepot.EntrepotDao;
-import com.camlait.global.erp.dao.entrepot.MagasinDao;
-import com.camlait.global.erp.dao.inventaire.InventaireDao;
+import com.camlait.global.erp.dao.inventory.InventaireDao;
+import com.camlait.global.erp.dao.warehouse.EntrepotDao;
+import com.camlait.global.erp.dao.warehouse.MagasinDao;
 import com.camlait.global.erp.domain.exception.DataStorageException;
 import com.camlait.global.erp.domain.inventory.Inventory;
 import com.camlait.global.erp.domain.inventory.Stock;

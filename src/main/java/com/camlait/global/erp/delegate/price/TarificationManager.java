@@ -6,7 +6,6 @@ import org.springframework.data.domain.Pageable;
 import com.camlait.global.erp.domain.exception.DataStorageException;
 import com.camlait.global.erp.domain.tarif.PriceType;
 import com.camlait.global.erp.domain.tarif.Tarif;
-import com.camlait.global.erp.domain.tarif.Tarification;
 
 public interface TarificationManager {
     /**
@@ -102,54 +101,6 @@ public interface TarificationManager {
      * @throws DataStorageException
      */
     Page<Tarif> retrieveTarifs(String keyWord, Pageable p) throws DataStorageException;
-
-    /**
-     * Add a tarification in the data storage.
-     * 
-     * @param tarification Tarification to store
-     * @return The stored tarification.
-     * @throws DataStorageException
-     */
-    Tarification addTarification(Tarification tarification) throws DataStorageException;
-
-    /**
-     * Update a tarification
-     * 
-     * @param tarification Tarification to update
-     * @return The updated tarification
-     * @throws DataStorageException
-     */
-    Tarification updateTarification(Tarification tarification) throws DataStorageException;
-
-    /**
-     * Retrieves a tarification from the data storage.
-     * 
-     * @param tarificationId Tarification Identifier
-     * @return The tarification that belongs to the given identifier.
-     * @throws DataStorageException
-     */
-    Tarification retrieveTarification(String tarificationId) throws DataStorageException;
-
-    /**
-     * Permanently removes a tarification from the data storage.
-     * 
-     * @param tarificationId Tarification identifier.
-     * @return true if the operation is performed without error or false
-     *         otherwise.
-     * @throws DataStorageException
-     */
-    Boolean removeTarification(String tarificationId) throws DataStorageException;
-
-    /**
-     * Retrieves Tarifications from the data storage based on the given key
-     * word.
-     * 
-     * @param keyWord Key word
-     * @param p Pageable object that indicated how many records need to be extracted per page.
-     * @return
-     * @throws DataStorageException
-     */
-    Page<Tarification> retrieveTarifications(String keyWord, Pageable p) throws DataStorageException;
 
     /**
      * Retrieves the unit price for the given product based on the specific zone

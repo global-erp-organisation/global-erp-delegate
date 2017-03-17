@@ -6,8 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.camlait.global.erp.dao.produit.CategorieProduitDao;
-import com.camlait.global.erp.dao.produit.ProduitDao;
+import com.camlait.global.erp.dao.product.CategorieProduitDao;
+import com.camlait.global.erp.dao.product.ProduitDao;
 import com.camlait.global.erp.domain.exception.DataStorageException;
 import com.camlait.global.erp.domain.product.Product;
 import com.camlait.global.erp.domain.product.ProductCategory;

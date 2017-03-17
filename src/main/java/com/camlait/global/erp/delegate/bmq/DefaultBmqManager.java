@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.camlait.global.erp.dao.bmq.BmqDao;
+import com.camlait.global.erp.dao.dm.DailyManagementRepository;
 import com.camlait.global.erp.delegate.document.DocumentManager;
 import com.camlait.global.erp.delegate.inventaire.InventoryManager;
 import com.camlait.global.erp.domain.dm.DailyMovement;
@@ -23,31 +23,31 @@ import com.camlait.global.erp.domain.exception.DataStorageException;
 @Component
 public class DefaultBmqManager implements BmqManager {
 
-    private final BmqDao bmqDao;
+    private final DailyManagementRepository dailyManagementRepository;
     private final DocumentManager documentManager;
     private final InventoryManager inventoryManager;
 
     @Autowired
-    public DefaultBmqManager(BmqDao bmqDao, DocumentManager documentManager, InventoryManager inventoryManager) {
-        this.bmqDao = bmqDao;
+    public DefaultBmqManager(DailyManagementRepository dailyManagementRepository, DocumentManager documentManager, InventoryManager inventoryManager) {
+        this.dailyManagementRepository = dailyManagementRepository;
         this.documentManager = documentManager;
         this.inventoryManager = inventoryManager;
     }
 
     @Override
     public DailyMovement addBmq(final DailyMovement dailyMovement) throws DataStorageException {
-        return bmqDao.save(dailyMovement);
+        return dailyManagementRepository.save(dailyMovement);
     }
 
     @Override
     public DailyMovement updateBmq(final DailyMovement dailyMovement) throws DataStorageException {
         final DailyMovement b = retrieveBmq(dailyMovement.getDmId());
-        return bmqDao.saveAndFlush(dailyMovement.merge(b));
+        return dailyManagementRepository.saveAndFlush(dailyMovement.merge(b));
     }
 
     @Override
     public DailyMovement retrieveBmq(final String bmqId) throws DataStorageException {
-        final DailyMovement b = bmqDao.findOne(bmqId);
+        final DailyMovement b = dailyManagementRepository.findOne(bmqId);
         if (b == null) {
             throw new DataStorageException("The DailyMovement that your are looking for does not exist.");
         }
@@ -57,24 +57,24 @@ public class DefaultBmqManager implements BmqManager {
     @Override
     public DailyMovement buildBmqDetails(final String bmqId) throws DataStorageException {
         final DailyMovement b = retrieveBmq(bmqId);
-        return bmqDao.saveAndFlush(b.buildLigne());
+        return dailyManagementRepository.saveAndFlush(b.buildLigne());
     }
 
     @Override
     public Boolean removeBmq(final String bmqId) throws DataStorageException {
         final DailyMovement b = retrieveBmq(bmqId);
-        bmqDao.delete(b);
+        dailyManagementRepository.delete(b);
         return true;
     }
 
     @Override
     public Page<DailyMovement> retrieveBmqs(final String keyWord, Pageable p) throws DataStorageException {
-        return bmqDao.retrieveBmqs(keyWord, p);
+        return dailyManagementRepository.retrieveBmqs(keyWord, p);
     }
 
     @Override
     public Page<DailyMovement> retrieveBmqs(final Date start, final Date end, Pageable p) throws DataStorageException {
-        return bmqDao.retrieveBmqs(start, end, p);
+        return dailyManagementRepository.retrieveBmqs(start, end, p);
     }
 
     @Override

@@ -6,13 +6,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 
-import com.camlait.global.erp.dao.bmq.BmqDao;
-import com.camlait.global.erp.dao.document.DocumentDao;
-import com.camlait.global.erp.dao.entrepot.EntrepotDao;
-import com.camlait.global.erp.dao.entrepot.MagasinDao;
-import com.camlait.global.erp.dao.inventaire.InventaireDao;
+import com.camlait.global.erp.dao.dm.DailyManagementRepository;
+import com.camlait.global.erp.dao.document.DocumentRepository;
+import com.camlait.global.erp.dao.inventory.InventaireDao;
 import com.camlait.global.erp.dao.localisation.LocalisationDao;
-import com.camlait.global.erp.dao.partenaire.PartenaireDao;
+import com.camlait.global.erp.dao.partner.PartenaireDao;
+import com.camlait.global.erp.dao.warehouse.EntrepotDao;
+import com.camlait.global.erp.dao.warehouse.MagasinDao;
 import com.camlait.global.erp.domain.Entite;
 import com.camlait.global.erp.domain.dm.DailyMovement;
 import com.camlait.global.erp.domain.document.Document;
@@ -29,7 +29,7 @@ import lombok.NonNull;
 public class UtilService implements IUtilService {
 
     @Autowired
-    private DocumentDao documentDao;
+    private DocumentRepository documentRepository;
 
     @Autowired
     private InventaireDao inventaireDao;
@@ -38,7 +38,7 @@ public class UtilService implements IUtilService {
     private PartenaireDao partenaireDao;
 
     @Autowired
-    private BmqDao bmqDao;
+    private DailyManagementRepository dailyManagementRepository;
 
     @Autowired
     private LocalisationDao localisationDao;
@@ -67,7 +67,7 @@ public class UtilService implements IUtilService {
      * EnumTypeEntite type = Utility.obtenirPrefixe(entite);
      * String dernierCode = null;
      * if (entite instanceof Document) {
-     * List<Document> documents = documentDao.obtenirDernierDocument(type, new PageRequest(0, 1)).getContent();
+     * List<Document> documents = documentRepository.obtenirDernierDocument(type, new PageRequest(0, 1)).getContent();
      * dernierCode = (documents.isEmpty()) ? null : documents.get(0).getCodeDocument();
      * } else if (entite instanceof Partner) {
      * List<Partner> partenaires = partenaireDao.obtenirDernierPartenaire(type, new PageRequest(0, 1))
@@ -77,7 +77,7 @@ public class UtilService implements IUtilService {
      * List<Inventory> inventaires = inventaireDao.obtenirDernierInventaire(new PageRequest(0, 1)).getContent();
      * dernierCode = (inventaires.isEmpty()) ? null : inventaires.get(0).getCodeInventaire();
      * } else if (entite instanceof DailyMovement) {
-     * List<DailyMovement> bmqs = bmqDao.obtenirDernierBmq(new PageRequest(0, 1)).getContent();
+     * List<DailyMovement> bmqs = dailyManagementRepository.obtenirDernierBmq(new PageRequest(0, 1)).getContent();
      * dernierCode = (bmqs.isEmpty()) ? null : bmqs.get(0).getCodeBmq();
      * } else if (entite instanceof Localisation) {
      * List<Localisation> localisations = localisationDao.obtenirDernierLocal(type, new PageRequest(0, 1))

@@ -12,7 +12,6 @@ import com.camlait.global.erp.dao.tarif.TarificationDao;
 import com.camlait.global.erp.domain.exception.DataStorageException;
 import com.camlait.global.erp.domain.tarif.PriceType;
 import com.camlait.global.erp.domain.tarif.Tarif;
-import com.camlait.global.erp.domain.tarif.Tarification;
 
 @Transactional
 @Component
@@ -93,38 +92,6 @@ public class DefaultTarificationManager implements TarificationManager {
     public Page<Tarif> retrieveTarifs(final String keyWord, Pageable p) throws DataStorageException {
         // TODO Auto-generated method stub
         return null;
-    }
-
-    @Override
-    public Tarification addTarification(final Tarification tarification) throws DataStorageException {
-        return tarificationDao.save(tarification);
-    }
-
-    @Override
-    public Tarification updateTarification(final Tarification tarification) throws DataStorageException {
-        final Tarification t = retrieveTarification(tarification.getTarificationId());
-        return tarificationDao.saveAndFlush(tarification.merge(t));
-    }
-
-    @Override
-    public Tarification retrieveTarification(final String tarificationId) throws DataStorageException {
-        final Tarification t = tarificationDao.findOne(tarificationId);
-        if (t == null) {
-            throw new DataStorageException("The tarification that you are trying to retrieve does not exist.");
-        }
-        return t.lazyInit();
-    }
-
-    @Override
-    public Boolean removeTarification(final String tarificationId) throws DataStorageException {
-        final Tarification t = retrieveTarification(tarificationId);
-        tarificationDao.delete(t);
-        return true;
-    }
-
-    @Override
-    public Page<Tarification> retrieveTarifications(final String keyWord, Pageable p) throws DataStorageException {
-        return tarificationDao.retrieveTarifications(keyWord, p);
     }
 
     @Override

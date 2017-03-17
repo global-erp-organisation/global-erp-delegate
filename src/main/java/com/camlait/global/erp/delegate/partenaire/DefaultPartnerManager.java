@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.camlait.global.erp.dao.partenaire.PartenaireDao;
+import com.camlait.global.erp.dao.partner.PartenaireDao;
 import com.camlait.global.erp.domain.exception.DataStorageException;
 import com.camlait.global.erp.domain.partner.Partner;
 

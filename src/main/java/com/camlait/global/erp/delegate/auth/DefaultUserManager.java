@@ -7,9 +7,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
-import com.camlait.global.erp.dao.auth.GroupeDao;
-import com.camlait.global.erp.dao.auth.RessourceDao;
-import com.camlait.global.erp.dao.auth.UtilisateurDao;
+import com.camlait.global.erp.dao.auth.GroupRepository;
+import com.camlait.global.erp.dao.auth.ResourceRepository;
+import com.camlait.global.erp.dao.auth.UserRepository;
 import com.camlait.global.erp.domain.auth.Group;
 import com.camlait.global.erp.domain.auth.Resource;
 import com.camlait.global.erp.domain.auth.User;
@@ -19,15 +19,15 @@ import com.camlait.global.erp.domain.exception.DataStorageException;
 @Transactional
 public class DefaultUserManager implements UserManager {
 
-    private final UtilisateurDao userDao;
-    private final GroupeDao groupDao;
-    private final RessourceDao ressourceDao;
+    private final UserRepository userDao;
+    private final GroupRepository groupDao;
+    private final ResourceRepository resourceRepository;
 
     @Autowired
-    public DefaultUserManager(UtilisateurDao userDao, GroupeDao groupDao, RessourceDao ressourceDao) {
+    public DefaultUserManager(UserRepository userDao, GroupRepository groupDao, ResourceRepository resourceRepository) {
         this.userDao = userDao;
         this.groupDao = groupDao;
-        this.ressourceDao = ressourceDao;
+        this.resourceRepository = resourceRepository;
     }
 
     @Override
@@ -110,18 +110,18 @@ public class DefaultUserManager implements UserManager {
 
     @Override
     public Resource addResource(final Resource resource) throws DataStorageException {
-        return ressourceDao.save(resource);
+        return resourceRepository.save(resource);
     }
 
     @Override
     public Resource updateResource(final Resource resource) throws DataStorageException {
         final Resource r = retrieveResource(resource.getResourceId());
-        return ressourceDao.saveAndFlush(resource.merge(r));
+        return resourceRepository.saveAndFlush(resource.merge(r));
     }
 
     @Override
     public Resource retrieveResource(final String ressourceId) throws DataStorageException {
-        final Resource r = ressourceDao.findOne(ressourceId);
+        final Resource r = resourceRepository.findOne(ressourceId);
         if (r == null) {
             throw new DataStorageException("The resource that you are trying to retrieve does not exist.");
         }
@@ -131,7 +131,7 @@ public class DefaultUserManager implements UserManager {
     @Override
     public Boolean removeResource(final String resourceId) throws DataStorageException {
         final Resource r = retrieveResource(resourceId);
-        ressourceDao.delete(r);
+        resourceRepository.delete(r);
         return true;
     }
 

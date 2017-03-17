@@ -8,8 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.camlait.global.erp.dao.document.DocumentDao;
-import com.camlait.global.erp.dao.document.comerciaux.TaxeDao;
+import com.camlait.global.erp.dao.document.DocumentRepository;
+import com.camlait.global.erp.dao.document.business.TaxRepository;
 import com.camlait.global.erp.delegate.price.TarificationManager;
 import com.camlait.global.erp.domain.document.Document;
 import com.camlait.global.erp.domain.document.business.Tax;
@@ -27,31 +27,31 @@ import com.camlait.global.erp.domain.tarif.PriceType;
 @Transactional
 public class DefaultDocumentManager implements DocumentManager {
 
-	private final DocumentDao documentDao;
-	private final TaxeDao taxDao;
+	private final DocumentRepository documentRepository;
+	private final TaxRepository taxDao;
 	private final TarificationManager tarif;
 
 	@Autowired
-	public DefaultDocumentManager(DocumentDao documentDao, TaxeDao taxDao, TarificationManager tarif) {
-		this.documentDao = documentDao;
+	public DefaultDocumentManager(DocumentRepository documentRepository, TaxRepository taxDao, TarificationManager tarif) {
+		this.documentRepository = documentRepository;
 		this.taxDao = taxDao;
 		this.tarif = tarif;
 	}
 
 	@Override
 	public Document addDocument(final Document document) throws DataStorageException {
-		return documentDao.save(document);
+		return documentRepository.save(document);
 	}
 
 	@Override
 	public Document updateDocument(final Document document) throws DataStorageException {
 		final Document stored = retrieveDocument(document.getDocumentId());
-		return documentDao.saveAndFlush(document.merge(stored));
+		return documentRepository.saveAndFlush(document.merge(stored));
 	}
 
 	@Override
 	public Document retrieveDocument(final String documentId) throws DataStorageException {
-		final Document d = documentDao.findOne(documentId);
+		final Document d = documentRepository.findOne(documentId);
 		if (d == null) {
 			throw new DataStorageException("The document you are trying to retrieve does not exist.");
 		}
@@ -68,18 +68,18 @@ public class DefaultDocumentManager implements DocumentManager {
 	@Override
 	public Boolean removeDocument(final String documentId) throws DataStorageException {
 		final Document d = retrieveDocument(documentId);
-		documentDao.delete(d);
+		documentRepository.delete(d);
 		return true;
 	}
 
 	@Override
 	public Page<Document> retrieveDocuments(final String keyWord, Pageable p) throws DataStorageException {
-		return documentDao.retrieveDocuments(keyWord, p);
+		return documentRepository.retrieveDocuments(keyWord, p);
 	}
 
 	@Override
 	public Page<Document> retrieveDocuments(final Date start, final Date end, Pageable p) throws DataStorageException {
-		return documentDao.retrieveDocuments(start, end, p);
+		return documentRepository.retrieveDocuments(start, end, p);
 	}
 
 	@Override

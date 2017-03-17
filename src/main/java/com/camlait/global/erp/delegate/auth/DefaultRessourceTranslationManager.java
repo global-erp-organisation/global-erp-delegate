@@ -7,8 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
-import com.camlait.global.erp.dao.auth.LanguageDao;
-import com.camlait.global.erp.dao.auth.TermeDao;
+import com.camlait.global.erp.dao.auth.LanguageRepository;
+import com.camlait.global.erp.dao.auth.TermRepository;
 import com.camlait.global.erp.domain.exception.DataStorageException;
 import com.camlait.global.erp.domain.translation.Language;
 import com.camlait.global.erp.domain.translation.Term;
@@ -17,12 +17,12 @@ import com.camlait.global.erp.domain.translation.Term;
 @Transactional
 public class DefaultRessourceTranslationManager implements RessourceTranslationManager {
 
-    private final TermeDao termeDao;
-    private final LanguageDao langueDao;
+    private final TermRepository termRepository;
+    private final LanguageRepository langueDao;
 
     @Autowired
-    public DefaultRessourceTranslationManager(TermeDao termeDao, LanguageDao langueDao) {
-        this.termeDao = termeDao;
+    public DefaultRessourceTranslationManager(TermRepository termRepository, LanguageRepository langueDao) {
+        this.termRepository = termRepository;
         this.langueDao = langueDao;
     }
 
@@ -60,18 +60,18 @@ public class DefaultRessourceTranslationManager implements RessourceTranslationM
 
     @Override
     public Term addTerm(final Term term) throws DataStorageException {
-        return termeDao.save(term);
+        return termRepository.save(term);
     }
 
     @Override
     public Term updateTerm(final Term term) throws DataStorageException {
         final Term t = retrieveTerm(term.getTermId());
-        return termeDao.saveAndFlush(term.merge(t));
+        return termRepository.saveAndFlush(term.merge(t));
     }
 
     @Override
     public Term retrieveTerm(final String termId) throws DataStorageException {
-        final Term t = termeDao.findOne(termId);
+        final Term t = termRepository.findOne(termId);
         if (t == null) {
             throw new DataStorageException("The term that you are trying to retrieve does not exist.");
         }
@@ -81,12 +81,12 @@ public class DefaultRessourceTranslationManager implements RessourceTranslationM
     @Override
     public Boolean removeTerm(final String termId) throws DataStorageException {
         final Term t = retrieveTerm(termId);
-        termeDao.delete(t);
+        termRepository.delete(t);
         return true;
     }
 
     @Override
     public Page<Term> RetrieveTerms(final String keyWord, Pageable p) throws DataStorageException {
-        return termeDao.RetrieveTerms(keyWord, p);
+        return termRepository.RetrieveTerms(keyWord, p);
     }
 }
