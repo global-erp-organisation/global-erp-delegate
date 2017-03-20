@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.camlait.global.erp.dao.document.DocumentRepository;
-import com.camlait.global.erp.dao.document.business.TaxRepository;
+import com.camlait.global.erp.dao.document.TaxRepository;
 import com.camlait.global.erp.delegate.price.TarificationManager;
 import com.camlait.global.erp.domain.document.Document;
 import com.camlait.global.erp.domain.document.business.Tax;

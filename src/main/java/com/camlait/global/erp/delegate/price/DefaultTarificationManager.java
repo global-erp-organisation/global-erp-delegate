@@ -6,9 +6,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.camlait.global.erp.dao.tarif.PriceTypeDao;
-import com.camlait.global.erp.dao.tarif.TarifDao;
-import com.camlait.global.erp.dao.tarif.TarificationDao;
+import com.camlait.global.erp.dao.tarif.PriceTypeRepository;
+import com.camlait.global.erp.dao.tarif.TarifRepository;
+import com.camlait.global.erp.dao.tarif.TarificationRepository;
 import com.camlait.global.erp.domain.exception.DataStorageException;
 import com.camlait.global.erp.domain.tarif.PriceType;
 import com.camlait.global.erp.domain.tarif.Tarif;
@@ -17,12 +17,12 @@ import com.camlait.global.erp.domain.tarif.Tarif;
 @Component
 public class DefaultTarificationManager implements TarificationManager {
 
-    private final PriceTypeDao priceDao;
-    private final TarifDao tarifDao;
-    private final TarificationDao tarificationDao;
+    private final PriceTypeRepository priceDao;
+    private final TarifRepository tarifDao;
+    private final TarificationRepository tarificationDao;
 
     @Autowired
-    public DefaultTarificationManager(PriceTypeDao priceDao, TarifDao tarifDao, TarificationDao tarificationDao) {
+    public DefaultTarificationManager(PriceTypeRepository priceDao, TarifRepository tarifDao, TarificationRepository tarificationDao) {
         this.priceDao = priceDao;
         this.tarifDao = tarifDao;
         this.tarificationDao = tarificationDao;

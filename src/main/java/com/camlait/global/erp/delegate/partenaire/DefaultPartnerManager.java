@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.camlait.global.erp.dao.partner.PartenaireDao;
+import com.camlait.global.erp.dao.partner.PartnerRepository;
 import com.camlait.global.erp.domain.exception.DataStorageException;
 import com.camlait.global.erp.domain.partner.Partner;
 
@@ -14,10 +14,10 @@ import com.camlait.global.erp.domain.partner.Partner;
 @Component
 public class DefaultPartnerManager implements PartnerManager {
 
-    private final PartenaireDao partenaireDao;
+    private final PartnerRepository partenaireDao;
 
     @Autowired
-    public DefaultPartnerManager(PartenaireDao partenaireDao) {
+    public DefaultPartnerManager(PartnerRepository partenaireDao) {
         this.partenaireDao = partenaireDao;
     }
 

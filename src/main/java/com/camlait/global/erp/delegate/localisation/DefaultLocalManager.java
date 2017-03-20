@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.camlait.global.erp.dao.localisation.LocalisationDao;
+import com.camlait.global.erp.dao.localisation.LocalisationRepository;
 import com.camlait.global.erp.domain.exception.DataStorageException;
 import com.camlait.global.erp.domain.localisation.Localisation;
 
@@ -14,10 +14,10 @@ import com.camlait.global.erp.domain.localisation.Localisation;
 @Component
 public class DefaultLocalManager implements LocalisationManager {
 
-	private final LocalisationDao localDao;
+	private final LocalisationRepository localDao;
 
 	@Autowired
-	public DefaultLocalManager(LocalisationDao localDao) {
+	public DefaultLocalManager(LocalisationRepository localDao) {
 		this.localDao = localDao;
 	}
 
@@ -43,7 +43,7 @@ public class DefaultLocalManager implements LocalisationManager {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T> T retrieveLocalisation(Class<T> clazz, final String localId) throws DataStorageException {
+	public <T extends Localisation> T retrieveLocalisation(Class<T> clazz, final String localId) throws DataStorageException {
 		final Localisation l = retrieveLocalisation(localId);
 		return l.isTypeOf(clazz) ? (T) l : null;
 	}

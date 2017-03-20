@@ -43,7 +43,7 @@ public interface LocalisationManager {
      * @return
      * @throws DataStorageException
      */
-    <T> T retrieveLocalisation(Class<T> clazz, String localId) throws DataStorageException;
+    <T extends Localisation> T retrieveLocalisation(Class<T> clazz, String localId) throws DataStorageException;
 
     /**
      * Permanently remove a local from the data storage.

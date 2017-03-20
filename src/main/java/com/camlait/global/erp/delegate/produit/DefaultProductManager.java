@@ -6,8 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.camlait.global.erp.dao.product.CategorieProduitDao;
-import com.camlait.global.erp.dao.product.ProduitDao;
+import com.camlait.global.erp.dao.product.ProductCategoryDao;
+import com.camlait.global.erp.dao.product.ProductDao;
 import com.camlait.global.erp.domain.exception.DataStorageException;
 import com.camlait.global.erp.domain.product.Product;
 import com.camlait.global.erp.domain.product.ProductCategory;
@@ -16,11 +16,11 @@ import com.camlait.global.erp.domain.product.ProductCategory;
 @Component
 public class DefaultProductManager implements ProductManager {
 
-    private final ProduitDao produitDao;
-    private final CategorieProduitDao categorieDao;
+    private final ProductDao produitDao;
+    private final ProductCategoryDao categorieDao;
 
     @Autowired
-    public DefaultProductManager(ProduitDao produitDao, CategorieProduitDao categorieDao) {
+    public DefaultProductManager(ProductDao produitDao, ProductCategoryDao categorieDao) {
         this.produitDao = produitDao;
         this.categorieDao = categorieDao;
     }

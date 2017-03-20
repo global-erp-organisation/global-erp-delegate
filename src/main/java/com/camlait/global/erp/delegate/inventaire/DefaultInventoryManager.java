@@ -8,9 +8,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.camlait.global.erp.dao.inventory.InventaireDao;
-import com.camlait.global.erp.dao.warehouse.EntrepotDao;
-import com.camlait.global.erp.dao.warehouse.MagasinDao;
+import com.camlait.global.erp.dao.inventory.InventoryRepository;
+import com.camlait.global.erp.dao.warehouse.warehouseRepository;
+import com.camlait.global.erp.dao.warehouse.StoreRepository;
 import com.camlait.global.erp.domain.exception.DataStorageException;
 import com.camlait.global.erp.domain.inventory.Inventory;
 import com.camlait.global.erp.domain.inventory.Stock;
@@ -21,12 +21,12 @@ import com.camlait.global.erp.domain.warehouse.Warehouse;
 @Component
 public class DefaultInventoryManager implements InventoryManager {
 
-    private final EntrepotDao entrepotDao;
-    private final MagasinDao magasinDao;
-    private final InventaireDao inventaireDao;
+    private final warehouseRepository entrepotDao;
+    private final StoreRepository magasinDao;
+    private final InventoryRepository inventaireDao;
 
     @Autowired
-    public DefaultInventoryManager(EntrepotDao entrepotDao, MagasinDao magasinDao, InventaireDao inventaireDao) {
+    public DefaultInventoryManager(warehouseRepository entrepotDao, StoreRepository magasinDao, InventoryRepository inventaireDao) {
         this.entrepotDao = entrepotDao;
         this.magasinDao = magasinDao;
         this.inventaireDao = inventaireDao;
