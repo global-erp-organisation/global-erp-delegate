@@ -54,8 +54,8 @@ public class DefaultRessourceTranslationManager implements RessourceTranslationM
     }
 
     @Override
-    public Page<Language> RetrieveLanguages(final String keyWord, Pageable p) throws DataStorageException {
-        return languageRepo.RetrieveLanguages(keyWord, p);
+    public Page<Language> retrieveLanguages(final String keyWord, Pageable p) throws DataStorageException {
+        return languageRepo.retrieveLanguages(keyWord, p);
     }
 
     @Override
@@ -87,6 +87,6 @@ public class DefaultRessourceTranslationManager implements RessourceTranslationM
 
     @Override
     public Page<Term> RetrieveTerms(final String keyWord, Pageable p) throws DataStorageException {
-        return termRepository.RetrieveTerms(keyWord, p);
+        return termRepository.retrieveTerms(keyWord, p);
     }
 }

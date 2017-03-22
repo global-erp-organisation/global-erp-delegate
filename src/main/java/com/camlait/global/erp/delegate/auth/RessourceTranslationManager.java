@@ -58,7 +58,7 @@ public interface RessourceTranslationManager {
      * @return
      * @throws DataStorageException
      */
-    Page<Language> RetrieveLanguages(String keyWord, Pageable p) throws DataStorageException;
+    Page<Language> retrieveLanguages(String keyWord, Pageable p) throws DataStorageException;
 
     /**
      * Add a term in the data storage
