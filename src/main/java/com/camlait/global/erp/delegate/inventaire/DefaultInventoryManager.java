@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.camlait.global.erp.dao.inventory.InventoryRepository;
-import com.camlait.global.erp.dao.warehouse.warehouseRepository;
+import com.camlait.global.erp.dao.warehouse.WarehouseRepository;
 import com.camlait.global.erp.dao.warehouse.StoreRepository;
 import com.camlait.global.erp.domain.exception.DataStorageException;
 import com.camlait.global.erp.domain.inventory.Inventory;
@@ -21,32 +21,32 @@ import com.camlait.global.erp.domain.warehouse.Warehouse;
 @Component
 public class DefaultInventoryManager implements InventoryManager {
 
-    private final warehouseRepository entrepotDao;
-    private final StoreRepository magasinDao;
-    private final InventoryRepository inventaireDao;
+    private final WarehouseRepository warehouseRepo;
+    private final StoreRepository storeRepo;
+    private final InventoryRepository inventoryRepo;
 
     @Autowired
-    public DefaultInventoryManager(warehouseRepository entrepotDao, StoreRepository magasinDao, InventoryRepository inventaireDao) {
-        this.entrepotDao = entrepotDao;
-        this.magasinDao = magasinDao;
-        this.inventaireDao = inventaireDao;
+    public DefaultInventoryManager(WarehouseRepository warehouseRepo, StoreRepository storeRepo, InventoryRepository inventoryRepo) {
+        this.warehouseRepo = warehouseRepo;
+        this.storeRepo = storeRepo;
+        this.inventoryRepo = inventoryRepo;
 
     }
 
     @Override
     public Warehouse addWareHouse(final Warehouse wareHouse) throws DataStorageException {
-        return entrepotDao.save(wareHouse);
+        return warehouseRepo.save(wareHouse);
     }
 
     @Override
     public Warehouse updateWareHouse(final Warehouse wareHouse) throws DataStorageException {
         final Warehouse e = retrieveWareHouse(wareHouse.getWarehouseId());
-        return entrepotDao.saveAndFlush(wareHouse.merge(e));
+        return warehouseRepo.saveAndFlush(wareHouse.merge(e));
     }
 
     @Override
     public Warehouse retrieveWareHouse(final String wareHouseId) throws DataStorageException {
-        final Warehouse e = entrepotDao.findOne(wareHouseId);
+        final Warehouse e = warehouseRepo.findOne(wareHouseId);
         if (e == null) {
             throw new DataStorageException("The warehouse that you are trying to retrieve does not exist.");
         }
@@ -56,7 +56,7 @@ public class DefaultInventoryManager implements InventoryManager {
     @Override
     public Boolean removeWareHouse(final String wareHouseId) throws DataStorageException {
         final Warehouse e = retrieveWareHouse(wareHouseId);
-        entrepotDao.delete(e);
+        warehouseRepo.delete(e);
         return true;
     }
 
@@ -68,18 +68,18 @@ public class DefaultInventoryManager implements InventoryManager {
 
     @Override
     public Store addStore(final Store store) throws DataStorageException {
-        return magasinDao.save(store);
+        return storeRepo.save(store);
     }
 
     @Override
     public Store updateStore(final Store store) throws DataStorageException {
         final Store s = retrieveStore(store.getStoreId());
-        return magasinDao.saveAndFlush(store.merge(s));
+        return storeRepo.saveAndFlush(store.merge(s));
     }
 
     @Override
     public Store retrieveStore(final String storeId) throws DataStorageException {
-        final Store s = magasinDao.findOne(storeId);
+        final Store s = storeRepo.findOne(storeId);
         if (s == null) {
             throw new DataStorageException("The store that you are trying to retrieve does not exist");
         }
@@ -96,7 +96,7 @@ public class DefaultInventoryManager implements InventoryManager {
     @Override
     public Boolean removeStore(final String storeId) throws DataStorageException {
         final Store s = retrieveStore(storeId);
-        magasinDao.delete(s);
+        storeRepo.delete(s);
         return true;
     }
 
@@ -114,18 +114,18 @@ public class DefaultInventoryManager implements InventoryManager {
 
     @Override
     public Inventory addInventory(final Inventory inventory) throws DataStorageException {
-        return inventaireDao.save(inventory);
+        return inventoryRepo.save(inventory);
     }
 
     @Override
     public Inventory updateInventory(final Inventory inventory) throws DataStorageException {
         final Inventory i = retrieveInventory(inventory.getInventoryId());
-        return inventaireDao.saveAndFlush(inventory.merge(i));
+        return inventoryRepo.saveAndFlush(inventory.merge(i));
     }
 
     @Override
     public Inventory retrieveInventory(final String inventoryId) throws DataStorageException {
-        final Inventory i = inventaireDao.findOne(inventoryId);
+        final Inventory i = inventoryRepo.findOne(inventoryId);
         if (i == null) {
             throw new DataStorageException("The inventory that you are looking for does not exist.");
         }
@@ -135,7 +135,7 @@ public class DefaultInventoryManager implements InventoryManager {
     @Override
     public Boolean removeInventory(final String inventoryId) throws DataStorageException {
         final Inventory i = retrieveInventory(inventoryId);
-        inventaireDao.delete(i);
+        inventoryRepo.delete(i);
         return true;
     }
 

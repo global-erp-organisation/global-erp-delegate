@@ -28,14 +28,14 @@ import com.camlait.global.erp.domain.tarif.PriceType;
 public class DefaultDocumentManager implements DocumentManager {
 
 	private final DocumentRepository documentRepository;
-	private final TaxRepository taxDao;
-	private final TarificationManager tarif;
+	private final TaxRepository taxRepo;
+	private final TarificationManager tarifManager;
 
 	@Autowired
-	public DefaultDocumentManager(DocumentRepository documentRepository, TaxRepository taxDao, TarificationManager tarif) {
+	public DefaultDocumentManager(DocumentRepository documentRepository, TaxRepository taxRepo, TarificationManager tarifManager) {
 		this.documentRepository = documentRepository;
-		this.taxDao = taxDao;
-		this.tarif = tarif;
+		this.taxRepo = taxRepo;
+		this.tarifManager = tarifManager;
 	}
 
 	@Override
@@ -104,7 +104,7 @@ public class DefaultDocumentManager implements DocumentManager {
 	public Double documentTaxesValue(final String taxId, final String documentId) throws DataStorageException {
 		final Document d = retrieveDocument(documentId);
 		return d == null ? 0.0 : d.getDocumentDetails().stream().mapToDouble(ld -> {
-			return ld.getDocumentDetailsTaxes().stream().filter(ldt -> ldt.getTax().getTaxId() == taxId)
+			return ld.getDocumentDetailsTaxes().stream().filter(ldt -> ldt.getTax().getTaxId().equals(taxId))
 					.mapToDouble(ldt -> {
 						return ld.getLineUnitPrice() * ld.getLineQuantity() * ldt.getTaxRate();
 					}).sum();
@@ -124,7 +124,7 @@ public class DefaultDocumentManager implements DocumentManager {
 		}
 		final PriceType type = f.getPriceType();
 		return f.getDocumentDetails().stream().mapToDouble(l -> {
-			Double regularPrice = tarif.retrieveUnitPrice(type.getPriceTypeId(), f.getZone().getLocalId(),
+			Double regularPrice = tarifManager.retrieveUnitPrice(type.getPriceTypeId(), f.getZone().getLocalId(),
 					l.getProduct().getProductId());
 			if (regularPrice == null) {
 				regularPrice = l.getProduct().getUnitPriceByType(type);
@@ -137,13 +137,13 @@ public class DefaultDocumentManager implements DocumentManager {
 
 	@Override
 	public Tax addTax(final Tax tax) throws DataStorageException {
-		return taxDao.save(tax);
+		return taxRepo.save(tax);
 	}
 
 	@Override
 	public Tax updateTax(final Tax tax) throws DataStorageException {
 		final Tax t = retrieveTax(tax.getTaxId());
-		return taxDao.saveAndFlush(tax.merge(t));
+		return taxRepo.saveAndFlush(tax.merge(t));
 	}
 
 	@Override
@@ -158,12 +158,12 @@ public class DefaultDocumentManager implements DocumentManager {
 	@Override
 	public Boolean removeTax(final String taxId) throws DataStorageException {
 		final Tax tax = retrieveTax(taxId);
-		taxDao.delete(tax);
+		taxRepo.delete(tax);
 		return true;
 	}
 
 	@Override
 	public Page<Tax> retrieveTaxes(final String keyWord, Pageable p) throws DataStorageException {
-		return taxDao.retrieveTaxes(keyWord, p);
+		return taxRepo.retrieveTaxes(keyWord, p);
 	}
 }

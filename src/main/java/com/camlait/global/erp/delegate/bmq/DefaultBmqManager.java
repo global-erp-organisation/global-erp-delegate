@@ -81,7 +81,7 @@ public class DefaultBmqManager implements BmqManager {
     public void generateCashSales(final String bmqId) throws DataStorageException {
         final DailyMovement b = retrieveBmq(bmqId);
         final Document d = CashClientBill.createHeaderFromBmq(b);
-        final Collection<DocumentDetails> lignes = inventoryManager.getInventoryByStore(b.getStore().getStoreId()).parallelStream().map(s -> {
+        final Collection<DocumentDetails> lines = inventoryManager.getInventoryByStore(b.getStore().getStoreId()).parallelStream().map(s -> {
             return DocumentDetails.builder()
                     .document(d)
                     .lineUnitPrice(s.getProduct().getDefaultUnitprice())
@@ -92,7 +92,7 @@ public class DefaultBmqManager implements BmqManager {
                     .build();
 
         }).collect(Collectors.toList());
-        d.setDocumentDetails(lignes);
+        d.setDocumentDetails(lines);
         b.getDocuments().add(d);
         updateBmq(b);
     }

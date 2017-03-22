@@ -18,28 +18,28 @@ import com.camlait.global.erp.domain.translation.Term;
 public class DefaultRessourceTranslationManager implements RessourceTranslationManager {
 
     private final TermRepository termRepository;
-    private final LanguageRepository langueDao;
+    private final LanguageRepository languageRepo;
 
     @Autowired
-    public DefaultRessourceTranslationManager(TermRepository termRepository, LanguageRepository langueDao) {
+    public DefaultRessourceTranslationManager(TermRepository termRepository, LanguageRepository languageRepo) {
         this.termRepository = termRepository;
-        this.langueDao = langueDao;
+        this.languageRepo = languageRepo;
     }
 
     @Override
     public Language addLanguage(final Language language) throws DataStorageException {
-        return langueDao.save(language);
+        return languageRepo.save(language);
     }
 
     @Override
     public Language updateLanguage(final Language language) throws DataStorageException {
         final Language l = retrieveLanguage(language.getLangId());
-        return langueDao.saveAndFlush(language.merge(l));
+        return languageRepo.saveAndFlush(language.merge(l));
     }
 
     @Override
     public Language retrieveLanguage(final String languageId) throws DataStorageException {
-        final Language l = langueDao.findOne(languageId);
+        final Language l = languageRepo.findOne(languageId);
         if (l == null) {
             throw new DataStorageException("The language that you are trying to retrieve does not exist.");
         }
@@ -49,13 +49,13 @@ public class DefaultRessourceTranslationManager implements RessourceTranslationM
     @Override
     public Boolean removeLanguage(final String languageId) throws DataStorageException {
         final Language l = retrieveLanguage(languageId);
-        langueDao.delete(l);
+        languageRepo.delete(l);
         return true;
     }
 
     @Override
     public Page<Language> RetrieveLanguages(final String keyWord, Pageable p) throws DataStorageException {
-        return langueDao.RetrieveLanguages(keyWord, p);
+        return languageRepo.RetrieveLanguages(keyWord, p);
     }
 
     @Override

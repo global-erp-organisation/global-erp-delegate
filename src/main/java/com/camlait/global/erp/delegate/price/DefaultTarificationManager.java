@@ -17,31 +17,31 @@ import com.camlait.global.erp.domain.tarif.Tarif;
 @Component
 public class DefaultTarificationManager implements TarificationManager {
 
-    private final PriceTypeRepository priceDao;
-    private final TarifRepository tarifDao;
-    private final TarificationRepository tarificationDao;
+    private final PriceTypeRepository priceTypeRepo;
+    private final TarifRepository tarifRepo;
+    private final TarificationRepository tarificationRepo;
 
     @Autowired
     public DefaultTarificationManager(PriceTypeRepository priceDao, TarifRepository tarifDao, TarificationRepository tarificationDao) {
-        this.priceDao = priceDao;
-        this.tarifDao = tarifDao;
-        this.tarificationDao = tarificationDao;
+        this.priceTypeRepo = priceDao;
+        this.tarifRepo = tarifDao;
+        this.tarificationRepo = tarificationDao;
     }
 
     @Override
     public PriceType addPriceType(final PriceType priceType) throws DataStorageException {
-        return priceDao.save(priceType);
+        return priceTypeRepo.save(priceType);
     }
 
     @Override
     public PriceType updatePriceType(final PriceType priceType) throws DataStorageException {
         final PriceType p = retrievePricetype(priceType.getPriceTypeId());
-        return priceDao.saveAndFlush(priceType.merge(p));
+        return priceTypeRepo.saveAndFlush(priceType.merge(p));
     }
 
     @Override
     public PriceType retrievePricetype(final String priceTypeId) throws DataStorageException {
-        final PriceType p = priceDao.findOne(priceTypeId);
+        final PriceType p = priceTypeRepo.findOne(priceTypeId);
         if (p == null) {
             throw new DataStorageException("The price type that you are trying to retrieve does not exist.");
         }
@@ -51,7 +51,7 @@ public class DefaultTarificationManager implements TarificationManager {
     @Override
     public Boolean removePricetype(final String priceTypeId) throws DataStorageException {
         final PriceType p = retrievePricetype(priceTypeId);
-        priceDao.delete(p);
+        priceTypeRepo.delete(p);
         return true;
     }
 
@@ -63,18 +63,18 @@ public class DefaultTarificationManager implements TarificationManager {
 
     @Override
     public Tarif addTarif(final Tarif tariff) throws DataStorageException {
-        return tarifDao.save(tariff);
+        return tarifRepo.save(tariff);
     }
 
     @Override
     public Tarif updateTarif(final Tarif tariff) throws DataStorageException {
         final Tarif t = retrieveTarif(tariff.getTarifId());
-        return tarifDao.saveAndFlush(tariff.merge(t));
+        return tarifRepo.saveAndFlush(tariff.merge(t));
     }
 
     @Override
     public Tarif retrieveTarif(final String tariffId) throws DataStorageException {
-        final Tarif t = tarifDao.findOne(tariffId);
+        final Tarif t = tarifRepo.findOne(tariffId);
         if (t == null) {
             throw new DataStorageException("The tariff that you are trying to retrieve does not exist.");
         }
@@ -84,7 +84,7 @@ public class DefaultTarificationManager implements TarificationManager {
     @Override
     public Boolean removeTarif(final String tariffId) throws DataStorageException {
         final Tarif t = retrieveTarif(tariffId);
-        tarifDao.delete(t);
+        tarifRepo.delete(t);
         return true;
     }
 
@@ -96,6 +96,6 @@ public class DefaultTarificationManager implements TarificationManager {
 
     @Override
     public Double retrieveUnitPrice(final String tarifId, final String zoneId, final String productId) throws DataStorageException {
-        return tarificationDao.retrieveUnitPrice(tarifId, zoneId, productId);
+        return tarificationRepo.retrieveUnitPrice(tarifId, zoneId, productId);
     }
 }

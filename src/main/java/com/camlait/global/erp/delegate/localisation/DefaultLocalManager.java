@@ -14,27 +14,27 @@ import com.camlait.global.erp.domain.localisation.Localisation;
 @Component
 public class DefaultLocalManager implements LocalisationManager {
 
-	private final LocalisationRepository localDao;
+	private final LocalisationRepository localRepo;
 
 	@Autowired
-	public DefaultLocalManager(LocalisationRepository localDao) {
-		this.localDao = localDao;
+	public DefaultLocalManager(LocalisationRepository localRepo) {
+		this.localRepo = localRepo;
 	}
 
 	@Override
 	public Localisation addLocalisation(final Localisation local) throws DataStorageException {
-		return localDao.save(local);
+		return localRepo.save(local);
 	}
 
 	@Override
 	public Localisation updateLocalisation(final Localisation local) throws DataStorageException {
 		final Localisation l = retrieveLocalisation(local.getLocalId());
-		return localDao.saveAndFlush(local.merge(l));
+		return localRepo.saveAndFlush(local.merge(l));
 	}
 
 	@Override
 	public Localisation retrieveLocalisation(final String localId) throws DataStorageException {
-		final Localisation l = localDao.findOne(localId);
+		final Localisation l = localRepo.findOne(localId);
 		if (l == null) {
 			throw new DataStorageException("The local that you are trying to retrieve does not exist.");
 		}
@@ -51,7 +51,7 @@ public class DefaultLocalManager implements LocalisationManager {
 	@Override
 	public Boolean removeLocalisation(final String localId) throws DataStorageException {
 		final Localisation l = retrieveLocalisation(localId);
-		localDao.delete(l);
+		localRepo.delete(l);
 		return true;
 	}
 

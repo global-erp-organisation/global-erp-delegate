@@ -6,8 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.camlait.global.erp.dao.product.ProductCategoryDao;
-import com.camlait.global.erp.dao.product.ProductDao;
+import com.camlait.global.erp.dao.product.ProductCategoryRepository;
+import com.camlait.global.erp.dao.product.ProductRepository;
 import com.camlait.global.erp.domain.exception.DataStorageException;
 import com.camlait.global.erp.domain.product.Product;
 import com.camlait.global.erp.domain.product.ProductCategory;
@@ -16,29 +16,29 @@ import com.camlait.global.erp.domain.product.ProductCategory;
 @Component
 public class DefaultProductManager implements ProductManager {
 
-    private final ProductDao produitDao;
-    private final ProductCategoryDao categorieDao;
+    private final ProductRepository productRepo;
+    private final ProductCategoryRepository categoryRepo;
 
     @Autowired
-    public DefaultProductManager(ProductDao produitDao, ProductCategoryDao categorieDao) {
-        this.produitDao = produitDao;
-        this.categorieDao = categorieDao;
+    public DefaultProductManager(ProductRepository produitRepo, ProductCategoryRepository categorieRepo) {
+        this.productRepo = produitRepo;
+        this.categoryRepo = categorieRepo;
     }
 
     @Override
     public Product addProduct(final Product product) throws DataStorageException {
-        return produitDao.save(product);
+        return productRepo.save(product);
     }
 
     @Override
     public Product updateProduct(final Product product) throws DataStorageException {
-        final Product p = produitDao.findOne(product.getProductId());
-        return produitDao.saveAndFlush(product.merge(p));
+        final Product p = productRepo.findOne(product.getProductId());
+        return productRepo.saveAndFlush(product.merge(p));
     }
 
     @Override
     public Product retrieveProduct(final String productId) throws DataStorageException {
-        final Product p = produitDao.findOne(productId);
+        final Product p = productRepo.findOne(productId);
         if (p == null) {
             throw new DataStorageException("The product you are trying to retrieve does not exist.");
         }
@@ -48,29 +48,29 @@ public class DefaultProductManager implements ProductManager {
     @Override
     public Boolean removeProduct(final String productId) throws DataStorageException {
         final Product p = retrieveProduct(productId);
-        produitDao.delete(p);
+        productRepo.delete(p);
         return true;
     }
 
     @Override
     public Page<Product> retriveProducts(final String keyWord, Pageable p) throws DataStorageException {
-        return produitDao.retriveProducts(keyWord, p);
+        return productRepo.retriveProducts(keyWord, p);
     }
 
     @Override
     public ProductCategory addProductCategory(final ProductCategory productCategory) throws DataStorageException {
-        return categorieDao.save(productCategory);
+        return categoryRepo.save(productCategory);
     }
 
     @Override
     public ProductCategory updateProductCategory(final ProductCategory productCategory) throws DataStorageException {
         final ProductCategory c = retrieveProductCategory(productCategory.getProductcategoryId());
-        return categorieDao.saveAndFlush(productCategory.merge(c));
+        return categoryRepo.saveAndFlush(productCategory.merge(c));
     }
 
     @Override
     public ProductCategory retrieveProductCategory(final String productCategoryId) throws DataStorageException {
-        final ProductCategory c = categorieDao.findOne(productCategoryId);
+        final ProductCategory c = categoryRepo.findOne(productCategoryId);
         if (c == null) {
             throw new DataStorageException("The product category that you are trying to retrieve does not exist.");
         }
@@ -80,13 +80,13 @@ public class DefaultProductManager implements ProductManager {
     @Override
     public Boolean removeProductCategory(final String productCategoryId) throws DataStorageException {
         final ProductCategory c = retrieveProductCategory(productCategoryId);
-        categorieDao.delete(c);
+        categoryRepo.delete(c);
         return true;
     }
 
     @Override
     public Page<ProductCategory> retriveProductCategories(final String keyWord, Pageable p) throws DataStorageException {
-        return categorieDao.retriveProductCategories(keyWord, p);
+        return categoryRepo.retriveProductCategories(keyWord, p);
     }
 
 }

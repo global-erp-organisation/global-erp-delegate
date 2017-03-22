@@ -19,31 +19,31 @@ import com.camlait.global.erp.domain.exception.DataStorageException;
 @Transactional
 public class DefaultUserManager implements UserManager {
 
-    private final UserRepository userDao;
-    private final GroupRepository groupDao;
+    private final UserRepository userRepo;
+    private final GroupRepository groupRepo;
     private final ResourceRepository resourceRepository;
 
     @Autowired
-    public DefaultUserManager(UserRepository userDao, GroupRepository groupDao, ResourceRepository resourceRepository) {
-        this.userDao = userDao;
-        this.groupDao = groupDao;
+    public DefaultUserManager(UserRepository userRepo, GroupRepository groupRepo, ResourceRepository resourceRepository) {
+        this.userRepo = userRepo;
+        this.groupRepo = groupRepo;
         this.resourceRepository = resourceRepository;
     }
 
     @Override
     public User addUser(final User user) throws DataStorageException {
-        return userDao.save(user);
+        return userRepo.save(user);
     }
 
     @Override
     public User updateUser(final User user) throws DataStorageException {
         final User u = retrieveUser(user.getUserId());
-        return userDao.saveAndFlush(user.merge(u));
+        return userRepo.saveAndFlush(user.merge(u));
     }
 
     @Override
     public User retrieveUser(final String userCode) throws DataStorageException {
-        final User u = userDao.findOne(userCode);
+        final User u = userRepo.findOne(userCode);
         if (u == null) {
             throw new DataStorageException("The user you are trying to retrieve does not exist.");
         }
@@ -53,7 +53,7 @@ public class DefaultUserManager implements UserManager {
     @Override
     public Boolean removeUser(final String userCode) throws DataStorageException {
         final User u = retrieveUser(userCode);
-        userDao.delete(u);
+        userRepo.delete(u);
         return true;
     }
 
@@ -71,18 +71,18 @@ public class DefaultUserManager implements UserManager {
 
     @Override
     public Group addGroup(final Group group) throws DataStorageException {
-        return groupDao.save(group);
+        return groupRepo.save(group);
     }
 
     @Override
     public Group updateGroup(final Group group) throws DataStorageException {
         final Group g = retrieveGroup(group.getGroupId());
-        return groupDao.saveAndFlush(group.merge(g));
+        return groupRepo.saveAndFlush(group.merge(g));
     }
 
     @Override
     public Group retrieveGroup(final String groupId) throws DataStorageException {
-        final Group g = groupDao.findOne(groupId);
+        final Group g = groupRepo.findOne(groupId);
         if (g == null) {
             throw new DataStorageException("The group you are trying to retrieve does not exist.");
         }
@@ -92,7 +92,7 @@ public class DefaultUserManager implements UserManager {
     @Override
     public Boolean removeGroup(final String groupId) throws DataStorageException {
         final Group g = retrieveGroup(groupId);
-        groupDao.delete(g);
+        groupRepo.delete(g);
         return true;
     }
 
