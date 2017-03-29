@@ -121,7 +121,7 @@ public interface UserManager {
      * @return A page of user group that belongs to the given key word.
      * @throws DataStorageException
      */
-    Page<User> retrieveGroups(String keyWord, Pageable page) throws DataStorageException;
+    Page<Group> retrieveGroups(String keyWord, Pageable page) throws DataStorageException;
 
     /**
      * Retrieves all user groups from the data storage.
@@ -130,7 +130,7 @@ public interface UserManager {
      * @return
      * @throws DataStorageException
      */
-    Page<User> retrieveGroups(Pageable page) throws DataStorageException;
+    Page<Group> retrieveGroups(Pageable page) throws DataStorageException;
 
     /**
      * Add the provided resource to the data storage.

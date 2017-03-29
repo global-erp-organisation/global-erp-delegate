@@ -59,14 +59,12 @@ public class DefaultUserManager implements UserManager {
 
     @Override
     public Page<User> retrieveUsers(final String keyWord, Pageable page) throws DataStorageException {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Page<User> retrieveUsers(Pageable page) throws DataStorageException {
-        // TODO Auto-generated method stub
-        return null;
+    public Page<User> retrieveUsers(Pageable page) throws DataStorageException {        
+        return userRepo.findAll(page);
     }
 
     @Override
@@ -97,15 +95,14 @@ public class DefaultUserManager implements UserManager {
     }
 
     @Override
-    public Page<User> retrieveGroups(final String keyWord, Pageable page) throws DataStorageException {
+    public Page<Group> retrieveGroups(final String keyWord, Pageable page) throws DataStorageException {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Page<User> retrieveGroups(Pageable page) throws DataStorageException {
-        // TODO Auto-generated method stub
-        return null;
+    public Page<Group> retrieveGroups(Pageable page) throws DataStorageException {
+         return groupRepo.findAll(page);
     }
 
     @Override
@@ -137,14 +134,11 @@ public class DefaultUserManager implements UserManager {
 
     @Override
     public Page<Resource> retrieveResources(final String keyWord, Pageable page) throws DataStorageException {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public Page<Resource> retrieveResources(Pageable page) throws DataStorageException {
-        // TODO Auto-generated method stub
-        return null;
+         return resourceRepository.findAll(page);
     }
-
 }

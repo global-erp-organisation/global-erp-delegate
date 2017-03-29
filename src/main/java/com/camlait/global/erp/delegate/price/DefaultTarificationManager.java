@@ -11,21 +11,21 @@ import com.camlait.global.erp.dao.tarif.TarifRepository;
 import com.camlait.global.erp.dao.tarif.TarificationRepository;
 import com.camlait.global.erp.domain.exception.DataStorageException;
 import com.camlait.global.erp.domain.tarif.PriceType;
-import com.camlait.global.erp.domain.tarif.Tarif;
+import com.camlait.global.erp.domain.tarif.Tariff;
 
 @Transactional
 @Component
 public class DefaultTarificationManager implements TarificationManager {
 
     private final PriceTypeRepository priceTypeRepo;
-    private final TarifRepository tarifRepo;
     private final TarificationRepository tarificationRepo;
+    private final TarifRepository tarifRepo;
 
     @Autowired
-    public DefaultTarificationManager(PriceTypeRepository priceDao, TarifRepository tarifDao, TarificationRepository tarificationDao) {
+    public DefaultTarificationManager(PriceTypeRepository priceDao, TarificationRepository tarificationDao, TarifRepository tarifRepo) {
         this.priceTypeRepo = priceDao;
-        this.tarifRepo = tarifDao;
         this.tarificationRepo = tarificationDao;
+        this.tarifRepo = tarifRepo;
     }
 
     @Override
@@ -57,24 +57,23 @@ public class DefaultTarificationManager implements TarificationManager {
 
     @Override
     public Page<PriceType> retrievePriceTypes(final String keyWord, Pageable p) throws DataStorageException {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Tarif addTarif(final Tarif tariff) throws DataStorageException {
+    public Tariff addTariff(final Tariff tariff) throws DataStorageException {
         return tarifRepo.save(tariff);
     }
 
     @Override
-    public Tarif updateTarif(final Tarif tariff) throws DataStorageException {
-        final Tarif t = retrieveTarif(tariff.getTarifId());
+    public Tariff updateTariff(final Tariff tariff) throws DataStorageException {
+        final Tariff t = retrieveTariff(tariff.getTarifId());
         return tarifRepo.saveAndFlush(tariff.merge(t));
     }
 
     @Override
-    public Tarif retrieveTarif(final String tariffId) throws DataStorageException {
-        final Tarif t = tarifRepo.findOne(tariffId);
+    public Tariff retrieveTariff(final String tariffId) throws DataStorageException {
+        final Tariff t = tarifRepo.findOne(tariffId);
         if (t == null) {
             throw new DataStorageException("The tariff that you are trying to retrieve does not exist.");
         }
@@ -82,20 +81,19 @@ public class DefaultTarificationManager implements TarificationManager {
     }
 
     @Override
-    public Boolean removeTarif(final String tariffId) throws DataStorageException {
-        final Tarif t = retrieveTarif(tariffId);
+    public Boolean removeTariff(final String tariffId) throws DataStorageException {
+        final Tariff t = retrieveTariff(tariffId);
         tarifRepo.delete(t);
         return true;
     }
 
     @Override
-    public Page<Tarif> retrieveTarifs(final String keyWord, Pageable p) throws DataStorageException {
-        // TODO Auto-generated method stub
+    public Page<Tariff> retrieveTariffs(final String keyWord, Pageable p) throws DataStorageException {
         return null;
     }
 
     @Override
-    public Double retrieveUnitPrice(final String tarifId, final String zoneId, final String productId) throws DataStorageException {
-        return tarificationRepo.retrieveUnitPrice(tarifId, zoneId, productId);
+    public Double retrieveUnitPrice(final String tarifId, final String zoneId, final String productId, String tariffId) throws DataStorageException {
+        return tarificationRepo.retrieveUnitPrice(tarifId, zoneId, productId, tariffId);
     }
 }

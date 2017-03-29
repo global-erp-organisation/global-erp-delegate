@@ -4,7 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.camlait.global.erp.domain.exception.DataStorageException;
-import com.camlait.global.erp.domain.localisation.Localisation;
+import com.camlait.global.erp.domain.localization.Localization;
 
 public interface LocalisationManager {
 
@@ -15,7 +15,7 @@ public interface LocalisationManager {
      * @return
      * @throws DataStorageException
      */
-    Localisation addLocalisation(Localisation local) throws DataStorageException;
+    Localization addLocalisation(Localization local) throws DataStorageException;
 
     /**
      * Update the provided local information in the data storage
@@ -24,7 +24,7 @@ public interface LocalisationManager {
      * @return
      * @throws DataStorageException
      */
-    Localisation updateLocalisation(Localisation local) throws DataStorageException;
+    Localization updateLocalisation(Localization local) throws DataStorageException;
 
     /**
      * Retrieves a Local from the data storage based on the given identifier.
@@ -33,7 +33,7 @@ public interface LocalisationManager {
      * @return
      * @throws DataStorageException
      */
-    Localisation retrieveLocalisation(String localId) throws DataStorageException;
+    Localization retrieveLocalisation(String localId) throws DataStorageException;
 
     /**
      * Retrieves a generic Local based on the given identifier.
@@ -43,7 +43,7 @@ public interface LocalisationManager {
      * @return
      * @throws DataStorageException
      */
-    <T extends Localisation> T retrieveLocalisation(Class<T> clazz, String localId) throws DataStorageException;
+    <T extends Localization> T retrieveLocalisation(Class<T> clazz, String localId) throws DataStorageException;
 
     /**
      * Permanently remove a local from the data storage.
@@ -62,6 +62,6 @@ public interface LocalisationManager {
      * @return
      * @throws DataStorageException
      */
-    Page<Localisation> retriveLocalisations(String keyWord, Pageable p) throws DataStorageException;
+    Page<Localization> retriveLocalisations(String keyWord, Pageable p) throws DataStorageException;
 
 }

@@ -5,7 +5,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.camlait.global.erp.domain.exception.DataStorageException;
 import com.camlait.global.erp.domain.tarif.PriceType;
-import com.camlait.global.erp.domain.tarif.Tarif;
+import com.camlait.global.erp.domain.tarif.Tariff;
 
 public interface TarificationManager {
     /**
@@ -62,7 +62,7 @@ public interface TarificationManager {
      * @return The stored tariff.
      * @throws DataStorageException
      */
-    Tarif addTarif(Tarif tariff) throws DataStorageException;
+    Tariff addTariff(Tariff tariff) throws DataStorageException;
 
     /**
      * Update a tariff
@@ -71,7 +71,7 @@ public interface TarificationManager {
      * @return The updated tariff
      * @throws DataStorageException
      */
-    Tarif updateTarif(Tarif tariff) throws DataStorageException;
+    Tariff updateTariff(Tariff tariff) throws DataStorageException;
 
     /**
      * Retrieves a tariff from the data storage.
@@ -80,7 +80,7 @@ public interface TarificationManager {
      * @return The tariff that belongs to the given identifier.
      * @throws DataStorageException
      */
-    Tarif retrieveTarif(String tariffId) throws DataStorageException;
+    Tariff retrieveTariff(String tariffId) throws DataStorageException;
 
     /**
      * Permanently removes a tariff from the data storage.
@@ -90,7 +90,7 @@ public interface TarificationManager {
      *         otherwise.
      * @throws DataStorageException
      */
-    Boolean removeTarif(String tarifId) throws DataStorageException;
+    Boolean removeTariff(String tarifId) throws DataStorageException;
 
     /**
      * Retrieves Tariff from the data storage based on the given key word.
@@ -100,7 +100,7 @@ public interface TarificationManager {
      * @return
      * @throws DataStorageException
      */
-    Page<Tarif> retrieveTarifs(String keyWord, Pageable p) throws DataStorageException;
+    Page<Tariff> retrieveTariffs(String keyWord, Pageable p) throws DataStorageException;
 
     /**
      * Retrieves the unit price for the given product based on the specific zone
@@ -109,10 +109,11 @@ public interface TarificationManager {
      * @param priceTypeId Price type category identifier.
      * @param zoneId Zone localization identifier.
      * @param productId Product identifier
+     * @param tarrifId Tariff identifier.
      * @return The unit price that belong to the provided product for the
      *         provided partner
      * @throws DataStorageException
      */
-    Double retrieveUnitPrice(String tarifId, String zoneId, String productId) throws DataStorageException;
+    Double retrieveUnitPrice(String priceTypeId, String zoneId, String productId, String tariffId) throws DataStorageException;
 
 }

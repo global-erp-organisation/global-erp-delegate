@@ -9,6 +9,12 @@ import com.camlait.global.erp.domain.document.Document;
 import com.camlait.global.erp.domain.document.business.Tax;
 import com.camlait.global.erp.domain.exception.DataStorageException;
 
+/**
+ * This interface specify all the oprations that belong to document management.
+ * All CRUD operation for document management and related are defined here.
+ * 
+ * @author Martin Blaise Signe
+ */
 public interface DocumentManager {
 
     /**
@@ -23,7 +29,7 @@ public interface DocumentManager {
     /**
      * Update the provided document to the data storage.
      * 
-     * @param document Document thet need to be updated.
+     * @param document Document the need to be updated.
      * @return The updated document.
      * @throws DataStorageException
      */
@@ -76,7 +82,7 @@ public interface DocumentManager {
      * @param start Beginning date
      * @param end Ending date.
      * @param p Pageable object that indicated how many records need to be extracted per page.
-     * @return All The documents within the given period.
+     * @return All The documents within the given period that match with the given pagination rule.
      * @throws DataStorageException
      */
     Page<Document> retrieveDocuments(Date start, Date end, Pageable p) throws DataStorageException;
