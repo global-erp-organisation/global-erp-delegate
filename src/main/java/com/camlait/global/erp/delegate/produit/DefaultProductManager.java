@@ -88,5 +88,4 @@ public class DefaultProductManager implements ProductManager {
     public Page<ProductCategory> retriveProductCategories(final String keyWord, Pageable p) throws DataStorageException {
         return categoryRepo.retriveProductCategories(keyWord, p);
     }
-
 }
