@@ -63,7 +63,7 @@ public interface UserManager {
      * @return A page of user that belongs to the given key word.
      * @throws DataStorageException
      */
-    Page<User> retrieveUsers(String keyWord, Pageable page) throws DataStorageException;
+    Page<User> retrieveUsers(@NonNull String keyWord, Pageable page) throws DataStorageException;
 
     /**
      * Retrieves all user from the data storage.
@@ -121,7 +121,7 @@ public interface UserManager {
      * @return A page of user group that belongs to the given key word.
      * @throws DataStorageException
      */
-    Page<Group> retrieveGroups(String keyWord, Pageable page) throws DataStorageException;
+    Page<Group> retrieveGroups(@NonNull String keyWord, Pageable page) throws DataStorageException;
 
     /**
      * Retrieves all user groups from the data storage.
@@ -179,7 +179,7 @@ public interface UserManager {
      * @return A page of resources that belongs to the given key word.
      * @throws DataStorageException
      */
-    Page<Resource> retrieveResources(String keyWord, Pageable page) throws DataStorageException;
+    Page<Resource> retrieveResources(@NonNull String keyWord, Pageable page) throws DataStorageException;
 
     /**
      * Retrieves all resources from the data storage.

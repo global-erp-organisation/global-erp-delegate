@@ -7,6 +7,8 @@ import com.camlait.global.erp.domain.exception.DataStorageException;
 import com.camlait.global.erp.domain.translation.Language;
 import com.camlait.global.erp.domain.translation.Term;
 
+import lombok.NonNull;
+
 /**
  * This interface provides all operations that belong to resources management.
  * 
@@ -21,7 +23,7 @@ public interface RessourceTranslationManager {
      * @return
      * @throws DataStorageException
      */
-    Language addLanguage(Language language) throws DataStorageException;
+    Language addLanguage(@NonNull Language language) throws DataStorageException;
 
     /**
      * Update a language in the data storage
@@ -30,7 +32,7 @@ public interface RessourceTranslationManager {
      * @return
      * @throws DataStorageException throws if the item does not exist.
      */
-    Language updateLanguage(Language language) throws DataStorageException;
+    Language updateLanguage(@NonNull Language language) throws DataStorageException;
 
     /**
      * Retrieves a language from the data storage.
@@ -39,7 +41,7 @@ public interface RessourceTranslationManager {
      * @return
      * @throws DataStorageException throws if the item does not exist.
      */
-    Language retrieveLanguage(String languageId) throws DataStorageException;
+    Language retrieveLanguage(@NonNull String languageId) throws DataStorageException;
 
     /**
      * Permanently remove a language in the data storage.
@@ -48,7 +50,7 @@ public interface RessourceTranslationManager {
      * @return
      * @throws DataStorageException throws if the item does not exist.
      */
-    Boolean removeLanguage(String languagId) throws DataStorageException;
+    Boolean removeLanguage(@NonNull String languagId) throws DataStorageException;
 
     /**
      * Retrieves some languages that match with the provided key word from the data storage.
@@ -58,7 +60,7 @@ public interface RessourceTranslationManager {
      * @return
      * @throws DataStorageException
      */
-    Page<Language> retrieveLanguages(String keyWord, Pageable p) throws DataStorageException;
+    Page<Language> retrieveLanguages(@NonNull String keyWord, Pageable p) throws DataStorageException;
 
     /**
      * Add a term in the data storage
@@ -67,7 +69,7 @@ public interface RessourceTranslationManager {
      * @return
      * @throws DataStorageException
      */
-    Term addTerm(Term term) throws DataStorageException;
+    Term addTerm(@NonNull Term term) throws DataStorageException;
 
     /**
      * Update a term in the data storage
@@ -76,7 +78,7 @@ public interface RessourceTranslationManager {
      * @return
      * @throws DataStorageException throws if the item does not exist.
      */
-    Term updateTerm(Term term) throws DataStorageException;
+    Term updateTerm(@NonNull Term term) throws DataStorageException;
 
     /**
      * Retrieves a term from the data storage.
@@ -85,7 +87,7 @@ public interface RessourceTranslationManager {
      * @return
      * @throws DataStorageException throws if the item does not exist.
      */
-    Term retrieveTerm(String termId) throws DataStorageException;
+    Term retrieveTerm(@NonNull String termId) throws DataStorageException;
 
     /**
      * Permanently remove a term in the data storage.
@@ -94,7 +96,7 @@ public interface RessourceTranslationManager {
      * @return
      * @throws DataStorageException throws if the item does not exist.
      */
-    Boolean removeTerm(String termId) throws DataStorageException;
+    Boolean removeTerm(@NonNull String termId) throws DataStorageException;
 
     /**
      * Retrieves some terms that match with the provided key word from the data storage.
@@ -104,6 +106,6 @@ public interface RessourceTranslationManager {
      * @return
      * @throws DataStorageException
      */
-    Page<Term> RetrieveTerms(String keyWord, Pageable p) throws DataStorageException;
+    Page<Term> RetrieveTerms(@NonNull String keyWord, Pageable p) throws DataStorageException;
 
 }

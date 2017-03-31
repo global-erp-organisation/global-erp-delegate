@@ -8,6 +8,8 @@ import org.springframework.data.domain.Pageable;
 import com.camlait.global.erp.domain.dm.DailyMovement;
 import com.camlait.global.erp.domain.exception.DataStorageException;
 
+import lombok.NonNull;
+
 /**
  * This interface provides operations that belong to The Daily movement
  * management service.
@@ -22,7 +24,7 @@ public interface BmqManager {
      * @return The stored DailyMovement
      * @throws DataStorageException
      */
-    DailyMovement addBmq(DailyMovement dailyMovement) throws DataStorageException;
+    DailyMovement addBmq(@NonNull DailyMovement dailyMovement) throws DataStorageException;
 
     /**
      * Update the given DailyMovement into the data storage.
@@ -31,38 +33,38 @@ public interface BmqManager {
      * @return The updated DailyMovement.
      * @throws DataStorageException
      */
-    DailyMovement updateBmq(DailyMovement dailyMovement) throws DataStorageException;
+    DailyMovement updateBmq(@NonNull DailyMovement dailyMovement) throws DataStorageException;
 
     /**
      * Retrieves a DailyMovement from the data storage based on the given bmqId.
      * 
-     * @param bmqId DailyMovement identifier.
+     * @param dmId DailyMovement identifier.
      * @return The DailyMovement tha match with the provided identifier.
      * @throws DataStorageException
      */
-    DailyMovement retrieveBmq(String bmqId) throws DataStorageException;
+    DailyMovement retrieveBmq(@NonNull String dmId) throws DataStorageException;
 
     /**
-     * Build the bmq details and store the detail in the data storage.
+     * Build the dailyMovement details and store the detail in the data storage.
      * <p>
      * The details include DailyMovement lines generation, Clients payment recovery and
      * associated documents
      * 
-     * @param bmqId DailyMovement identifier use to generate.
+     * @param dmId DailyMovement identifier use to generate.
      * @return The DailyMovement including the details.
      * @throws DataStorageException
      */
-    DailyMovement buildBmqDetails(String bmqId) throws DataStorageException;
+    DailyMovement buildBmqDetails(@NonNull String dmId) throws DataStorageException;
 
     /**
      * Permanently removes a DailyMovement.
      * 
-     * @param bmqId DailyMovement identifier to remove.
+     * @param dmId DailyMovement identifier to remove.
      * @return true if the operation is perform without errors and false
      *         otherwise.
      * @throws DataStorageException
      */
-    Boolean removeBmq(String bmqId) throws DataStorageException;
+    Boolean removeBmq(@NonNull String dmId) throws DataStorageException;
 
     /**
      * Retrieves Bmqs from the data storage based on the given
@@ -72,7 +74,7 @@ public interface BmqManager {
      * @return
      * @throws DataStorageException
      */
-    Page<DailyMovement> retrieveBmqs(String keyWord, Pageable p) throws DataStorageException;
+    Page<DailyMovement> retrieveBmqs(@NonNull String keyWord, Pageable p) throws DataStorageException;
 
     /**
      * Retrieves Bmqs from the data storage base on the given inclusion period.
@@ -83,7 +85,7 @@ public interface BmqManager {
      * @return
      * @throws DataStorageException
      */
-    Page<DailyMovement> retrieveBmqs(Date start, Date end, Pageable p) throws DataStorageException;
+    Page<DailyMovement> retrieveBmqs(@NonNull Date start, @NonNull Date end, Pageable p) throws DataStorageException;
 
     /**
      * Automatically generate the cash sales data related to the given DailyMovement.
@@ -92,7 +94,7 @@ public interface BmqManager {
      *            Given DailyMovement identifier.
      * @throws DataStorageException
      */
-    void generateCashSales(String bmqId) throws DataStorageException;
+    void generateCashSales(@NonNull String bmqId) throws DataStorageException;
 
     /**
      * Computes the DailyMovement value without taxes value.
@@ -101,7 +103,7 @@ public interface BmqManager {
      * @return The DailyMovement value without taxes value.
      * @throws DataStorageException
      */
-    Double bmqValueWithoutTaxes(String bmqId) throws DataStorageException;
+    Double bmqValueWithoutTaxes(@NonNull String bmqId) throws DataStorageException;
 
     /**
      * Computes the DailyMovement value including taxes value.
@@ -110,7 +112,7 @@ public interface BmqManager {
      * @return The DailyMovement value including taxes value.
      * @throws DataStorageException
      */
-    Double bmqValueWithTaxes(String bmqId) throws DataStorageException;
+    Double bmqValueWithTaxes(@NonNull String bmqId) throws DataStorageException;
 
     /**
      * Computes the total taxes values for the given DailyMovement;
@@ -119,7 +121,7 @@ public interface BmqManager {
      * @return The total taxes values for the provided DailyMovement.
      * @throws DataStorageException
      */
-    Double bmqTaxesValue(String bmqId) throws DataStorageException;
+    Double bmqTaxesValue(@NonNull String bmqId) throws DataStorageException;
 
     /**
      * Computes the total value for a specific tax ties to the given DailyMovement.
@@ -129,7 +131,7 @@ public interface BmqManager {
      * @return The total value for the provided tax and the provide DailyMovement.
      * @throws DataStorageException
      */
-    Double bmqTaxesValue(String taxId, String bmqId) throws DataStorageException;
+    Double bmqTaxesValue(@NonNull String taxId, @NonNull String bmqId) throws DataStorageException;
 
     /**
      * Computes the cash sales value for the given DailyMovement.
@@ -138,7 +140,7 @@ public interface BmqManager {
      * @return The cash sales value the provided DailyMovement.
      * @throws DataStorageException
      */
-    Double bmqCashSalesValue(String bmqId) throws DataStorageException;
+    Double bmqCashSalesValue(@NonNull String bmqId) throws DataStorageException;
 
     /**
      * Computes The margin value for the provided DailyMovement.
@@ -147,6 +149,6 @@ public interface BmqManager {
      * @return The margin value for the provided DailyMovement.
      * @throws DataStorageException
      */
-    Double bmqMarginSalesValue(String bmqId) throws DataStorageException;
+    Double bmqMarginSalesValue(@NonNull String bmqId) throws DataStorageException;
 
 }

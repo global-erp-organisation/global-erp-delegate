@@ -7,6 +7,8 @@ import com.camlait.global.erp.domain.exception.DataStorageException;
 import com.camlait.global.erp.domain.tarif.PriceType;
 import com.camlait.global.erp.domain.tarif.Tariff;
 
+import lombok.NonNull;
+
 public interface TarificationManager {
     /**
      * Add a price type in the data storage.
@@ -15,7 +17,7 @@ public interface TarificationManager {
      * @return The stored price type.
      * @throws DataStorageException
      */
-    PriceType addPriceType(PriceType priceType) throws DataStorageException;
+    PriceType addPriceType(@NonNull PriceType priceType) throws DataStorageException;
 
     /**
      * Update a price type
@@ -24,7 +26,7 @@ public interface TarificationManager {
      * @return The updated price type
      * @throws DataStorageException
      */
-    PriceType updatePriceType(PriceType pricetype) throws DataStorageException;
+    PriceType updatePriceType(@NonNull PriceType pricetype) throws DataStorageException;
 
     /**
      * Retrieves a price type from the data storage.
@@ -33,7 +35,7 @@ public interface TarificationManager {
      * @return The price type that belongs to the given identifier.
      * @throws DataStorageException
      */
-    PriceType retrievePricetype(String priceTypeId) throws DataStorageException;
+    PriceType retrievePricetype(@NonNull String priceTypeId) throws DataStorageException;
 
     /**
      * Permanently removes a price type from the data storage.
@@ -43,7 +45,7 @@ public interface TarificationManager {
      *         otherwise.
      * @throws DataStorageException
      */
-    Boolean removePricetype(String pricetypeId) throws DataStorageException;
+    Boolean removePricetype(@NonNull String pricetypeId) throws DataStorageException;
 
     /**
      * Retrieves prices type from the data storage based on the given key word.
@@ -53,7 +55,7 @@ public interface TarificationManager {
      * @return
      * @throws DataStorageException
      */
-    Page<PriceType> retrievePriceTypes(String keyWord, Pageable p) throws DataStorageException;
+    Page<PriceType> retrievePriceTypes(@NonNull String keyWord, Pageable p) throws DataStorageException;
 
     /**
      * Add a tariff in the data storage.
@@ -62,7 +64,7 @@ public interface TarificationManager {
      * @return The stored tariff.
      * @throws DataStorageException
      */
-    Tariff addTariff(Tariff tariff) throws DataStorageException;
+    Tariff addTariff(@NonNull Tariff tariff) throws DataStorageException;
 
     /**
      * Update a tariff
@@ -71,7 +73,7 @@ public interface TarificationManager {
      * @return The updated tariff
      * @throws DataStorageException
      */
-    Tariff updateTariff(Tariff tariff) throws DataStorageException;
+    Tariff updateTariff(@NonNull Tariff tariff) throws DataStorageException;
 
     /**
      * Retrieves a tariff from the data storage.
@@ -80,7 +82,7 @@ public interface TarificationManager {
      * @return The tariff that belongs to the given identifier.
      * @throws DataStorageException
      */
-    Tariff retrieveTariff(String tariffId) throws DataStorageException;
+    Tariff retrieveTariff(@NonNull String tariffId) throws DataStorageException;
 
     /**
      * Permanently removes a tariff from the data storage.
@@ -90,7 +92,7 @@ public interface TarificationManager {
      *         otherwise.
      * @throws DataStorageException
      */
-    Boolean removeTariff(String tarifId) throws DataStorageException;
+    Boolean removeTariff(@NonNull String tarifId) throws DataStorageException;
 
     /**
      * Retrieves Tariff from the data storage based on the given key word.
@@ -100,7 +102,7 @@ public interface TarificationManager {
      * @return
      * @throws DataStorageException
      */
-    Page<Tariff> retrieveTariffs(String keyWord, Pageable p) throws DataStorageException;
+    Page<Tariff> retrieveTariffs(@NonNull String keyWord, Pageable p) throws DataStorageException;
 
     /**
      * Retrieves the unit price for the given product based on the specific zone
@@ -114,6 +116,6 @@ public interface TarificationManager {
      *         provided partner
      * @throws DataStorageException
      */
-    Double retrieveUnitPrice(String priceTypeId, String zoneId, String productId, String tariffId) throws DataStorageException;
+    Double retrieveUnitPrice(@NonNull String priceTypeId, @NonNull String zoneId, @NonNull String productId, @NonNull String tariffId) throws DataStorageException;
 
 }

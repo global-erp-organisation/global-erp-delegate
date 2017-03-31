@@ -6,15 +6,17 @@ import org.springframework.data.domain.Pageable;
 import com.camlait.global.erp.domain.exception.DataStorageException;
 import com.camlait.global.erp.domain.operation.cash.Cash;
 
+import lombok.NonNull;
+
 public interface CashManager {
 
-	Cash addCash(Cash cash) throws DataStorageException;
+	Cash addCash(@NonNull Cash cash) throws DataStorageException;
 
-	Cash updateCash(Cash cash) throws DataStorageException;
+	Cash updateCash(@NonNull Cash cash) throws DataStorageException;
 
-	Cash RetrieveCash(String cashId) throws DataStorageException;
+	Cash RetrieveCash(@NonNull String cashId) throws DataStorageException;
 
-	Cash removeCash(String cashId) throws DataStorageException;
+	Cash removeCash(@NonNull String cashId) throws DataStorageException;
 
-	Page<Cash> retrieveCashs(String keyWord, Pageable p) throws DataStorageException;
+	Page<Cash> retrieveCashs(@NonNull String keyWord, Pageable p) throws DataStorageException;
 }

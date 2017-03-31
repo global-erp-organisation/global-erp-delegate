@@ -6,6 +6,8 @@ import org.springframework.data.domain.Pageable;
 import com.camlait.global.erp.domain.exception.DataStorageException;
 import com.camlait.global.erp.domain.localization.Localization;
 
+import lombok.NonNull;
+
 public interface LocalisationManager {
 
     /**
@@ -15,7 +17,7 @@ public interface LocalisationManager {
      * @return
      * @throws DataStorageException
      */
-    Localization addLocalisation(Localization local) throws DataStorageException;
+    Localization addLocalisation(@NonNull Localization local) throws DataStorageException;
 
     /**
      * Update the provided local information in the data storage
@@ -24,7 +26,7 @@ public interface LocalisationManager {
      * @return
      * @throws DataStorageException
      */
-    Localization updateLocalisation(Localization local) throws DataStorageException;
+    Localization updateLocalisation(@NonNull Localization local) throws DataStorageException;
 
     /**
      * Retrieves a Local from the data storage based on the given identifier.
@@ -33,7 +35,7 @@ public interface LocalisationManager {
      * @return
      * @throws DataStorageException
      */
-    Localization retrieveLocalisation(String localId) throws DataStorageException;
+    Localization retrieveLocalisation(@NonNull String localId) throws DataStorageException;
 
     /**
      * Retrieves a generic Local based on the given identifier.
@@ -43,7 +45,7 @@ public interface LocalisationManager {
      * @return
      * @throws DataStorageException
      */
-    <T extends Localization> T retrieveLocalisation(Class<T> clazz, String localId) throws DataStorageException;
+    <T extends Localization> T retrieveLocalisation(@NonNull Class<T> clazz, @NonNull String localId) throws DataStorageException;
 
     /**
      * Permanently remove a local from the data storage.
@@ -52,7 +54,7 @@ public interface LocalisationManager {
      * @return
      * @throws DataStorageException
      */
-    Boolean removeLocalisation(String localId) throws DataStorageException;
+    Boolean removeLocalisation(@NonNull String localId) throws DataStorageException;
 
     /**
      * Retireves som local base on the given key word.
@@ -62,6 +64,6 @@ public interface LocalisationManager {
      * @return
      * @throws DataStorageException
      */
-    Page<Localization> retriveLocalisations(String keyWord, Pageable p) throws DataStorageException;
+    Page<Localization> retriveLocalisations(@NonNull String keyWord, Pageable p) throws DataStorageException;
 
 }

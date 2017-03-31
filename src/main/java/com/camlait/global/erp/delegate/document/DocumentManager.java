@@ -9,6 +9,8 @@ import com.camlait.global.erp.domain.document.Document;
 import com.camlait.global.erp.domain.document.business.Tax;
 import com.camlait.global.erp.domain.exception.DataStorageException;
 
+import lombok.NonNull;
+
 /**
  * This interface specify all the oprations that belong to document management.
  * All CRUD operation for document management and related are defined here.
@@ -24,7 +26,7 @@ public interface DocumentManager {
      * @return The stored document.
      * @throws DataStorageException
      */
-    Document addDocument(Document document) throws DataStorageException;
+    Document addDocument(@NonNull Document document) throws DataStorageException;
 
     /**
      * Update the provided document to the data storage.
@@ -33,7 +35,7 @@ public interface DocumentManager {
      * @return The updated document.
      * @throws DataStorageException
      */
-    Document updateDocument(Document document) throws DataStorageException;
+    Document updateDocument(@NonNull Document document) throws DataStorageException;
 
     /**
      * Retrieves the document from the data storage based on the given
@@ -43,7 +45,7 @@ public interface DocumentManager {
      * @return The document that belongs to the given documentId.
      * @throws DataStorageException
      */
-    Document retrieveDocument(String documentId) throws DataStorageException;
+    Document retrieveDocument(@NonNull String documentId) throws DataStorageException;
 
     /**
      * Retrieves a generic type of document
@@ -53,7 +55,7 @@ public interface DocumentManager {
      * @return Return the document that belongs to the given identifier.
      * @throws DataStorageException
      */
-    <T extends Document> T retrieveDocument(Class<T> clazz, String documentId) throws DataStorageException;
+    <T extends Document> T retrieveDocument(@NonNull Class<T> clazz, @NonNull String documentId) throws DataStorageException;
 
     /**
      * Permanently remove a document from the data storage.
@@ -63,7 +65,7 @@ public interface DocumentManager {
      *         otherwise.
      * @throws DataStorageException
      */
-    Boolean removeDocument(String documentId) throws DataStorageException;
+    Boolean removeDocument(@NonNull String documentId) throws DataStorageException;
 
     /**
      * Retrieves some documents from the data storage based on the given key
@@ -74,7 +76,7 @@ public interface DocumentManager {
      * @return All the documents that belong to the provided key word.
      * @throws DataStorageException
      */
-    Page<Document> retrieveDocuments(String keyWord, Pageable p) throws DataStorageException;
+    Page<Document> retrieveDocuments(@NonNull String keyWord, Pageable p) throws DataStorageException;
 
     /**
      * Retrieves documents base on the given period.
@@ -85,7 +87,7 @@ public interface DocumentManager {
      * @return All The documents within the given period that match with the given pagination rule.
      * @throws DataStorageException
      */
-    Page<Document> retrieveDocuments(Date start, Date end, Pageable p) throws DataStorageException;
+    Page<Document> retrieveDocuments(@NonNull Date start, @NonNull Date end, Pageable p) throws DataStorageException;
 
     /**
      * Computes the value without taxes for the document.
@@ -94,7 +96,7 @@ public interface DocumentManager {
      * @return The value without taxes for the given document.
      * @throws DataStorageException
      */
-    Double documentValueWithoutTaxes(String documentId) throws DataStorageException;
+    Double documentValueWithoutTaxes(@NonNull String documentId) throws DataStorageException;
 
     /**
      * Computes the taxes value for a document.
@@ -104,7 +106,7 @@ public interface DocumentManager {
      *         identifier.
      * @throws DataStorageException
      */
-    Double documentTaxesValue(String documentId) throws DataStorageException;
+    Double documentTaxesValue(@NonNull String documentId) throws DataStorageException;
 
     /**
      * Computes the taxes value for a document.
@@ -114,7 +116,7 @@ public interface DocumentManager {
      * @return The total tax value for the given tax and the given document.
      * @throws DataStorageException
      */
-    Double documentTaxesValue(String taxId, String documentId) throws DataStorageException;
+    Double documentTaxesValue(@NonNull String taxId, @NonNull String documentId) throws DataStorageException;
 
     /**
      * Computes the document value including taxes value.
@@ -123,7 +125,7 @@ public interface DocumentManager {
      * @return The document value including taxes value.
      * @throws DataStorageException
      */
-    Double documentValueWithTaxes(String documentId) throws DataStorageException;
+    Double documentValueWithTaxes(@NonNull String documentId) throws DataStorageException;
 
     /**
      * Computes the document margin value
@@ -134,7 +136,7 @@ public interface DocumentManager {
      *         The returned value already include taxes value.
      * @throws DataStorageException
      */
-    Double documentMarginValue(String documentId) throws DataStorageException;
+    Double documentMarginValue(@NonNull String documentId) throws DataStorageException;
 
     /**
      * Add a tax in the data storage.
@@ -143,7 +145,7 @@ public interface DocumentManager {
      * @return The stored tax.
      * @throws DataStorageException
      */
-    Tax addTax(Tax tax) throws DataStorageException;
+    Tax addTax(@NonNull Tax tax) throws DataStorageException;
 
     /**
      * Update a tax
@@ -152,7 +154,7 @@ public interface DocumentManager {
      * @return The updated tax
      * @throws DataStorageException
      */
-    Tax updateTax(Tax tax) throws DataStorageException;
+    Tax updateTax(@NonNull Tax tax) throws DataStorageException;
 
     /**
      * Retrieves a tax type from the data storage.
@@ -161,7 +163,7 @@ public interface DocumentManager {
      * @return The tax that belongs to the given identifier.
      * @throws DataStorageException
      */
-    Tax retrieveTax(String taxId) throws DataStorageException;
+    Tax retrieveTax(@NonNull String taxId) throws DataStorageException;
 
     /**
      * Permanently removes a tax from the data storage.
@@ -171,7 +173,7 @@ public interface DocumentManager {
      *         otherwise.
      * @throws DataStorageException
      */
-    Boolean removeTax(String taxId) throws DataStorageException;
+    Boolean removeTax(@NonNull String taxId) throws DataStorageException;
 
     /**
      * Retrieves taxes type from the data storage based on the given key word.
@@ -181,6 +183,6 @@ public interface DocumentManager {
      * @return
      * @throws DataStorageException
      */
-    Page<Tax> retrieveTaxes(String keyWord, Pageable p) throws DataStorageException;
+    Page<Tax> retrieveTaxes(@NonNull String keyWord, Pageable p) throws DataStorageException;
 
 }

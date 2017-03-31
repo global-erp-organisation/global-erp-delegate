@@ -7,6 +7,8 @@ import com.camlait.global.erp.domain.exception.DataStorageException;
 import com.camlait.global.erp.domain.product.Product;
 import com.camlait.global.erp.domain.product.ProductCategory;
 
+import lombok.NonNull;
+
 public interface ProductManager {
 
     /**
@@ -16,7 +18,7 @@ public interface ProductManager {
      * @return The stored product.
      * @throws DataStorageException
      */
-    Product addProduct(Product product) throws DataStorageException;
+    Product addProduct(@NonNull Product product) throws DataStorageException;
 
     /**
      * Update the given product information in the data store.
@@ -25,7 +27,7 @@ public interface ProductManager {
      * @return The updated product.
      * @throws DataStorageException
      */
-    Product updateProduct(Product product) throws DataStorageException;
+    Product updateProduct(@NonNull Product product) throws DataStorageException;
 
     /**
      * Retrieves a product from the data storage based on the given identifier.
@@ -34,7 +36,7 @@ public interface ProductManager {
      * @return The product informations that belongs to the given identifier.
      * @throws DataStorageException
      */
-    Product retrieveProduct(String productId) throws DataStorageException;
+    Product retrieveProduct(@NonNull String productId) throws DataStorageException;
 
     /**
      * Permanently remove a product from the data storage.
@@ -44,7 +46,7 @@ public interface ProductManager {
      *         otherwise.
      * @throws DataStorageException
      */
-    Boolean removeProduct(String productId) throws DataStorageException;
+    Boolean removeProduct(@NonNull String productId) throws DataStorageException;
 
     /**
      * Retrieves products from the data storage based on the given key word.
@@ -54,7 +56,7 @@ public interface ProductManager {
      * @return All products that belong to the given key word.
      * @throws DataStorageException
      */
-    Page<Product> retriveProducts(String keyWord, Pageable p) throws DataStorageException;
+    Page<Product> retriveProducts(@NonNull String keyWord, Pageable p) throws DataStorageException;
 
     /**
      * Add a product category in to the data storage.
@@ -63,7 +65,7 @@ public interface ProductManager {
      * @return The stored product category.
      * @throws DataStorageException
      */
-    ProductCategory addProductCategory(ProductCategory productCategory) throws DataStorageException;
+    ProductCategory addProductCategory(@NonNull ProductCategory productCategory) throws DataStorageException;
 
     /**
      * Update the given product category informations in the data store.
@@ -72,7 +74,7 @@ public interface ProductManager {
      * @return The updated product category.
      * @throws DataStorageException
      */
-    ProductCategory updateProductCategory(ProductCategory productCategory) throws DataStorageException;
+    ProductCategory updateProductCategory(@NonNull ProductCategory productCategory) throws DataStorageException;
 
     /**
      * Retrieves a product category from the data storage based on the given
@@ -83,7 +85,7 @@ public interface ProductManager {
      *         identifier.
      * @throws DataStorageException
      */
-    ProductCategory retrieveProductCategory(String productCategoryId) throws DataStorageException;
+    ProductCategory retrieveProductCategory(@NonNull String productCategoryId) throws DataStorageException;
 
     /**
      * Permanently remove a product category from the data storage.
@@ -93,7 +95,7 @@ public interface ProductManager {
      *         otherwise.
      * @throws DataStorageException
      */
-    Boolean removeProductCategory(String productCategoryId) throws DataStorageException;
+    Boolean removeProductCategory(@NonNull String productCategoryId) throws DataStorageException;
 
     /**
      * Retrieves product categories from the data storage based on the given key
@@ -104,5 +106,5 @@ public interface ProductManager {
      * @return All product categories that belong to the given key word.
      * @throws DataStorageException
      */
-    Page<ProductCategory> retriveProductCategories(String keyWord, Pageable p) throws DataStorageException;
+    Page<ProductCategory> retriveProductCategories(@NonNull String keyWord, Pageable p) throws DataStorageException;
 }
