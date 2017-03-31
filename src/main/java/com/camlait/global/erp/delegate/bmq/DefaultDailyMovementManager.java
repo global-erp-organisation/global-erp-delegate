@@ -21,14 +21,14 @@ import com.camlait.global.erp.domain.exception.DataStorageException;
 
 @Transactional
 @Component
-public class DefaultBmqManager implements BmqManager {
+public class DefaultDailyMovementManager implements DailyMovementManager {
 
     private final DailyManagementRepository dailyManagementRepository;
     private final DocumentManager documentManager;
     private final InventoryManager inventoryManager;
 
     @Autowired
-    public DefaultBmqManager(DailyManagementRepository dailyManagementRepository, DocumentManager documentManager, InventoryManager inventoryManager) {
+    public DefaultDailyMovementManager(DailyManagementRepository dailyManagementRepository, DocumentManager documentManager, InventoryManager inventoryManager) {
         this.dailyManagementRepository = dailyManagementRepository;
         this.documentManager = documentManager;
         this.inventoryManager = inventoryManager;

@@ -16,7 +16,7 @@ import lombok.NonNull;
  * 
  * @author Martin Blaise Signe
  */
-public interface BmqManager {
+public interface DailyMovementManager {
     /**
      * Add a DailyMovement to the Data storage.
      * 
