@@ -35,22 +35,22 @@ public class DefaultPartnerManager implements PartnerManager {
     @Override
     public Partner retrievePartner(final String partnerId) throws DataStorageException {
         final Partner p = partenaireDao.findOne(partnerId);
-        if (p == null) {
-            throw new DataStorageException("The partner you are trying to retrieve does not exist.");
-        }
-        return p.lazyInit();
+        return p == null ? null : p.lazyInit();
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public <T extends Partner> T retrievePartner(Class<T> clazz, final String partnerId) throws DataStorageException {
         final Partner p = retrievePartner(partnerId);
-        return p.isTypeOf(clazz) ? (T) p : null;
+        return p == null ? null : p.isTypeOf(clazz) ? (T) p : null;
     }
 
     @Override
     public Boolean removePartner(final String partnerId) throws DataStorageException {
         final Partner p = retrievePartner(partnerId);
+        if (p == null) {
+            return false;
+        }
         partenaireDao.delete(p);
         return true;
     }

@@ -1,6 +1,7 @@
 package com.camlait.global.erp.delegate.document;
 
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -75,7 +76,7 @@ public class DocumentManagerTest {
         verify(documentRepository, times(1)).findOne(eq("id"));
     }
 
-    @Test(expected = DataStorageException.class)
+    @Test(expected = NullPointerException.class)
     public void testUpdateNonExistingDocument() {
         final Document toUpdate = sampleDocument();
         manager.updateDocument(toUpdate);
@@ -93,9 +94,9 @@ public class DocumentManagerTest {
         verify(documentRepository, times(1)).findOne(eq("id"));
     }
 
-    @Test(expected = DataStorageException.class)
+    @Test
     public void testDeleteNonExistingDocument() {
-        manager.removeDocument("id");
+        assertFalse(manager.removeDocument("id"));
         verify(documentRepository, times(1)).findOne(eq("id"));
         verify(documentRepository, never()).delete(any(Document.class));
     }
@@ -120,7 +121,7 @@ public class DocumentManagerTest {
         verify(taxRepo, times(1)).findOne(eq("id"));
     }
 
-    @Test(expected = DataStorageException.class)
+    @Test(expected = NullPointerException.class)
     public void testUpdateNonExistingTax() {
         final Document toUpdate = new ClientBill();
         toUpdate.setDocumentId("id");
@@ -137,9 +138,9 @@ public class DocumentManagerTest {
         verify(taxRepo, times(1)).findOne(eq("id"));
     }
 
-    @Test(expected = DataStorageException.class)
+    @Test
     public void testDeleteNonExistingTax() {
-        manager.removeDocument("id");
+        assertFalse(manager.removeDocument("id"));
         verify(taxRepo, times(1)).findOne(eq("id"));
         verify(taxRepo, never()).delete(any(Tax.class));
     }

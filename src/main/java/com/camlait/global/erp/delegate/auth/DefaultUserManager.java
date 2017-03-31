@@ -44,15 +44,15 @@ public class DefaultUserManager implements UserManager {
     @Override
     public User retrieveUser(final String userCode) throws DataStorageException {
         final User u = userRepo.findOne(userCode);
-        if (u == null) {
-            throw new DataStorageException("The user you are trying to retrieve does not exist.");
-        }
-        return u.lazyInit();
+        return u == null ? null : u.lazyInit();
     }
 
     @Override
     public Boolean removeUser(final String userCode) throws DataStorageException {
         final User u = retrieveUser(userCode);
+        if (u == null) {
+            return false;
+        }
         userRepo.delete(u);
         return true;
     }
@@ -63,7 +63,7 @@ public class DefaultUserManager implements UserManager {
     }
 
     @Override
-    public Page<User> retrieveUsers(Pageable page) throws DataStorageException {        
+    public Page<User> retrieveUsers(Pageable page) throws DataStorageException {
         return userRepo.findAll(page);
     }
 
@@ -81,15 +81,15 @@ public class DefaultUserManager implements UserManager {
     @Override
     public Group retrieveGroup(final String groupId) throws DataStorageException {
         final Group g = groupRepo.findOne(groupId);
-        if (g == null) {
-            throw new DataStorageException("The group you are trying to retrieve does not exist.");
-        }
-        return g.lazyInit();
+        return g == null ? null : g.lazyInit();
     }
 
     @Override
     public Boolean removeGroup(final String groupId) throws DataStorageException {
         final Group g = retrieveGroup(groupId);
+        if (g == null) {
+            return false;
+        }
         groupRepo.delete(g);
         return true;
     }
@@ -102,7 +102,7 @@ public class DefaultUserManager implements UserManager {
 
     @Override
     public Page<Group> retrieveGroups(Pageable page) throws DataStorageException {
-         return groupRepo.findAll(page);
+        return groupRepo.findAll(page);
     }
 
     @Override
@@ -119,15 +119,15 @@ public class DefaultUserManager implements UserManager {
     @Override
     public Resource retrieveResource(final String ressourceId) throws DataStorageException {
         final Resource r = resourceRepository.findOne(ressourceId);
-        if (r == null) {
-            throw new DataStorageException("The resource that you are trying to retrieve does not exist.");
-        }
-        return r.lazyInit();
+        return r == null ? null : r.lazyInit();
     }
 
     @Override
     public Boolean removeResource(final String resourceId) throws DataStorageException {
         final Resource r = retrieveResource(resourceId);
+        if (r == null) {
+            return false;
+        }
         resourceRepository.delete(r);
         return true;
     }
@@ -139,6 +139,6 @@ public class DefaultUserManager implements UserManager {
 
     @Override
     public Page<Resource> retrieveResources(Pageable page) throws DataStorageException {
-         return resourceRepository.findAll(page);
+        return resourceRepository.findAll(page);
     }
 }

@@ -1,6 +1,7 @@
 package com.camlait.global.erp.delegate.auth;
 
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -65,7 +66,7 @@ public class ResourceTranslationManagerTest {
         verify(languageRepository, times(1)).findOne(eq("lang-id"));
     }
 
-    @Test(expected = DataStorageException.class)
+    @Test(expected = NullPointerException.class)
     public void testUpdateNonExistingLanguage() {
         final Language toUpdate = Language.builder().langId("lang-id").title("en").build();
         manager.updateLanguage(toUpdate);
@@ -81,9 +82,9 @@ public class ResourceTranslationManagerTest {
         verify(languageRepository, times(1)).findOne(eq("lang-id"));
     }
 
-    @Test(expected = DataStorageException.class)
+    @Test
     public void testDeleteNonExistingLanguage() {
-        manager.removeLanguage("lang-id");
+        assertFalse(manager.removeLanguage("lang-id"));
         verify(languageRepository, times(1)).findOne(eq("lang-id"));
         verify(languageRepository, never()).delete(any(Language.class));
     }
@@ -108,7 +109,7 @@ public class ResourceTranslationManagerTest {
         verify(termRepository, times(1)).findOne(eq("term-id"));
     }
 
-    @Test(expected = DataStorageException.class)
+    @Test(expected = NullPointerException.class)
     public void testUpdateNonExistingTerm() {
         final Term toUpdate = Term.builder().termId("term-id").build();
         manager.updateTerm(toUpdate);
@@ -124,9 +125,9 @@ public class ResourceTranslationManagerTest {
         verify(termRepository, times(1)).findOne(eq("term-id"));
     }
 
-    @Test(expected = DataStorageException.class)
+    @Test
     public void testDeleteNonExistingTerm() {
-        manager.removeTerm("term-id");
+        assertFalse(manager.removeTerm("term-id"));
         verify(termRepository, times(1)).findOne(eq("term-id"));
         verify(termRepository, never()).delete(any(Term.class));
     }

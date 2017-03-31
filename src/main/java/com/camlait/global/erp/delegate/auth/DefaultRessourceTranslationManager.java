@@ -40,15 +40,15 @@ public class DefaultRessourceTranslationManager implements RessourceTranslationM
     @Override
     public Language retrieveLanguage(final String languageId) throws DataStorageException {
         final Language l = languageRepo.findOne(languageId);
-        if (l == null) {
-            throw new DataStorageException("The language that you are trying to retrieve does not exist.");
-        }
-        return l.lazyInit();
+        return l == null ? null : l.lazyInit();
     }
 
     @Override
     public Boolean removeLanguage(final String languageId) throws DataStorageException {
         final Language l = retrieveLanguage(languageId);
+        if (l == null) {
+            return false;
+        }
         languageRepo.delete(l);
         return true;
     }
@@ -72,15 +72,15 @@ public class DefaultRessourceTranslationManager implements RessourceTranslationM
     @Override
     public Term retrieveTerm(final String termId) throws DataStorageException {
         final Term t = termRepository.findOne(termId);
-        if (t == null) {
-            throw new DataStorageException("The term that you are trying to retrieve does not exist.");
-        }
-        return t.lazyInit();
+        return t == null ? null : t.lazyInit();
     }
 
     @Override
     public Boolean removeTerm(final String termId) throws DataStorageException {
         final Term t = retrieveTerm(termId);
+        if (t == null) {
+            return false;
+        }
         termRepository.delete(t);
         return true;
     }

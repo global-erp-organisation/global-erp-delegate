@@ -52,22 +52,22 @@ public class DefaultDocumentManager implements DocumentManager {
     @Override
     public Document retrieveDocument(final String documentId) throws DataStorageException {
         final Document d = documentRepository.findOne(documentId);
-        if (d == null) {
-            throw new DataStorageException("The document you are trying to retrieve does not exist.");
-        }
-        return d.lazyInit();
+        return d == null ? null : d.lazyInit();
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public <T extends Document> T retrieveDocument(final Class<T> clazz, final String documentId) throws DataStorageException {
         final Document d = retrieveDocument(documentId);
-        return d.isTypeOf(clazz) ? (T) d : null;
+        return d == null ? null : d.isTypeOf(clazz) ? (T) d : null;
     }
 
     @Override
     public Boolean removeDocument(final String documentId) throws DataStorageException {
         final Document d = retrieveDocument(documentId);
+        if (d == null) {
+            return false;
+        }
         documentRepository.delete(d);
         return true;
     }
@@ -146,15 +146,15 @@ public class DefaultDocumentManager implements DocumentManager {
     @Override
     public Tax retrieveTax(final String taxId) throws DataStorageException {
         final Tax tax = retrieveTax(taxId);
-        if (tax == null) {
-            throw new DataStorageException("The tax your are trying to retireve does not exist.");
-        }
-        return tax == null ? null : tax.lazyInit();
+        return tax == null ? null : tax == null ? null : tax.lazyInit();
     }
 
     @Override
     public Boolean removeTax(final String taxId) throws DataStorageException {
         final Tax tax = retrieveTax(taxId);
+        if (tax == null) {
+            return false;
+        }
         taxRepo.delete(tax);
         return true;
     }

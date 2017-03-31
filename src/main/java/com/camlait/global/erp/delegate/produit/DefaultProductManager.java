@@ -39,15 +39,15 @@ public class DefaultProductManager implements ProductManager {
     @Override
     public Product retrieveProduct(final String productId) throws DataStorageException {
         final Product p = productRepo.findOne(productId);
-        if (p == null) {
-            throw new DataStorageException("The product you are trying to retrieve does not exist.");
-        }
-        return p.lazyInit();
+        return p == null ? null : p.lazyInit();
     }
 
     @Override
     public Boolean removeProduct(final String productId) throws DataStorageException {
         final Product p = retrieveProduct(productId);
+        if (p == null) {
+            return false;
+        }
         productRepo.delete(p);
         return true;
     }
@@ -71,15 +71,15 @@ public class DefaultProductManager implements ProductManager {
     @Override
     public ProductCategory retrieveProductCategory(final String productCategoryId) throws DataStorageException {
         final ProductCategory c = categoryRepo.findOne(productCategoryId);
-        if (c == null) {
-            throw new DataStorageException("The product category that you are trying to retrieve does not exist.");
-        }
-        return c.lazyInit();
+        return c == null ? null : c.lazyInit();
     }
 
     @Override
     public Boolean removeProductCategory(final String productCategoryId) throws DataStorageException {
         final ProductCategory c = retrieveProductCategory(productCategoryId);
+        if (c == null) {
+            return false;
+        }
         categoryRepo.delete(c);
         return true;
     }

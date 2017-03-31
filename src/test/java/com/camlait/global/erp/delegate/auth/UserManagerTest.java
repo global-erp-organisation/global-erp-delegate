@@ -1,6 +1,7 @@
 package com.camlait.global.erp.delegate.auth;
 
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -66,10 +67,10 @@ public class UserManagerTest {
         assertNotNull(u);
         assertThat(u.toJson(), is(toUpdate.toJson()));
         verify(userRepo, times(1)).saveAndFlush(any(User.class));
-        verify(userRepo, times(1)).findOne(eq("lang-id"));
+        verify(userRepo, times(1)).findOne(eq("id"));
     }
 
-    @Test(expected = DataStorageException.class)
+    @Test(expected = NullPointerException.class)
     public void testUpdateNonExistingUser() {
         final User toUpdate = User.builder().userId("id").build();
         manager.updateUser(toUpdate);
@@ -85,9 +86,9 @@ public class UserManagerTest {
         verify(userRepo, times(1)).findOne(eq("id"));
     }
 
-    @Test(expected = DataStorageException.class)
+    @Test
     public void testDeleteNonExistingUser() {
-        manager.removeUser("id");
+        assertFalse(manager.removeUser("id"));
         verify(userRepo, times(1)).findOne(eq("id"));
         verify(userRepo, never()).delete(any(User.class));
     }
@@ -112,7 +113,7 @@ public class UserManagerTest {
         verify(groupRepo, times(1)).findOne(eq("id"));
     }
 
-    @Test(expected = DataStorageException.class)
+    @Test(expected = NullPointerException.class)
     public void testUpdateNonExistingGroup() {
         final Group toUpdate = Group.builder().groupId("id").build();
         manager.updateGroup(toUpdate);
@@ -128,9 +129,9 @@ public class UserManagerTest {
         verify(groupRepo, times(1)).findOne(eq("id"));
     }
 
-    @Test(expected = DataStorageException.class)
+    @Test
     public void testDeleteNonExistingGroup() {
-        manager.removeGroup("id");
+        assertFalse(manager.removeGroup("id"));
         verify(groupRepo, times(1)).findOne(eq("id"));
         verify(groupRepo, never()).delete(any(Group.class));
     }
@@ -155,7 +156,7 @@ public class UserManagerTest {
         verify(resourceRepository, times(1)).findOne(eq("id"));
     }
 
-    @Test(expected = DataStorageException.class)
+    @Test(expected = NullPointerException.class)
     public void testUpdateNonExistingResource() {
         final Resource toUpdate = Resource.builder().resourceId("id").build();
         manager.updateResource(toUpdate);
@@ -171,9 +172,9 @@ public class UserManagerTest {
         verify(resourceRepository, times(1)).findOne(eq("id"));
     }
 
-    @Test(expected = DataStorageException.class)
+    @Test
     public void testDeleteNonExistingResource() {
-        manager.removeResource("id");
+        assertFalse(manager.removeResource("id"));
         verify(resourceRepository, times(1)).findOne(eq("id"));
         verify(resourceRepository, never()).delete(any(Resource.class));
     }

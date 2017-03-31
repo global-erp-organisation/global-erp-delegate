@@ -47,22 +47,21 @@ public class DefaultInventoryManager implements InventoryManager {
     @Override
     public Warehouse retrieveWareHouse(final String wareHouseId) throws DataStorageException {
         final Warehouse e = warehouseRepo.findOne(wareHouseId);
-        if (e == null) {
-            throw new DataStorageException("The warehouse that you are trying to retrieve does not exist.");
-        }
-        return e.lazyInit();
+        return e == null ? null : e.lazyInit();
     }
 
     @Override
     public Boolean removeWareHouse(final String wareHouseId) throws DataStorageException {
         final Warehouse e = retrieveWareHouse(wareHouseId);
+        if (e == null) {
+            return false;
+        }
         warehouseRepo.delete(e);
         return true;
     }
 
     @Override
     public Page<Warehouse> retrieveWareHouses(final String keyWord, Pageable p) throws DataStorageException {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -80,22 +79,22 @@ public class DefaultInventoryManager implements InventoryManager {
     @Override
     public Store retrieveStore(final String storeId) throws DataStorageException {
         final Store s = storeRepo.findOne(storeId);
-        if (s == null) {
-            throw new DataStorageException("The store that you are trying to retrieve does not exist");
-        }
-        return s.lazyInit();
+        return s == null ? null : s.lazyInit();
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public <T extends Store> T retrieveStore(Class<T> clazz, final String storeId) throws DataStorageException {
         final Store s = retrieveStore(storeId);
-        return s.isTypeOf(clazz) ? (T) s : null;
+        return s == null ? null : s.isTypeOf(clazz) ? (T) s : null;
     }
 
     @Override
     public Boolean removeStore(final String storeId) throws DataStorageException {
         final Store s = retrieveStore(storeId);
+        if (s == null) {
+            return false;
+        }
         storeRepo.delete(s);
         return true;
     }
@@ -126,15 +125,15 @@ public class DefaultInventoryManager implements InventoryManager {
     @Override
     public Inventory retrieveInventory(final String inventoryId) throws DataStorageException {
         final Inventory i = inventoryRepo.findOne(inventoryId);
-        if (i == null) {
-            throw new DataStorageException("The inventory that you are looking for does not exist.");
-        }
-        return i.lazyInit();
+        return i == null ? null : i.lazyInit();
     }
 
     @Override
     public Boolean removeInventory(final String inventoryId) throws DataStorageException {
         final Inventory i = retrieveInventory(inventoryId);
+        if (i == null) {
+            return false;
+        }
         inventoryRepo.delete(i);
         return true;
     }

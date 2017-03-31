@@ -48,10 +48,7 @@ public class DefaultBmqManager implements BmqManager {
     @Override
     public DailyMovement retrieveBmq(final String bmqId) throws DataStorageException {
         final DailyMovement b = dailyManagementRepository.findOne(bmqId);
-        if (b == null) {
-            throw new DataStorageException("The DailyMovement that your are looking for does not exist.");
-        }
-        return b.lazyInit();
+        return b == null ? null : b.lazyInit();
     }
 
     @Override
@@ -63,6 +60,9 @@ public class DefaultBmqManager implements BmqManager {
     @Override
     public Boolean removeBmq(final String bmqId) throws DataStorageException {
         final DailyMovement b = retrieveBmq(bmqId);
+        if (b == null) {
+            return false;
+        }
         dailyManagementRepository.delete(b);
         return true;
     }
@@ -80,16 +80,13 @@ public class DefaultBmqManager implements BmqManager {
     @Override
     public void generateCashSales(final String bmqId) throws DataStorageException {
         final DailyMovement b = retrieveBmq(bmqId);
+        if (b == null) {
+            return;
+        }
         final Document d = CashClientBill.createHeaderFromBmq(b);
         final Collection<DocumentDetails> lines = inventoryManager.getInventoryByStore(b.getStore().getStoreId()).parallelStream().map(s -> {
-            return DocumentDetails.builder()
-                    .document(d)
-                    .lineUnitPrice(s.getProduct().getDefaultUnitprice())
-                    .product(s.getProduct())
-                    .productId(s.getProduct().getProductId())
-                    .lineQuantity(s.getAvailableQuantity())
-                    .operationDirection(d.getOperationDirection())
-                    .build();
+            return DocumentDetails.builder().document(d).lineUnitPrice(s.getProduct().getDefaultUnitprice()).product(s.getProduct())
+                    .productId(s.getProduct().getProductId()).lineQuantity(s.getAvailableQuantity()).operationDirection(d.getOperationDirection()).build();
 
         }).collect(Collectors.toList());
         d.setDocumentDetails(lines);
@@ -100,7 +97,7 @@ public class DefaultBmqManager implements BmqManager {
     @Override
     public Double bmqValueWithoutTaxes(String bmqId) throws DataStorageException {
         final DailyMovement b = retrieveBmq(bmqId);
-        return b.getDocuments().stream().filter(d -> d.isClientBill()).mapToDouble(d -> {
+        return b == null ? 0.0 : b.getDocuments().stream().filter(d -> d.isClientBill()).mapToDouble(d -> {
             return documentManager.documentValueWithoutTaxes(d.getDocumentId());
         }).sum();
     }
@@ -108,7 +105,7 @@ public class DefaultBmqManager implements BmqManager {
     @Override
     public Double bmqValueWithTaxes(String bmqId) throws DataStorageException {
         final DailyMovement b = retrieveBmq(bmqId);
-        return b.getDocuments().stream().filter(d -> d.isClientBill()).mapToDouble(d -> {
+        return b == null ? 0.0 : b.getDocuments().stream().filter(d -> d.isClientBill()).mapToDouble(d -> {
             return documentManager.documentValueWithTaxes(d.getDocumentId());
         }).sum();
     }
@@ -116,7 +113,7 @@ public class DefaultBmqManager implements BmqManager {
     @Override
     public Double bmqTaxesValue(String bmqId) throws DataStorageException {
         final DailyMovement b = retrieveBmq(bmqId);
-        return b.getDocuments().stream().filter(d -> d.isClientBill()).mapToDouble(d -> {
+        return b == null ? 0.0 : b.getDocuments().stream().filter(d -> d.isClientBill()).mapToDouble(d -> {
             return documentManager.documentTaxesValue(d.getDocumentId());
         }).sum();
     }
@@ -124,7 +121,7 @@ public class DefaultBmqManager implements BmqManager {
     @Override
     public Double bmqTaxesValue(String taxId, String bmqId) throws DataStorageException {
         final DailyMovement b = retrieveBmq(bmqId);
-        return b.getDocuments().stream().filter(d -> d.isClientBill()).mapToDouble(d -> {
+        return b == null ? 0.0 : b.getDocuments().stream().filter(d -> d.isClientBill()).mapToDouble(d -> {
             return documentManager.documentTaxesValue(taxId, d.getDocumentId());
         }).sum();
     }
@@ -132,7 +129,7 @@ public class DefaultBmqManager implements BmqManager {
     @Override
     public Double bmqCashSalesValue(String bmqId) throws DataStorageException {
         final DailyMovement b = retrieveBmq(bmqId);
-        return b.getDocuments().stream().filter(d -> d.isCashBill()).mapToDouble(d -> {
+        return b == null ? 0.0 : b.getDocuments().stream().filter(d -> d.isCashBill()).mapToDouble(d -> {
             return documentManager.documentValueWithTaxes(d.getDocumentId());
         }).sum();
     }
@@ -140,7 +137,7 @@ public class DefaultBmqManager implements BmqManager {
     @Override
     public Double bmqMarginSalesValue(String bmqId) throws DataStorageException {
         final DailyMovement b = retrieveBmq(bmqId);
-        return b.getDocuments().stream().filter(d -> d.isMarginBill()).mapToDouble(d -> {
+        return b == null ? 0.0 : b.getDocuments().stream().filter(d -> d.isMarginBill()).mapToDouble(d -> {
             return documentManager.documentValueWithTaxes(d.getDocumentId());
         }).sum();
     }

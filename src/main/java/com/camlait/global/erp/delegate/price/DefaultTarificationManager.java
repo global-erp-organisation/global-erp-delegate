@@ -42,15 +42,15 @@ public class DefaultTarificationManager implements TarificationManager {
     @Override
     public PriceType retrievePricetype(final String priceTypeId) throws DataStorageException {
         final PriceType p = priceTypeRepo.findOne(priceTypeId);
-        if (p == null) {
-            throw new DataStorageException("The price type that you are trying to retrieve does not exist.");
-        }
-        return p.lazyInit();
+        return p == null ? null : p.lazyInit();
     }
 
     @Override
     public Boolean removePricetype(final String priceTypeId) throws DataStorageException {
         final PriceType p = retrievePricetype(priceTypeId);
+        if (p == null) {
+            return false;
+        }
         priceTypeRepo.delete(p);
         return true;
     }
@@ -74,15 +74,15 @@ public class DefaultTarificationManager implements TarificationManager {
     @Override
     public Tariff retrieveTariff(final String tariffId) throws DataStorageException {
         final Tariff t = tarifRepo.findOne(tariffId);
-        if (t == null) {
-            throw new DataStorageException("The tariff that you are trying to retrieve does not exist.");
-        }
-        return t.lazyInit();
+        return t == null ? null : t.lazyInit();
     }
 
     @Override
     public Boolean removeTariff(final String tariffId) throws DataStorageException {
         final Tariff t = retrieveTariff(tariffId);
+        if (t == null) {
+            return false;
+        }
         tarifRepo.delete(t);
         return true;
     }
