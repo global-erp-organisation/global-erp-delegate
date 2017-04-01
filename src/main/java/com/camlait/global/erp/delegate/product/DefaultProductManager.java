@@ -1,4 +1,4 @@
-package com.camlait.global.erp.delegate.produit;
+package com.camlait.global.erp.delegate.product;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,6 +12,11 @@ import com.camlait.global.erp.domain.exception.DataStorageException;
 import com.camlait.global.erp.domain.product.Product;
 import com.camlait.global.erp.domain.product.ProductCategory;
 
+/**
+ * Default implementation of the Product management interface.
+ * 
+ * @author Martin Blaise Signe.
+ */
 @Transactional
 @Component
 public class DefaultProductManager implements ProductManager {

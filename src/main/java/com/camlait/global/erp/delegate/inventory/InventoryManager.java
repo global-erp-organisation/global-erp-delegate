@@ -1,4 +1,4 @@
-package com.camlait.global.erp.delegate.inventaire;
+package com.camlait.global.erp.delegate.inventory;
 
 import java.util.Collection;
 
@@ -13,6 +13,11 @@ import com.camlait.global.erp.domain.warehouse.Warehouse;
 
 import lombok.NonNull;
 
+/**
+ * Inventory management operations specification interface.
+ * 
+ * @author Martin Blaise Signe.
+ */
 public interface InventoryManager {
 
     /**
@@ -123,7 +128,7 @@ public interface InventoryManager {
      * @throws DataStorageException
      */
     Collection<Stock> getInventoryByStore(@NonNull String storeId) throws DataStorageException;
-    
+
     /**
      * Add an inventory in the data storage.
      * 
@@ -168,6 +173,5 @@ public interface InventoryManager {
      * @throws DataStorageException
      */
     Page<Inventory> retrieveInventories(@NonNull String keyWord, Pageable p) throws DataStorageException;
-
 
 }

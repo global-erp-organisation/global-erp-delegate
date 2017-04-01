@@ -1,4 +1,4 @@
-package com.camlait.global.erp.delegate.inventaire;
+package com.camlait.global.erp.delegate.inventory;
 
 import java.util.Collection;
 
@@ -17,6 +17,11 @@ import com.camlait.global.erp.domain.inventory.Stock;
 import com.camlait.global.erp.domain.warehouse.Store;
 import com.camlait.global.erp.domain.warehouse.Warehouse;
 
+/**
+ * Default implementation of the Inventory management operations specification interface.
+ * 
+ * @author Martin Blaise Signe.
+ */
 @Transactional
 @Component
 public class DefaultInventoryManager implements InventoryManager {

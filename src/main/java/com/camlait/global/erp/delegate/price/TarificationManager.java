@@ -9,6 +9,11 @@ import com.camlait.global.erp.domain.tarif.Tariff;
 
 import lombok.NonNull;
 
+/**
+ * Price catalog management interface.
+ * 
+ * @author Martin Blaise Signe.
+ */
 public interface TarificationManager {
     /**
      * Add a price type in the data storage.
@@ -116,6 +121,7 @@ public interface TarificationManager {
      *         provided partner
      * @throws DataStorageException
      */
-    Double retrieveUnitPrice(@NonNull String priceTypeId, @NonNull String zoneId, @NonNull String productId, @NonNull String tariffId) throws DataStorageException;
+    Double retrieveUnitPrice(@NonNull String priceTypeId, @NonNull String zoneId, @NonNull String productId,
+                             @NonNull String tariffId) throws DataStorageException;
 
 }

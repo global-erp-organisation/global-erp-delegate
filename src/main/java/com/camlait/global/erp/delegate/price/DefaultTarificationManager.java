@@ -13,6 +13,11 @@ import com.camlait.global.erp.domain.exception.DataStorageException;
 import com.camlait.global.erp.domain.tarif.PriceType;
 import com.camlait.global.erp.domain.tarif.Tariff;
 
+/**
+ * Default implementation of the Price catalog management interface.
+ * 
+ * @author Martin Blaise Signe.
+ */
 @Transactional
 @Component
 public class DefaultTarificationManager implements TarificationManager {

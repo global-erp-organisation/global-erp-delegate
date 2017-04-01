@@ -12,13 +12,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.camlait.global.erp.dao.dm.DailyManagementRepository;
 import com.camlait.global.erp.delegate.document.DocumentManager;
-import com.camlait.global.erp.delegate.inventaire.InventoryManager;
+import com.camlait.global.erp.delegate.inventory.InventoryManager;
 import com.camlait.global.erp.domain.dm.DailyMovement;
 import com.camlait.global.erp.domain.document.Document;
 import com.camlait.global.erp.domain.document.DocumentDetails;
 import com.camlait.global.erp.domain.document.business.sale.CashClientBill;
 import com.camlait.global.erp.domain.exception.DataStorageException;
 
+/**
+ * Default implementation of the daily movement management interface.
+ * 
+ * @author Martin Blaise Signe.
+ */
 @Transactional
 @Component
 public class DefaultDailyMovementManager implements DailyMovementManager {
@@ -28,7 +33,8 @@ public class DefaultDailyMovementManager implements DailyMovementManager {
     private final InventoryManager inventoryManager;
 
     @Autowired
-    public DefaultDailyMovementManager(DailyManagementRepository dailyManagementRepository, DocumentManager documentManager, InventoryManager inventoryManager) {
+    public DefaultDailyMovementManager(DailyManagementRepository dailyManagementRepository, DocumentManager documentManager,
+                                       InventoryManager inventoryManager) {
         this.dailyManagementRepository = dailyManagementRepository;
         this.documentManager = documentManager;
         this.inventoryManager = inventoryManager;

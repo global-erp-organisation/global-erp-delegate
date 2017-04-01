@@ -1,7 +1,7 @@
 package com.camlait.global.erp.delegate.util.encryption;
 
 /**
- * Password encryption and verfication interface.
+ * Password encryption and verification interface.
  * 
  * @author Martin Blaise Signe
  * @see StrongPasswordEncryptor

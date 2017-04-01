@@ -1,4 +1,4 @@
-package com.camlait.global.erp.delegate.localisation;
+package com.camlait.global.erp.delegate.localization;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

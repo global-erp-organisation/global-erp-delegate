@@ -1,4 +1,4 @@
-package com.camlait.global.erp.delegate.partenaire;
+package com.camlait.global.erp.delegate.partner;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

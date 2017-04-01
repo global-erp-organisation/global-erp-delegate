@@ -1,4 +1,4 @@
-package com.camlait.global.erp.delegate.produit;
+package com.camlait.global.erp.delegate.product;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,6 +9,11 @@ import com.camlait.global.erp.domain.product.ProductCategory;
 
 import lombok.NonNull;
 
+/**
+ * Product catalog management specification interface.
+ * 
+ * @author Martin Blaise
+ */
 public interface ProductManager {
 
     /**
