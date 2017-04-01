@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import com.camlait.global.erp.dao.auth.GroupRepository;
 import com.camlait.global.erp.dao.auth.ResourceRepository;
 import com.camlait.global.erp.dao.auth.UserRepository;
+import com.camlait.global.erp.delegate.util.encryption.EncryptionService;
 import com.camlait.global.erp.domain.auth.Group;
 import com.camlait.global.erp.domain.auth.Resource;
 import com.camlait.global.erp.domain.auth.User;
@@ -22,22 +23,25 @@ public class DefaultUserManager implements UserManager {
     private final UserRepository userRepo;
     private final GroupRepository groupRepo;
     private final ResourceRepository resourceRepository;
+    private final EncryptionService encryptor;
 
     @Autowired
-    public DefaultUserManager(UserRepository userRepo, GroupRepository groupRepo, ResourceRepository resourceRepository) {
+    public DefaultUserManager(UserRepository userRepo, GroupRepository groupRepo, ResourceRepository resourceRepository, EncryptionService encryptor) {
         this.userRepo = userRepo;
         this.groupRepo = groupRepo;
         this.resourceRepository = resourceRepository;
+        this.encryptor = encryptor;
     }
 
     @Override
     public User addUser(final User user) throws DataStorageException {
+        user.setEncryptPassword(encryptor.encrypt(user.getPassword()));
         return userRepo.save(user);
     }
 
     @Override
     public User updateUser(final User user) throws DataStorageException {
-        final User u = retrieveUser(user.getUserId());
+        final User u = retrieveUser(user.getUserId());       
         return userRepo.saveAndFlush(user.merge(u));
     }
 

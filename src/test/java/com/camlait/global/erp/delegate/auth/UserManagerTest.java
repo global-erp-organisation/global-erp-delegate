@@ -25,10 +25,10 @@ import org.springframework.data.domain.Pageable;
 import com.camlait.global.erp.dao.auth.GroupRepository;
 import com.camlait.global.erp.dao.auth.ResourceRepository;
 import com.camlait.global.erp.dao.auth.UserRepository;
+import com.camlait.global.erp.delegate.util.encryption.EncryptionService;
 import com.camlait.global.erp.domain.auth.Group;
 import com.camlait.global.erp.domain.auth.Resource;
 import com.camlait.global.erp.domain.auth.User;
-import com.camlait.global.erp.domain.exception.DataStorageException;
 
 @SuppressWarnings("unchecked")
 @RunWith(MockitoJUnitRunner.class)
@@ -43,11 +43,14 @@ public class UserManagerTest {
     @Mock
     private Pageable page;
 
+    @Mock
+    private EncryptionService encryptor;
+
     private UserManager manager;
 
     @Before
     public void setup() {
-        manager = new DefaultUserManager(userRepo, groupRepo, resourceRepository);
+        manager = new DefaultUserManager(userRepo, groupRepo, resourceRepository, encryptor);
     }
 
     @Test
@@ -56,6 +59,7 @@ public class UserManagerTest {
         final User u = manager.addUser(User.builder().build());
         assertNotNull(u);
         verify(userRepo, times(1)).save(any(User.class));
+        verify(encryptor, times(1)).encrypt(anyString());
     }
 
     @Test

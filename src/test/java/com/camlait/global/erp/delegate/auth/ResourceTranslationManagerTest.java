@@ -24,7 +24,6 @@ import org.springframework.data.domain.Pageable;
 
 import com.camlait.global.erp.dao.auth.LanguageRepository;
 import com.camlait.global.erp.dao.auth.TermRepository;
-import com.camlait.global.erp.domain.exception.DataStorageException;
 import com.camlait.global.erp.domain.translation.Language;
 import com.camlait.global.erp.domain.translation.Term;
 
