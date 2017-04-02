@@ -69,7 +69,7 @@ public class DefaultProductManager implements ProductManager {
 
     @Override
     public ProductCategory updateProductCategory(final ProductCategory productCategory) throws DataStorageException {
-        final ProductCategory c = retrieveProductCategory(productCategory.getProductcategoryId());
+        final ProductCategory c = retrieveProductCategory(productCategory.getProductCategoryId());
         return categoryRepo.saveAndFlush(productCategory.merge(c));
     }
 
