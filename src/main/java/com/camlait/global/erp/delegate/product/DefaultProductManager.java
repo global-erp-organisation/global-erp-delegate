@@ -2,10 +2,12 @@ package com.camlait.global.erp.delegate.product;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.amazonaws.util.StringUtils;
 import com.camlait.global.erp.dao.product.ProductCategoryRepository;
 import com.camlait.global.erp.dao.product.ProductRepository;
 import com.camlait.global.erp.domain.exception.DataStorageException;
@@ -37,8 +39,7 @@ public class DefaultProductManager implements ProductManager {
 
     @Override
     public Product updateProduct(final Product product) throws DataStorageException {
-        final Product p = productRepo.findOne(product.getProductId());
-        return productRepo.saveAndFlush(product.merge(p));
+        return productRepo.saveAndFlush(product);
     }
 
     @Override
@@ -59,6 +60,9 @@ public class DefaultProductManager implements ProductManager {
 
     @Override
     public Page<Product> retriveProducts(final String keyWord, Pageable p) throws DataStorageException {
+        if (StringUtils.isNullOrEmpty(keyWord)) {
+            return new PageImpl<>(productRepo.findAll());
+        }
         return productRepo.retriveProducts(keyWord, p);
     }
 
@@ -69,8 +73,7 @@ public class DefaultProductManager implements ProductManager {
 
     @Override
     public ProductCategory updateProductCategory(final ProductCategory productCategory) throws DataStorageException {
-        final ProductCategory c = retrieveProductCategory(productCategory.getProductCategoryId());
-        return categoryRepo.saveAndFlush(productCategory.merge(c));
+        return categoryRepo.saveAndFlush(productCategory);
     }
 
     @Override
@@ -91,6 +94,19 @@ public class DefaultProductManager implements ProductManager {
 
     @Override
     public Page<ProductCategory> retriveProductCategories(final String keyWord, Pageable p) throws DataStorageException {
+        if (StringUtils.isNullOrEmpty(keyWord)) {
+            return new PageImpl<>(categoryRepo.findAll());
+        }
         return categoryRepo.retriveProductCategories(keyWord, p);
+    }
+
+    @Override
+    public Product retrieveProductByCode(String productCode) throws DataStorageException {
+        return productRepo.findOneProductByProductCode(productCode);
+    }
+
+    @Override
+    public ProductCategory retrieveProductCategoryByCode(String categoryCode) throws DataStorageException {
+        return categoryRepo.findOneProductCategoryByProductCategoryCode(categoryCode);
     }
 }

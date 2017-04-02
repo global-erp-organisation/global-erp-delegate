@@ -163,4 +163,9 @@ public class DefaultDocumentManager implements DocumentManager {
     public Page<Tax> retrieveTaxes(final String keyWord, Pageable p) throws DataStorageException {
         return taxRepo.retrieveTaxes(keyWord, p);
     }
+
+    @Override
+    public Tax retrieveTaxByCode(String taxCode) throws DataStorageException {
+        return taxRepo.findOneTaxByTaxCode(taxCode);
+    }
 }
