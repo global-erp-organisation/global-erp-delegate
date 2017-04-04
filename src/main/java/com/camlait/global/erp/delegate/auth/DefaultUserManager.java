@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import com.camlait.global.erp.dao.auth.GroupRepository;
 import com.camlait.global.erp.dao.auth.ResourceRepository;
 import com.camlait.global.erp.dao.auth.UserRepository;
-import com.camlait.global.erp.delegate.util.encryption.EncryptionService;
+import com.camlait.global.erp.delegate.util.encryption.PasswordManager;
 import com.camlait.global.erp.domain.auth.Group;
 import com.camlait.global.erp.domain.auth.Resource;
 import com.camlait.global.erp.domain.auth.User;
@@ -23,10 +23,10 @@ public class DefaultUserManager implements UserManager {
     private final UserRepository userRepo;
     private final GroupRepository groupRepo;
     private final ResourceRepository resourceRepository;
-    private final EncryptionService encryptor;
+    private final PasswordManager encryptor;
 
     @Autowired
-    public DefaultUserManager(UserRepository userRepo, GroupRepository groupRepo, ResourceRepository resourceRepository, EncryptionService encryptor) {
+    public DefaultUserManager(UserRepository userRepo, GroupRepository groupRepo, ResourceRepository resourceRepository, PasswordManager encryptor) {
         this.userRepo = userRepo;
         this.groupRepo = groupRepo;
         this.resourceRepository = resourceRepository;

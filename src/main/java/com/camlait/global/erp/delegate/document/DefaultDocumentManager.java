@@ -9,10 +9,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.camlait.global.erp.dao.document.DocumentRepository;
-import com.camlait.global.erp.dao.document.TaxRepository;
 import com.camlait.global.erp.delegate.price.TarificationManager;
 import com.camlait.global.erp.domain.document.Document;
-import com.camlait.global.erp.domain.document.business.Tax;
 import com.camlait.global.erp.domain.document.business.sale.MargingBill;
 import com.camlait.global.erp.domain.exception.DataStorageException;
 import com.camlait.global.erp.domain.product.Product;
@@ -28,13 +26,11 @@ import com.camlait.global.erp.domain.tarif.PriceType;
 public class DefaultDocumentManager implements DocumentManager {
 
     private final DocumentRepository documentRepository;
-    private final TaxRepository taxRepo;
     private final TarificationManager tarifManager;
 
     @Autowired
-    public DefaultDocumentManager(DocumentRepository documentRepository, TaxRepository taxRepo, TarificationManager tarifManager) {
+    public DefaultDocumentManager(DocumentRepository documentRepository, TarificationManager tarifManager) {
         this.documentRepository = documentRepository;
-        this.taxRepo = taxRepo;
         this.tarifManager = tarifManager;
     }
 
@@ -130,42 +126,5 @@ public class DefaultDocumentManager implements DocumentManager {
             final Double regularValue = l.getLineQuantity() * regularPrice;
             return (currentValue - regularValue);
         }).sum();
-    }
-
-    @Override
-    public Tax addTax(final Tax tax) throws DataStorageException {
-        return taxRepo.save(tax);
-    }
-
-    @Override
-    public Tax updateTax(final Tax tax) throws DataStorageException {
-        final Tax t = retrieveTax(tax.getTaxId());
-        return taxRepo.saveAndFlush(tax.merge(t));
-    }
-
-    @Override
-    public Tax retrieveTax(final String taxId) throws DataStorageException {
-        final Tax tax = retrieveTax(taxId);
-        return tax == null ? null : tax == null ? null : tax.lazyInit();
-    }
-
-    @Override
-    public Boolean removeTax(final String taxId) throws DataStorageException {
-        final Tax tax = retrieveTax(taxId);
-        if (tax == null) {
-            return false;
-        }
-        taxRepo.delete(tax);
-        return true;
-    }
-
-    @Override
-    public Page<Tax> retrieveTaxes(final String keyWord, Pageable p) throws DataStorageException {
-        return taxRepo.retrieveTaxes(keyWord, p);
-    }
-
-    @Override
-    public Tax retrieveTaxByCode(String taxCode) throws DataStorageException {
-        return taxRepo.findOneTaxByTaxCode(taxCode);
     }
 }

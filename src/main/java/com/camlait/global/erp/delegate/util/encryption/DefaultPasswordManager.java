@@ -10,12 +10,12 @@ import org.springframework.stereotype.Component;
  * @author Martin Blaise Signe
  */
 @Component
-public class DefaultEncryptionService implements EncryptionService {
+public class DefaultPasswordManager implements PasswordManager {
 
     private final StrongPasswordEncryptor strongEncryptor;
 
     @Autowired
-    public DefaultEncryptionService() {
+    public DefaultPasswordManager() {
         this.strongEncryptor = new StrongPasswordEncryptor();
     }
 

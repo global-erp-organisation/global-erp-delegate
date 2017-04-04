@@ -6,7 +6,7 @@ package com.camlait.global.erp.delegate.util.encryption;
  * @author Martin Blaise Signe
  * @see StrongPasswordEncryptor
  */
-public interface EncryptionService {
+public interface PasswordManager {
 
     /**
      * Encrypt the provided input

@@ -107,6 +107,6 @@ public class DefaultProductManager implements ProductManager {
 
     @Override
     public ProductCategory retrieveProductCategoryByCode(String categoryCode) throws DataStorageException {
-        return categoryRepo.findOneProductCategoryByProductCategoryCode(categoryCode);
+        return categoryRepo.findOneProductCategoryByProductCategoryCode(categoryCode.toUpperCase());
     }
 }

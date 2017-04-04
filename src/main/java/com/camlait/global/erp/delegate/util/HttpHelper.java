@@ -22,9 +22,9 @@ import org.springframework.web.client.RestTemplate;
  * @param <T> Expected response body type for http calls.
  */
 @Component
-public class HttpUtil<T> {
+public class HttpHelper<T> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(HttpUtil.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(HttpHelper.class);
 
     @Value("${rest.auth.header}")
     private String authHeader;
@@ -32,7 +32,7 @@ public class HttpUtil<T> {
     private final RestTemplate restTemplate;
 
     @Autowired
-    public HttpUtil() {
+    public HttpHelper() {
         this.restTemplate = new RestTemplate();
     }
 

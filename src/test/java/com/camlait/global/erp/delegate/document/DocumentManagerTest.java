@@ -31,7 +31,6 @@ import com.camlait.global.erp.domain.document.DocumentDetailsTax;
 import com.camlait.global.erp.domain.document.business.Tax;
 import com.camlait.global.erp.domain.document.business.sale.ClientBill;
 import com.camlait.global.erp.domain.document.business.sale.MargingBill;
-import com.camlait.global.erp.domain.exception.DataStorageException;
 import com.camlait.global.erp.domain.inventory.Stock;
 import com.camlait.global.erp.domain.product.Product;
 import com.camlait.global.erp.domain.product.ProductCategory;
@@ -53,7 +52,7 @@ public class DocumentManagerTest {
 
     @Before
     public void setup() {
-        manager = new DefaultDocumentManager(documentRepository, taxRepo, tarifManager);
+        manager = new DefaultDocumentManager(documentRepository, tarifManager);
     }
 
     @Test
@@ -101,50 +100,7 @@ public class DocumentManagerTest {
         verify(documentRepository, never()).delete(any(Document.class));
     }
 
-    @Test
-    public void testAddTax() {
-        when(taxRepo.save(any(Tax.class))).thenReturn(Tax.builder().build());
-        final Tax d = manager.addTax(Tax.builder().build());
-        assertNotNull(d);
-        verify(taxRepo, times(1)).save(any(Tax.class));
-    }
-
-    @Test
-    public void testUpdateExistingTax() {
-        when(taxRepo.findOne(anyString())).thenReturn(Tax.builder().taxId("id").build());
-        final Tax toUpdate = Tax.builder().taxId("id").build();
-        when(taxRepo.saveAndFlush(any(Tax.class))).thenReturn(toUpdate);
-        final Tax d = manager.updateTax(toUpdate);
-        assertNotNull(d);
-        assertThat(d.toJson(), is(toUpdate.toJson()));
-        verify(taxRepo, times(1)).saveAndFlush(any(Tax.class));
-        verify(taxRepo, times(1)).findOne(eq("id"));
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void testUpdateNonExistingTax() {
-        final Document toUpdate = new ClientBill();
-        toUpdate.setDocumentId("id");
-        manager.updateDocument(toUpdate);
-        verify(taxRepo, times(1)).findOne(eq("id"));
-    }
-
-    @Test
-    public void testDeleteExistingTax() {
-        when(taxRepo.findOne(anyString())).thenReturn(Tax.builder().taxId("id").build());
-        final Boolean result = manager.removeDocument("id");
-        assertTrue(result);
-        verify(taxRepo, times(1)).delete(any(Tax.class));
-        verify(taxRepo, times(1)).findOne(eq("id"));
-    }
-
-    @Test
-    public void testDeleteNonExistingTax() {
-        assertFalse(manager.removeDocument("id"));
-        verify(taxRepo, times(1)).findOne(eq("id"));
-        verify(taxRepo, never()).delete(any(Tax.class));
-    }
-
+ 
     @Test
     public void testDocumentValueWithoutTaxes() {
         final Document d = sampleDocument(sampleDetails(), sampleStore(), (dd, s) -> {

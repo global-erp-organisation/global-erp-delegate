@@ -25,7 +25,7 @@ import org.springframework.data.domain.Pageable;
 import com.camlait.global.erp.dao.auth.GroupRepository;
 import com.camlait.global.erp.dao.auth.ResourceRepository;
 import com.camlait.global.erp.dao.auth.UserRepository;
-import com.camlait.global.erp.delegate.util.encryption.EncryptionService;
+import com.camlait.global.erp.delegate.util.encryption.PasswordManager;
 import com.camlait.global.erp.domain.auth.Group;
 import com.camlait.global.erp.domain.auth.Resource;
 import com.camlait.global.erp.domain.auth.User;
@@ -44,7 +44,7 @@ public class UserManagerTest {
     private Pageable page;
 
     @Mock
-    private EncryptionService encryptor;
+    private PasswordManager encryptor;
 
     private UserManager manager;
 
