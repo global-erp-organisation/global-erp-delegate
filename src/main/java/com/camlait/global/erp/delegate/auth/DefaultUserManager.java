@@ -41,7 +41,7 @@ public class DefaultUserManager implements UserManager {
 
     @Override
     public User updateUser(final User user) throws DataStorageException {
-        final User u = retrieveUser(user.getUserId());       
+        final User u = retrieveUser(user.getUserId());
         return userRepo.saveAndFlush(user.merge(u));
     }
 
@@ -144,5 +144,10 @@ public class DefaultUserManager implements UserManager {
     @Override
     public Page<Resource> retrieveResources(Pageable page) throws DataStorageException {
         return resourceRepository.findAll(page);
+    }
+
+    @Override
+    public User retriveUserByEmail(String email) throws DataStorageException {
+        return userRepo.findOneUserByEmail(email);
     }
 }
