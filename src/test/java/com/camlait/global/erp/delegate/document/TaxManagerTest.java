@@ -54,14 +54,6 @@ public class TaxManagerTest {
         assertNotNull(d);
         assertThat(d.toJson(), is(toUpdate.toJson()));
         verify(taxRepo, times(1)).saveAndFlush(any(Tax.class));
-        verify(taxRepo, times(1)).findOne(eq("id"));
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void testUpdateNonExistingTax() {
-        final Tax toUpdate = Tax.builder().taxId("id").build();
-        manager.updateTax(toUpdate);
-        verify(taxRepo, times(1)).findOne(eq("id"));
     }
 
     @Test

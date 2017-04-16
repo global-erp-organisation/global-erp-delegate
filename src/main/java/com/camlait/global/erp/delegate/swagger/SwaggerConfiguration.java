@@ -5,6 +5,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import com.google.common.collect.Sets;
 
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -27,8 +29,13 @@ public class SwaggerConfiguration {
     
     @Bean
     public Docket documentation() {
-        return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.any()).paths(PathSelectors.any()).build().pathMapping("/")
-                .protocols(Sets.newHashSet("http", "https")).apiInfo(apiInfo());
+        return new Docket(DocumentationType.SWAGGER_2)
+                .select()
+                .apis(RequestHandlerSelectors.any())
+                .paths(paths()).build()
+                .pathMapping("/")
+                .protocols(Sets.newHashSet("http", "https"))
+                .apiInfo(apiInfo());
 
     }
 
@@ -48,5 +55,12 @@ public class SwaggerConfiguration {
                 .version(propertie.getVersion())
                 .build();
     }
+    
 
+    /**
+     * @return the predicate used to check if the path should be included or not.
+     */
+    private Predicate<String> paths() {
+        return Predicates.not(PathSelectors.regex("/error.*"));
+    }
  }

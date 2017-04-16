@@ -15,6 +15,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.Collection;
 import java.util.function.BiFunction;
+import java.util.stream.Collectors;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -27,7 +28,6 @@ import com.camlait.global.erp.dao.document.TaxRepository;
 import com.camlait.global.erp.delegate.price.TarificationManager;
 import com.camlait.global.erp.domain.document.Document;
 import com.camlait.global.erp.domain.document.DocumentDetails;
-import com.camlait.global.erp.domain.document.DocumentDetailsTax;
 import com.camlait.global.erp.domain.document.business.Tax;
 import com.camlait.global.erp.domain.document.business.sale.ClientBill;
 import com.camlait.global.erp.domain.document.business.sale.MargingBill;
@@ -100,12 +100,10 @@ public class DocumentManagerTest {
         verify(documentRepository, never()).delete(any(Document.class));
     }
 
- 
     @Test
     public void testDocumentValueWithoutTaxes() {
         final Document d = sampleDocument(sampleDetails(), sampleStore(), (dd, s) -> {
             final Document f = sampleDocument();
-            f.setDocumentDetails(dd);
             f.setStore(s);
             return f;
         });
@@ -120,7 +118,6 @@ public class DocumentManagerTest {
     public void testTaxesValue() {
         final Document d = sampleDocument(sampleDetails(), sampleStore(), (dd, s) -> {
             final Document f = sampleDocument();
-            f.setDocumentDetails(dd);
             f.setStore(s);
             return f;
         });
@@ -134,7 +131,6 @@ public class DocumentManagerTest {
     public void testSpecificTaxValue() {
         final Document d = sampleDocument(sampleDetails(), sampleStore(), (dd, s) -> {
             final Document f = sampleDocument();
-            f.setDocumentDetails(dd);
             f.setStore(s);
             return f;
         });
@@ -149,14 +145,13 @@ public class DocumentManagerTest {
     public void testDocumentValueWithTaxes() {
         final Document d = sampleDocument(sampleDetails(), sampleStore(), (dd, s) -> {
             final Document f = sampleDocument();
-            f.setDocumentDetails(dd);
             f.setStore(s);
             return f;
         });
         when(documentRepository.findOne(anyString())).thenReturn(d);
         final Double value = manager.documentValueWithTaxes("FA001");
         assertThat(value, is(23.8));
-        verify(documentRepository, times(1)).findOne(eq("FA001"));
+        verify(documentRepository, times(2)).findOne(eq("FA001"));
 
     }
 
@@ -164,7 +159,6 @@ public class DocumentManagerTest {
     public void testDocumentMarginValue() {
         final Document d = sampleDocument(sampleDetails(), sampleStore(), (dd, s) -> {
             final Document f = new MargingBill();
-            f.setDocumentDetails(dd);
             f.setStore(s);
             return f;
         });
@@ -176,7 +170,13 @@ public class DocumentManagerTest {
     }
 
     private Document sampleDocument(Collection<DocumentDetails> dd, Store s, BiFunction<Collection<DocumentDetails>, Store, Document> f) {
-        return f.apply(dd, s);
+        final Document d = f.apply(dd, s);
+        final Collection<DocumentDetails> details = dd.stream().map(dt -> {
+            dt.setDocument(d);
+            return dt;
+        }).map(dt -> dt.buildTaxes()).collect(Collectors.toSet());
+        d.setDocumentDetails(details);
+        return d;
     }
 
     private Document sampleDocument() {
@@ -194,13 +194,14 @@ public class DocumentManagerTest {
 
     private Collection<DocumentDetails> sampleDetails() {
         final Tax t = Tax.builder().taxId("tva").taxCode("TVA").taxDescription("Tva").percentageValue(0.19).build();
-        final Product p = Product.builder().defaultUnitprice(2.0).category(ProductCategory.builder().categoryDescription("category").build()).build();
+        final Product p = Product.builder().taxes(Sets.newHashSet(t)).defaultUnitprice(2.0)
+                .category(ProductCategory.builder().categoryDescription("category").build()).build();
         final Store s = sampleStore();
         final Stock st = Stock.builder().availableQuantity(100L).store(s).product(p).build();
         s.setStocks(Sets.newHashSet(st));
-        final DocumentDetails dd = DocumentDetails.builder().product(p).lineQuantity(10L).lineUnitPrice(2.0).build();
-        final DocumentDetailsTax dt = DocumentDetailsTax.builder().tax(t).documentDetails(dd).build();
-        dd.setDocumentDetailsTaxes(Sets.newHashSet(dt));
+        final DocumentDetails dd = DocumentDetails.builder().product(p.addProductToTax()).lineQuantity(10L).lineUnitPrice(2.0).build();
+        // final DocumentDetailsTax dt = DocumentDetailsTax.builder().tax(t).taxRate(t.getPercentageValue()).documentDetails(dd).build();
+        // dd.setDocumentDetailsTaxes(Sets.newHashSet(dt));
         return Sets.newHashSet(dd);
     }
 

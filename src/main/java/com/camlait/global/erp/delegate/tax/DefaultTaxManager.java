@@ -27,13 +27,12 @@ public class DefaultTaxManager implements TaxManager {
 
     @Override
     public Tax updateTax(final Tax tax) throws DataStorageException {
-        final Tax t = retrieveTax(tax.getTaxId());
-        return taxRepo.saveAndFlush(tax.merge(t));
+        return taxRepo.saveAndFlush(tax);
     }
 
     @Override
     public Tax retrieveTax(final String taxId) throws DataStorageException {
-        final Tax tax = retrieveTax(taxId);
+        final Tax tax = taxRepo.findOne(taxId);
         return tax == null ? null : tax == null ? null : tax.lazyInit();
     }
 
