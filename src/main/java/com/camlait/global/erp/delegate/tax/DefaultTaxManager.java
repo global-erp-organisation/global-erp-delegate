@@ -53,6 +53,7 @@ public class DefaultTaxManager implements TaxManager {
 
     @Override
     public Tax retrieveTaxByCode(String taxCode) throws DataStorageException {
-        return taxRepo.findOneTaxByTaxCode(taxCode);
+        final Tax tax = taxRepo.findOneTaxByTaxCode(taxCode);
+        return tax == null ? null : tax == null ? null : tax.lazyInit();
     }
 }

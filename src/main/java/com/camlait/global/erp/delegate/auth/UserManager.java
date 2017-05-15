@@ -51,7 +51,7 @@ public interface UserManager {
      * @return
      * @throws DataStorageException
      */
-    User retriveUserByEmail(@NonNull String email) throws DataStorageException;
+    User retrieveUserByEmail(@NonNull String email) throws DataStorageException;
 
     /**
      * Permanently delete from the data storage a user based on the provided

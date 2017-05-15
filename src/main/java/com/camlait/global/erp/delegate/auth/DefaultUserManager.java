@@ -147,7 +147,7 @@ public class DefaultUserManager implements UserManager {
     }
 
     @Override
-    public User retriveUserByEmail(String email) throws DataStorageException {
+    public User retrieveUserByEmail(String email) throws DataStorageException {
         return userRepo.findOneUserByEmail(email);
     }
 }
