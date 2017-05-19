@@ -15,17 +15,17 @@ public class DefaultPasswordManager implements PasswordManager {
     private final StrongPasswordEncryptor strongEncryptor;
 
     @Autowired
-    public DefaultPasswordManager() {
-        this.strongEncryptor = new StrongPasswordEncryptor();
+    public DefaultPasswordManager(final StrongPasswordEncryptor strongEncryptor) {
+        this.strongEncryptor = strongEncryptor;
     }
 
     @Override
-    public String encrypt(String input) {
+    public String encrypt(final String input) {
         return strongEncryptor.encryptPassword(input);
     }
 
     @Override
-    public boolean check(String plainPassword, String encryptedPassword) {
+    public boolean check(final String plainPassword, final String encryptedPassword) {
         return strongEncryptor.checkPassword(plainPassword, encryptedPassword);
     }
 }

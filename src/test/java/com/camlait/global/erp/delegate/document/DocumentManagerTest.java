@@ -194,14 +194,12 @@ public class DocumentManagerTest {
 
     private Collection<DocumentDetails> sampleDetails() {
         final Tax t = Tax.builder().taxId("tva").taxCode("TVA").taxDescription("Tva").percentageValue(0.19).build();
-        final Product p = Product.builder().taxes(Sets.newHashSet(t)).defaultUnitprice(2.0)
+        final Product p = Product.builder().defaultUnitprice(2.0)
                 .category(ProductCategory.builder().categoryDescription("category").build()).build();
         final Store s = sampleStore();
         final Stock st = Stock.builder().availableQuantity(100L).store(s).product(p).build();
         s.setStocks(Sets.newHashSet(st));
-        final DocumentDetails dd = DocumentDetails.builder().product(p.addProductToTax()).lineQuantity(10L).lineUnitPrice(2.0).build();
-        // final DocumentDetailsTax dt = DocumentDetailsTax.builder().tax(t).taxRate(t.getPercentageValue()).documentDetails(dd).build();
-        // dd.setDocumentDetailsTaxes(Sets.newHashSet(dt));
+        final DocumentDetails dd = DocumentDetails.builder().product(p.addProductToTax(Sets.newHashSet(t))).lineQuantity(10L).lineUnitPrice(2.0).build();
         return Sets.newHashSet(dd);
     }
 

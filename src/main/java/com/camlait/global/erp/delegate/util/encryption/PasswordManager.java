@@ -15,15 +15,16 @@ public interface PasswordManager {
      * @return The encrypted value.
      * @see StrongPasswordEncryptor
      */
-    String encrypt(String input);
+    String encrypt(final String input);
 
     /**
      * Verify if the plain password match with the encrypted one.
      * 
-     * @param plainPassword
-     * @param encryptedPassword
+     * @param plainPassword password provided by the client.
+     * @param encryptedPassword password retrieved from the datastorage
+     *            
      * @return true if the two passwords match or false otherwise.
      * @see StrongPasswordEncryptor
      */
-    boolean check(String plainPassword, String encryptedPassword);
+    boolean check(final String plainPassword, final String encryptedPassword);
 }
