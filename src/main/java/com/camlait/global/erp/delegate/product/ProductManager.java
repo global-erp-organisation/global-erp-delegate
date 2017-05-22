@@ -1,5 +1,7 @@
 package com.camlait.global.erp.delegate.product;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -71,6 +73,25 @@ public interface ProductManager {
      * @throws DataStorageException
      */
     Page<Product> retriveProducts(@NonNull String keyWord, Pageable p) throws DataStorageException;
+    
+    /**
+     * Retrieves products from the data storage based on the given key word.
+     * 
+     * @param keyWord provided key word.
+     * @return All products that belong to the given key word.
+     * @throws DataStorageException
+     */
+    List<Product> retriveProducts(@NonNull String keyWord) throws DataStorageException;
+
+    /**
+     * Retrieves products from the data storage based on the given category.
+     * 
+     * @param keyWord provided key word.
+     * @return All products that belong to the given key word.
+     * @throws DataStorageException
+     */
+    List<Product> retriveProductByCategory(@NonNull String categoryId) throws DataStorageException;
+
 
     /**
      * Add a product category in to the data storage.
@@ -130,4 +151,15 @@ public interface ProductManager {
      * @throws DataStorageException
      */
     Page<ProductCategory> retriveProductCategories(@NonNull String keyWord, Pageable p) throws DataStorageException;
+    
+    /**
+     * Retrieves product categories from the data storage based on the given key
+     * word.
+     * 
+     * @param keyWord provided key word.
+     * @return All product categories that belong to the given key word.
+     * @throws DataStorageException
+     */
+    List<ProductCategory> retriveProductCategories(@NonNull String keyWord) throws DataStorageException;
+
 }

@@ -1,5 +1,7 @@
 package com.camlait.global.erp.delegate.product;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -63,7 +65,7 @@ public class DefaultProductManager implements ProductManager {
         if (StringUtils.isNullOrEmpty(keyWord)) {
             return new PageImpl<>(productRepo.findAll());
         }
-        return productRepo.retriveProducts(keyWord, p);
+         return productRepo.retriveProducts(keyWord, p);
     }
 
     @Override
@@ -108,5 +110,20 @@ public class DefaultProductManager implements ProductManager {
     @Override
     public ProductCategory retrieveProductCategoryByCode(String categoryCode) throws DataStorageException {
         return categoryRepo.findOneProductCategoryByProductCategoryCode(categoryCode.toUpperCase());
+    }
+
+    @Override
+    public List<Product> retriveProducts(String keyWord) throws DataStorageException {
+         return productRepo.retriveProducts(keyWord);
+    }
+
+    @Override
+    public List<Product> retriveProductByCategory(String categoryId) throws DataStorageException {
+         return productRepo.retriveProductByCategory(categoryId);
+    }
+
+    @Override
+    public List<ProductCategory> retriveProductCategories(String keyWord) throws DataStorageException {
+         return categoryRepo.retriveProductCategories(keyWord);
     }
 }

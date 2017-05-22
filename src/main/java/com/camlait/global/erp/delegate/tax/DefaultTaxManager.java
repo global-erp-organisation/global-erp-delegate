@@ -1,11 +1,14 @@
 package com.camlait.global.erp.delegate.tax;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import com.amazonaws.util.StringUtils;
 import com.camlait.global.erp.dao.document.TaxRepository;
 import com.camlait.global.erp.domain.document.business.Tax;
 import com.camlait.global.erp.domain.exception.DataStorageException;
@@ -55,5 +58,13 @@ public class DefaultTaxManager implements TaxManager {
     public Tax retrieveTaxByCode(String taxCode) throws DataStorageException {
         final Tax tax = taxRepo.findOneTaxByTaxCode(taxCode);
         return tax == null ? null : tax == null ? null : tax.lazyInit();
+    }
+
+    @Override
+    public List<Tax> retrieveTaxes(String keyWord) throws DataStorageException {
+        if (StringUtils.isNullOrEmpty(keyWord)) {
+            return taxRepo.findAll();
+        }
+        return taxRepo.retrieveTaxes(keyWord);
     }
 }

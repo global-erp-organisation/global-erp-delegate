@@ -1,5 +1,7 @@
 package com.camlait.global.erp.delegate.tax;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -65,5 +67,14 @@ public interface TaxManager {
      * @throws DataStorageException
      */
     Page<Tax> retrieveTaxes(@NonNull String keyWord, Pageable p) throws DataStorageException;
+
+    /**
+     * Retrieves taxes type from the data storage based on the given key word.
+     * 
+     * @param keyWord Key word
+     * @return
+     * @throws DataStorageException
+     */
+    List<Tax> retrieveTaxes(@NonNull String keyWord) throws DataStorageException;
 
 }
