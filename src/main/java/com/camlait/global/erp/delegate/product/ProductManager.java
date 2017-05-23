@@ -72,8 +72,8 @@ public interface ProductManager {
      * @return All products that belong to the given key word.
      * @throws DataStorageException
      */
-    Page<Product> retriveProducts(@NonNull String keyWord, Pageable p) throws DataStorageException;
-    
+    Page<Product> retrieveProducts(@NonNull String keyWord, Pageable p) throws DataStorageException;
+
     /**
      * Retrieves products from the data storage based on the given key word.
      * 
@@ -81,7 +81,7 @@ public interface ProductManager {
      * @return All products that belong to the given key word.
      * @throws DataStorageException
      */
-    List<Product> retriveProducts(@NonNull String keyWord) throws DataStorageException;
+    List<Product> retrieveProducts(@NonNull String keyWord) throws DataStorageException;
 
     /**
      * Retrieves products from the data storage based on the given category.
@@ -90,8 +90,7 @@ public interface ProductManager {
      * @return All products that belong to the given key word.
      * @throws DataStorageException
      */
-    List<Product> retriveProductByCategory(@NonNull String categoryId) throws DataStorageException;
-
+    List<Product> retrieveProductByCategory(@NonNull String categoryId) throws DataStorageException;
 
     /**
      * Add a product category in to the data storage.
@@ -150,8 +149,8 @@ public interface ProductManager {
      * @return All product categories that belong to the given key word.
      * @throws DataStorageException
      */
-    Page<ProductCategory> retriveProductCategories(@NonNull String keyWord, Pageable p) throws DataStorageException;
-    
+    Page<ProductCategory> retrieveProductCategories(@NonNull String keyWord, Pageable p) throws DataStorageException;
+
     /**
      * Retrieves product categories from the data storage based on the given key
      * word.
@@ -160,6 +159,14 @@ public interface ProductManager {
      * @return All product categories that belong to the given key word.
      * @throws DataStorageException
      */
-    List<ProductCategory> retriveProductCategories(@NonNull String keyWord) throws DataStorageException;
+    List<ProductCategory> retrieveProductCategories(@NonNull String keyWord) throws DataStorageException;
+
+    /**
+     * Retrieves the children for the provided category.
+     * 
+     * @param parentId
+     * @return
+     */
+    List<ProductCategory> retrieveCategoriesByParent(String parentId);
 
 }

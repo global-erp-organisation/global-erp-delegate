@@ -1,5 +1,7 @@
 package com.camlait.global.erp.delegate.product;
 
+
+import static com.camlait.global.erp.domain.helper.EntityHelper.batchInit;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +49,7 @@ public class DefaultProductManager implements ProductManager {
     @Override
     public Product retrieveProduct(final String productId) throws DataStorageException {
         final Product p = productRepo.findOne(productId);
-        return p == null ? null : p.lazyInit();
+        return p == null ? null : p.init().lazyInit();
     }
 
     @Override
@@ -61,11 +63,11 @@ public class DefaultProductManager implements ProductManager {
     }
 
     @Override
-    public Page<Product> retriveProducts(final String keyWord, Pageable p) throws DataStorageException {
+    public Page<Product> retrieveProducts(final String keyWord, Pageable p) throws DataStorageException {
         if (StringUtils.isNullOrEmpty(keyWord)) {
             return new PageImpl<>(productRepo.findAll());
         }
-         return productRepo.retriveProducts(keyWord, p);
+         return productRepo.retrieveProducts(keyWord, p);
     }
 
     @Override
@@ -75,7 +77,7 @@ public class DefaultProductManager implements ProductManager {
 
     @Override
     public ProductCategory updateProductCategory(final ProductCategory productCategory) throws DataStorageException {
-        return categoryRepo.saveAndFlush(productCategory);
+        return categoryRepo.saveAndFlush(productCategory).init();
     }
 
     @Override
@@ -95,11 +97,11 @@ public class DefaultProductManager implements ProductManager {
     }
 
     @Override
-    public Page<ProductCategory> retriveProductCategories(final String keyWord, Pageable p) throws DataStorageException {
+    public Page<ProductCategory> retrieveProductCategories(final String keyWord, Pageable p) throws DataStorageException {
         if (StringUtils.isNullOrEmpty(keyWord)) {
             return new PageImpl<>(categoryRepo.findAll());
         }
-        return categoryRepo.retriveProductCategories(keyWord, p);
+        return categoryRepo.retrieveProductCategories(keyWord, p);
     }
 
     @Override
@@ -113,17 +115,22 @@ public class DefaultProductManager implements ProductManager {
     }
 
     @Override
-    public List<Product> retriveProducts(String keyWord) throws DataStorageException {
-         return productRepo.retriveProducts(keyWord);
+    public List<Product> retrieveProducts(String keyWord) throws DataStorageException {
+         return batchInit(productRepo.retrieveProducts(keyWord));
     }
 
     @Override
-    public List<Product> retriveProductByCategory(String categoryId) throws DataStorageException {
-         return productRepo.retriveProductByCategory(categoryId);
+    public List<Product> retrieveProductByCategory(String categoryId) throws DataStorageException {
+         return batchInit(productRepo.retrieveProductByCategory(categoryId));
     }
 
     @Override
-    public List<ProductCategory> retriveProductCategories(String keyWord) throws DataStorageException {
-         return categoryRepo.retriveProductCategories(keyWord);
+    public List<ProductCategory> retrieveProductCategories(String keyWord) throws DataStorageException {
+         return batchInit(categoryRepo.retrieveProductCategories(keyWord));
+    }
+
+    @Override
+    public List<ProductCategory> retrieveCategoriesByParent(String parentId) {
+        return batchInit(categoryRepo.retrieveCategoriesByParent(parentId));
     }
 }
