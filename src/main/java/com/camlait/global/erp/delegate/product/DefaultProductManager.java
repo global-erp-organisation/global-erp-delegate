@@ -49,7 +49,7 @@ public class DefaultProductManager implements ProductManager {
 
     @Override
     public Product retrieveProduct(final String productId) throws DataStorageException {
-        final Product p = productRepo.findOne(productId);
+        Product p = productRepo.retrieveProduct(productId);
         return p == null ? null : p.lazyInit();
     }
 
@@ -83,7 +83,7 @@ public class DefaultProductManager implements ProductManager {
 
     @Override
     public ProductCategory retrieveProductCategory(final String productCategoryId) throws DataStorageException {
-        final ProductCategory c = categoryRepo.findOne(productCategoryId);
+        ProductCategory c = categoryRepo.retrieveProductCategory(productCategoryId);
         return c == null ? null : c.lazyInit();
     }
 
@@ -106,18 +106,6 @@ public class DefaultProductManager implements ProductManager {
     }
 
     @Override
-    public Product retrieveProductByCode(String productCode) throws DataStorageException {
-        final Product p = productRepo.findOneProductByProductCode(productCode);
-        return p == null ? null : p.lazyInit();
-    }
-
-    @Override
-    public ProductCategory retrieveProductCategoryByCode(String categoryCode) throws DataStorageException {
-        final ProductCategory c = categoryRepo.findOneProductCategoryByProductCategoryCode(categoryCode);
-        return c == null ? null : c.lazyInit();
-    }
-
-    @Override
     public List<Product> retrieveProducts(String keyWord) throws DataStorageException {
         if (StringUtils.isNullOrEmpty(keyWord) || GlobalAppConstants.RETRIEVE_ALL.equals(keyWord.toUpperCase())) {
             return batchInit(productRepo.findAll());
@@ -127,10 +115,7 @@ public class DefaultProductManager implements ProductManager {
 
     @Override
     public List<Product> retrieveProductByCategory(String categoryId) throws DataStorageException {
-        ProductCategory c = retrieveProductCategory(categoryId);
-        if (c == null) {
-            c = retrieveProductCategoryByCode(categoryId);
-        }
+        final ProductCategory c = retrieveProductCategory(categoryId);
         return c == null ? Lists.newArrayList() : retrieveByCategory(Lists.newArrayList(), c);
     }
 

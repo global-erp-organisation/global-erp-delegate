@@ -37,7 +37,7 @@ public class DefaultTaxManager implements TaxManager {
 
     @Override
     public Tax retrieveTax(final String taxId) throws DataStorageException {
-        final Tax tax = taxRepo.findOne(taxId);
+        Tax tax = taxRepo.retrieveTax(taxId);
         return tax == null ? null : tax.lazyInit();
     }
 
@@ -54,12 +54,6 @@ public class DefaultTaxManager implements TaxManager {
     @Override
     public Page<Tax> retrieveTaxes(final String keyWord, Pageable p) throws DataStorageException {
         return taxRepo.retrieveTaxes(keyWord, p);
-    }
-
-    @Override
-    public Tax retrieveTaxByCode(String taxCode) throws DataStorageException {
-        final Tax tax = taxRepo.findOneTaxByTaxCode(taxCode);
-        return tax == null ? null : tax.lazyInit();
     }
 
     @Override

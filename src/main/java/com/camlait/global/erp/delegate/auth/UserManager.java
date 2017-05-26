@@ -44,15 +44,7 @@ public interface UserManager {
      */
     User retrieveUser(@NonNull String userCode) throws DataStorageException;
 
-    /**
-     * Retrieves a user from the data storage based on the provided email.
-     * 
-     * @param email
-     * @return
-     * @throws DataStorageException
-     */
-    User retrieveUserByEmail(@NonNull String email) throws DataStorageException;
-
+ 
     /**
      * Permanently delete from the data storage a user based on the provided
      * user code.

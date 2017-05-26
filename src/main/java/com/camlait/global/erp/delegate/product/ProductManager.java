@@ -45,15 +45,7 @@ public interface ProductManager {
      */
     Product retrieveProduct(@NonNull String productId) throws DataStorageException;
 
-    /**
-     * Retrieve a product base on the given code
-     * 
-     * @param productCode
-     * @return The product that match with the provided code.
-     * @throws DataStorageException
-     */
-    Product retrieveProductByCode(@NonNull String productCode) throws DataStorageException;
-
+   
     /**
      * Permanently remove a product from the data storage.
      * 
@@ -121,15 +113,7 @@ public interface ProductManager {
      */
     ProductCategory retrieveProductCategory(@NonNull String productCategoryId) throws DataStorageException;
 
-    /**
-     * Retrieve a product category based on the given code.
-     * 
-     * @param categoryCode
-     * @return The product category that match with the provided code.
-     * @throws DataStorageException
-     */
-    ProductCategory retrieveProductCategoryByCode(@NonNull String categoryCode) throws DataStorageException;
-
+   
     /**
      * Permanently remove a product category from the data storage.
      * 

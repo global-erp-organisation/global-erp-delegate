@@ -39,15 +39,7 @@ public interface TaxManager {
      */
     Tax retrieveTax(@NonNull String taxId) throws DataStorageException;
 
-    /**
-     * Retrieves a Tax based on the provided code
-     * 
-     * @param taxCode
-     * @return The Tax that belong to the provided code.
-     * @throws DataStorageException
-     */
-    Tax retrieveTaxByCode(String taxCode) throws DataStorageException;
-
+  
     /**
      * Permanently removes a tax from the data storage.
      * 

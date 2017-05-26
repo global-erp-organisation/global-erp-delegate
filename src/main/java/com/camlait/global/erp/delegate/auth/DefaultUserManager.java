@@ -47,7 +47,7 @@ public class DefaultUserManager implements UserManager {
 
     @Override
     public User retrieveUser(final String userCode) throws DataStorageException {
-        final User u = userRepo.findOne(userCode);
+        User u = userRepo.retrieveUser(userCode);
         return u == null ? null : u.lazyInit();
     }
 
@@ -144,11 +144,5 @@ public class DefaultUserManager implements UserManager {
     @Override
     public Page<Resource> retrieveResources(Pageable page) throws DataStorageException {
         return resourceRepository.findAll(page);
-    }
-
-    @Override
-    public User retrieveUserByEmail(String email) throws DataStorageException {
-        final User u = userRepo.findOneUserByEmail(email);
-        return u == null ? null : u.lazyInit();
     }
 }
