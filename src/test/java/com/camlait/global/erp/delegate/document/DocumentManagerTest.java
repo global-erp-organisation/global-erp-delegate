@@ -72,14 +72,12 @@ public class DocumentManagerTest {
         assertNotNull(d);
         assertThat(d.toJson(), is(toUpdate.toJson()));
         verify(documentRepository, times(1)).saveAndFlush(any(Document.class));
-        verify(documentRepository, times(1)).findOne(eq("id"));
     }
 
     @Test(expected = NullPointerException.class)
     public void testUpdateNonExistingDocument() {
         final Document toUpdate = sampleDocument();
         manager.updateDocument(toUpdate);
-        verify(documentRepository, times(1)).findOne(eq("id"));
     }
 
     @Test
@@ -90,7 +88,6 @@ public class DocumentManagerTest {
         final Boolean result = manager.removeDocument("id");
         assertTrue(result);
         verify(documentRepository, times(1)).delete(any(Document.class));
-        verify(documentRepository, times(1)).findOne(eq("id"));
     }
 
     @Test

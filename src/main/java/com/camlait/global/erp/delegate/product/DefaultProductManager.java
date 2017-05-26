@@ -1,6 +1,7 @@
 package com.camlait.global.erp.delegate.product;
 
 import static com.camlait.global.erp.domain.helper.EntityHelper.batchInit;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.amazonaws.util.StringUtils;
 import com.camlait.global.erp.dao.product.ProductCategoryRepository;
 import com.camlait.global.erp.dao.product.ProductRepository;
-import com.camlait.global.erp.domain.config.GlobalAppConstants;
 import com.camlait.global.erp.domain.exception.DataStorageException;
 import com.camlait.global.erp.domain.product.Product;
 import com.camlait.global.erp.domain.product.ProductCategory;
@@ -65,7 +65,7 @@ public class DefaultProductManager implements ProductManager {
 
     @Override
     public Page<Product> retrieveProducts(final String keyWord, Pageable p) throws DataStorageException {
-        if (StringUtils.isNullOrEmpty(keyWord) || GlobalAppConstants.RETRIEVE_ALL.equals(keyWord.toUpperCase())) {
+        if (StringUtils.isNullOrEmpty(keyWord)) {
             return new PageImpl<>(batchInit(productRepo.findAll()));
         }
         return productRepo.retrieveProducts(keyWord, p);
@@ -99,7 +99,7 @@ public class DefaultProductManager implements ProductManager {
 
     @Override
     public Page<ProductCategory> retrieveProductCategories(final String keyWord, Pageable p) throws DataStorageException {
-        if (StringUtils.isNullOrEmpty(keyWord) || GlobalAppConstants.RETRIEVE_ALL.equals(keyWord.toUpperCase())) {
+        if (StringUtils.isNullOrEmpty(keyWord)) {
             return new PageImpl<>(batchInit(categoryRepo.findAll()));
         }
         return categoryRepo.retrieveProductCategories(keyWord, p);
@@ -107,7 +107,7 @@ public class DefaultProductManager implements ProductManager {
 
     @Override
     public List<Product> retrieveProducts(String keyWord) throws DataStorageException {
-        if (StringUtils.isNullOrEmpty(keyWord) || GlobalAppConstants.RETRIEVE_ALL.equals(keyWord.toUpperCase())) {
+        if (StringUtils.isNullOrEmpty(keyWord)) {
             return batchInit(productRepo.findAll());
         }
         return batchInit(productRepo.retrieveProducts(keyWord));
@@ -121,7 +121,7 @@ public class DefaultProductManager implements ProductManager {
 
     @Override
     public List<ProductCategory> retrieveProductCategories(String keyWord) throws DataStorageException {
-        if (StringUtils.isNullOrEmpty(keyWord) || GlobalAppConstants.RETRIEVE_ALL.equals(keyWord.toUpperCase())) {
+        if (StringUtils.isNullOrEmpty(keyWord)) {
             return batchInit(categoryRepo.findAll());
         }
 

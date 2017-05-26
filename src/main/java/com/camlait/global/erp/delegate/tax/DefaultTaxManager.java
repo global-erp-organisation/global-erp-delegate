@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 import com.amazonaws.util.StringUtils;
 import com.camlait.global.erp.dao.document.TaxRepository;
-import com.camlait.global.erp.domain.config.GlobalAppConstants;
 import com.camlait.global.erp.domain.document.business.Tax;
 import com.camlait.global.erp.domain.exception.DataStorageException;
 import com.camlait.global.erp.domain.helper.EntityHelper;
@@ -58,7 +57,7 @@ public class DefaultTaxManager implements TaxManager {
 
     @Override
     public List<Tax> retrieveTaxes(String keyWord) throws DataStorageException {
-        if (StringUtils.isNullOrEmpty(keyWord) || GlobalAppConstants.RETRIEVE_ALL.equals(keyWord.toUpperCase())) {
+        if (StringUtils.isNullOrEmpty(keyWord)) {
             return EntityHelper.batchInit(taxRepo.findAll());
         }
         return EntityHelper.batchInit(taxRepo.retrieveTaxes(keyWord));

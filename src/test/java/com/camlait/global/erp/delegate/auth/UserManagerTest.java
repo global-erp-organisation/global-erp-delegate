@@ -64,36 +64,32 @@ public class UserManagerTest {
 
     @Test
     public void testUpdateExistingUser() {
-        when(userRepo.findOne(anyString())).thenReturn(User.builder().userId("id").build());
+        when(userRepo.retrieveUser(anyString())).thenReturn(User.builder().userId("id").build());
         final User toUpdate = User.builder().userId("id").build();
         when(userRepo.saveAndFlush(any(User.class))).thenReturn(toUpdate);
         final User u = manager.updateUser(toUpdate);
         assertNotNull(u);
         assertThat(u.toJson(), is(toUpdate.toJson()));
         verify(userRepo, times(1)).saveAndFlush(any(User.class));
-        verify(userRepo, times(1)).findOne(eq("id"));
     }
 
     @Test(expected = NullPointerException.class)
     public void testUpdateNonExistingUser() {
         final User toUpdate = User.builder().userId("id").build();
         manager.updateUser(toUpdate);
-        verify(userRepo, times(1)).findOne(eq("id"));
     }
 
     @Test
     public void testDeleteExistingUser() {
-        when(userRepo.findOne(anyString())).thenReturn(User.builder().userId("id").build());
+        when(userRepo.retrieveUser((anyString()))).thenReturn(User.builder().userId("id").build());
         final Boolean result = manager.removeUser("id");
         assertTrue(result);
         verify(userRepo, times(1)).delete(any(User.class));
-        verify(userRepo, times(1)).findOne(eq("id"));
     }
 
     @Test
     public void testDeleteNonExistingUser() {
         assertFalse(manager.removeUser("id"));
-        verify(userRepo, times(1)).findOne(eq("id"));
         verify(userRepo, never()).delete(any(User.class));
     }
 

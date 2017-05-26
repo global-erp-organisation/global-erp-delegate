@@ -7,7 +7,6 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -47,7 +46,7 @@ public class TaxManagerTest {
 
     @Test
     public void testUpdateExistingTax() {
-        when(taxRepo.findOne(anyString())).thenReturn(Tax.builder().taxId("id").build());
+        when(taxRepo.retrieveTax(anyString())).thenReturn(Tax.builder().taxId("id").build());
         final Tax toUpdate = Tax.builder().taxId("id").build();
         when(taxRepo.saveAndFlush(any(Tax.class))).thenReturn(toUpdate);
         final Tax d = manager.updateTax(toUpdate);
@@ -58,17 +57,15 @@ public class TaxManagerTest {
 
     @Test
     public void testDeleteExistingTax() {
-        when(taxRepo.findOne(anyString())).thenReturn(Tax.builder().taxId("id").build());
+        when(taxRepo.retrieveTax(anyString())).thenReturn(Tax.builder().taxId("id").build());
         final Boolean result = manager.removeTax("id");
         assertTrue(result);
         verify(taxRepo, times(1)).delete(any(Tax.class));
-        verify(taxRepo, times(1)).findOne(eq("id"));
     }
 
     @Test
     public void testDeleteNonExistingTax() {
         assertFalse(manager.removeTax("id"));
-        verify(taxRepo, times(1)).findOne(eq("id"));
         verify(taxRepo, never()).delete(any(Tax.class));
     }
 
