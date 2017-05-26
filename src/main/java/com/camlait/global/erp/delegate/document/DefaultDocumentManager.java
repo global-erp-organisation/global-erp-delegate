@@ -36,13 +36,13 @@ public class DefaultDocumentManager implements DocumentManager {
 
     @Override
     public Document addDocument(final Document document) throws DataStorageException {
-        return documentRepository.save(document);
+        return documentRepository.save(document).lazyInit();
     }
 
     @Override
     public Document updateDocument(final Document document) throws DataStorageException {
         final Document stored = retrieveDocument(document.getDocumentId());
-        return documentRepository.saveAndFlush(document.merge(stored));
+        return documentRepository.saveAndFlush(document.merge(stored)).lazyInit();
     }
 
     @Override

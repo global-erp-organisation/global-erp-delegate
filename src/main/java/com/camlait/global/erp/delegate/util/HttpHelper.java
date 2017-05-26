@@ -32,8 +32,8 @@ public class HttpHelper<T> {
     private final RestTemplate restTemplate;
 
     @Autowired
-    public HttpHelper() {
-        this.restTemplate = new RestTemplate();
+    public HttpHelper(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
     }
 
     /**

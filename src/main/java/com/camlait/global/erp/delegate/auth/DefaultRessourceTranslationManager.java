@@ -28,13 +28,13 @@ public class DefaultRessourceTranslationManager implements RessourceTranslationM
 
     @Override
     public Language addLanguage(final Language language) throws DataStorageException {
-        return languageRepo.save(language);
+        return languageRepo.save(language).lazyInit();
     }
 
     @Override
     public Language updateLanguage(final Language language) throws DataStorageException {
         final Language l = retrieveLanguage(language.getLangId());
-        return languageRepo.saveAndFlush(language.merge(l));
+        return languageRepo.saveAndFlush(language.merge(l)).lazyInit();
     }
 
     @Override
@@ -60,13 +60,13 @@ public class DefaultRessourceTranslationManager implements RessourceTranslationM
 
     @Override
     public Term addTerm(final Term term) throws DataStorageException {
-        return termRepository.save(term);
+        return termRepository.save(term).lazyInit();
     }
 
     @Override
     public Term updateTerm(final Term term) throws DataStorageException {
         final Term t = retrieveTerm(term.getTermId());
-        return termRepository.saveAndFlush(term.merge(t));
+        return termRepository.saveAndFlush(term.merge(t)).lazyInit();
     }
 
     @Override

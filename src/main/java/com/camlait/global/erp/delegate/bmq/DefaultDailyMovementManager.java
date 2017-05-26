@@ -42,13 +42,13 @@ public class DefaultDailyMovementManager implements DailyMovementManager {
 
     @Override
     public DailyMovement addBmq(final DailyMovement dailyMovement) throws DataStorageException {
-        return dailyManagementRepository.save(dailyMovement);
+        return dailyManagementRepository.save(dailyMovement).lazyInit();
     }
 
     @Override
     public DailyMovement updateBmq(final DailyMovement dailyMovement) throws DataStorageException {
         final DailyMovement b = retrieveBmq(dailyMovement.getDmId());
-        return dailyManagementRepository.saveAndFlush(dailyMovement.merge(b));
+        return dailyManagementRepository.saveAndFlush(dailyMovement.merge(b)).lazyInit();
     }
 
     @Override
@@ -60,7 +60,7 @@ public class DefaultDailyMovementManager implements DailyMovementManager {
     @Override
     public DailyMovement buildBmqDetails(final String bmqId) throws DataStorageException {
         final DailyMovement b = retrieveBmq(bmqId);
-        return dailyManagementRepository.saveAndFlush(b.buildLigne());
+        return updateBmq(b.buildLigne());
     }
 
     @Override

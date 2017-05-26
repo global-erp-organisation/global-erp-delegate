@@ -1,6 +1,5 @@
 package com.camlait.global.erp.delegate.product;
 
-
 import static com.camlait.global.erp.domain.helper.EntityHelper.batchInit;
 import java.util.List;
 
@@ -14,9 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.amazonaws.util.StringUtils;
 import com.camlait.global.erp.dao.product.ProductCategoryRepository;
 import com.camlait.global.erp.dao.product.ProductRepository;
+import com.camlait.global.erp.domain.config.GlobalAppConstants;
 import com.camlait.global.erp.domain.exception.DataStorageException;
 import com.camlait.global.erp.domain.product.Product;
 import com.camlait.global.erp.domain.product.ProductCategory;
+import com.google.common.collect.Lists;
 
 /**
  * Default implementation of the Product management interface.
@@ -38,18 +39,18 @@ public class DefaultProductManager implements ProductManager {
 
     @Override
     public Product addProduct(final Product product) throws DataStorageException {
-        return productRepo.save(product);
+        return productRepo.save(product).lazyInit();
     }
 
     @Override
     public Product updateProduct(final Product product) throws DataStorageException {
-        return productRepo.saveAndFlush(product);
+        return productRepo.saveAndFlush(product).lazyInit();
     }
 
     @Override
     public Product retrieveProduct(final String productId) throws DataStorageException {
         final Product p = productRepo.findOne(productId);
-        return p == null ? null : p.init().lazyInit();
+        return p == null ? null : p.lazyInit();
     }
 
     @Override
@@ -64,20 +65,20 @@ public class DefaultProductManager implements ProductManager {
 
     @Override
     public Page<Product> retrieveProducts(final String keyWord, Pageable p) throws DataStorageException {
-        if (StringUtils.isNullOrEmpty(keyWord)) {
-            return new PageImpl<>(productRepo.findAll());
+        if (StringUtils.isNullOrEmpty(keyWord) || GlobalAppConstants.RETRIEVE_ALL.equals(keyWord.toUpperCase())) {
+            return new PageImpl<>(batchInit(productRepo.findAll()));
         }
-         return productRepo.retrieveProducts(keyWord, p);
+        return productRepo.retrieveProducts(keyWord, p);
     }
 
     @Override
     public ProductCategory addProductCategory(final ProductCategory productCategory) throws DataStorageException {
-        return categoryRepo.save(productCategory);
+        return categoryRepo.save(productCategory).lazyInit();
     }
 
     @Override
     public ProductCategory updateProductCategory(final ProductCategory productCategory) throws DataStorageException {
-        return categoryRepo.saveAndFlush(productCategory).init();
+        return categoryRepo.saveAndFlush(productCategory).lazyInit();
     }
 
     @Override
@@ -98,39 +99,72 @@ public class DefaultProductManager implements ProductManager {
 
     @Override
     public Page<ProductCategory> retrieveProductCategories(final String keyWord, Pageable p) throws DataStorageException {
-        if (StringUtils.isNullOrEmpty(keyWord)) {
-            return new PageImpl<>(categoryRepo.findAll());
+        if (StringUtils.isNullOrEmpty(keyWord) || GlobalAppConstants.RETRIEVE_ALL.equals(keyWord.toUpperCase())) {
+            return new PageImpl<>(batchInit(categoryRepo.findAll()));
         }
         return categoryRepo.retrieveProductCategories(keyWord, p);
     }
 
     @Override
     public Product retrieveProductByCode(String productCode) throws DataStorageException {
-        return productRepo.findOneProductByProductCode(productCode);
+        final Product p = productRepo.findOneProductByProductCode(productCode);
+        return p == null ? null : p.lazyInit();
     }
 
     @Override
     public ProductCategory retrieveProductCategoryByCode(String categoryCode) throws DataStorageException {
-        return categoryRepo.findOneProductCategoryByProductCategoryCode(categoryCode.toUpperCase());
+        final ProductCategory c = categoryRepo.findOneProductCategoryByProductCategoryCode(categoryCode);
+        return c == null ? null : c.lazyInit();
     }
 
     @Override
     public List<Product> retrieveProducts(String keyWord) throws DataStorageException {
-         return batchInit(productRepo.retrieveProducts(keyWord));
+        if (StringUtils.isNullOrEmpty(keyWord) || GlobalAppConstants.RETRIEVE_ALL.equals(keyWord.toUpperCase())) {
+            return batchInit(productRepo.findAll());
+        }
+        return batchInit(productRepo.retrieveProducts(keyWord));
     }
 
     @Override
     public List<Product> retrieveProductByCategory(String categoryId) throws DataStorageException {
-         return batchInit(productRepo.retrieveProductByCategory(categoryId));
+        ProductCategory c = retrieveProductCategory(categoryId);
+        if (c == null) {
+            c = retrieveProductCategoryByCode(categoryId);
+        }
+        return c == null ? Lists.newArrayList() : retrieveByCategory(Lists.newArrayList(), c);
     }
 
     @Override
     public List<ProductCategory> retrieveProductCategories(String keyWord) throws DataStorageException {
-         return batchInit(categoryRepo.retrieveProductCategories(keyWord));
+        if (StringUtils.isNullOrEmpty(keyWord) || GlobalAppConstants.RETRIEVE_ALL.equals(keyWord.toUpperCase())) {
+            return batchInit(categoryRepo.findAll());
+        }
+
+        return batchInit(categoryRepo.retrieveProductCategories(keyWord));
     }
 
     @Override
     public List<ProductCategory> retrieveCategoriesByParent(String parentId) {
         return batchInit(categoryRepo.retrieveCategoriesByParent(parentId));
+    }
+
+    /**
+     * Recursively retrieve
+     * 
+     * @param products
+     * @param categoryId
+     * @return
+     */
+    private List<Product> retrieveByCategory(List<Product> products, ProductCategory c) {
+        if (c.isDetail()) {
+            products.addAll(productRepo.retrieveProductByCategory(c.getProductCategoryId()));
+        } else {
+            if (!c.getCategoryChildren().isEmpty()) {
+                c.getCategoryChildren().stream().forEach(cat -> {
+                    retrieveByCategory(products, cat);
+                });
+            }
+        }
+        return batchInit(products);
     }
 }

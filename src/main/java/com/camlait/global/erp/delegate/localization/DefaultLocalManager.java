@@ -23,13 +23,13 @@ public class DefaultLocalManager implements LocalisationManager {
 
     @Override
     public Localization addLocalisation(final Localization local) throws DataStorageException {
-        return localRepo.save(local);
+        return localRepo.save(local).lazyInit();
     }
 
     @Override
     public Localization updateLocalisation(final Localization local) throws DataStorageException {
         final Localization l = retrieveLocalisation(local.getLocalId());
-        return localRepo.saveAndFlush(local.merge(l));
+        return localRepo.saveAndFlush(local.merge(l)).lazyInit();
     }
 
     @Override

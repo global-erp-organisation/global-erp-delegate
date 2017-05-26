@@ -10,8 +10,10 @@ import org.springframework.stereotype.Component;
 
 import com.amazonaws.util.StringUtils;
 import com.camlait.global.erp.dao.document.TaxRepository;
+import com.camlait.global.erp.domain.config.GlobalAppConstants;
 import com.camlait.global.erp.domain.document.business.Tax;
 import com.camlait.global.erp.domain.exception.DataStorageException;
+import com.camlait.global.erp.domain.helper.EntityHelper;
 
 @Transactional
 @Component
@@ -25,18 +27,18 @@ public class DefaultTaxManager implements TaxManager {
 
     @Override
     public Tax addTax(final Tax tax) throws DataStorageException {
-        return taxRepo.save(tax);
+        return taxRepo.save(tax).lazyInit();
     }
 
     @Override
     public Tax updateTax(final Tax tax) throws DataStorageException {
-        return taxRepo.saveAndFlush(tax);
+        return taxRepo.saveAndFlush(tax).lazyInit();
     }
 
     @Override
     public Tax retrieveTax(final String taxId) throws DataStorageException {
         final Tax tax = taxRepo.findOne(taxId);
-        return tax == null ? null : tax == null ? null : tax.lazyInit();
+        return tax == null ? null : tax.lazyInit();
     }
 
     @Override
@@ -57,14 +59,14 @@ public class DefaultTaxManager implements TaxManager {
     @Override
     public Tax retrieveTaxByCode(String taxCode) throws DataStorageException {
         final Tax tax = taxRepo.findOneTaxByTaxCode(taxCode);
-        return tax == null ? null : tax == null ? null : tax.lazyInit();
+        return tax == null ? null : tax.lazyInit();
     }
 
     @Override
     public List<Tax> retrieveTaxes(String keyWord) throws DataStorageException {
-        if (StringUtils.isNullOrEmpty(keyWord)) {
-            return taxRepo.findAll();
+        if (StringUtils.isNullOrEmpty(keyWord) || GlobalAppConstants.RETRIEVE_ALL.equals(keyWord.toUpperCase())) {
+            return EntityHelper.batchInit(taxRepo.findAll());
         }
-        return taxRepo.retrieveTaxes(keyWord);
+        return EntityHelper.batchInit(taxRepo.retrieveTaxes(keyWord));
     }
 }

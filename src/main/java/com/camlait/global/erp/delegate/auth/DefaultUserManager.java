@@ -36,13 +36,13 @@ public class DefaultUserManager implements UserManager {
     @Override
     public User addUser(final User user) throws DataStorageException {
         user.setEncryptPassword(encryptor.encrypt(user.getPassword()));
-        return userRepo.save(user);
+        return userRepo.save(user).lazyInit();
     }
 
     @Override
     public User updateUser(final User user) throws DataStorageException {
         final User u = retrieveUser(user.getUserId());
-        return userRepo.saveAndFlush(user.merge(u));
+        return userRepo.saveAndFlush(user.merge(u)).lazyInit();
     }
 
     @Override
@@ -73,13 +73,13 @@ public class DefaultUserManager implements UserManager {
 
     @Override
     public Group addGroup(final Group group) throws DataStorageException {
-        return groupRepo.save(group);
+        return groupRepo.save(group).lazyInit();
     }
 
     @Override
     public Group updateGroup(final Group group) throws DataStorageException {
         final Group g = retrieveGroup(group.getGroupId());
-        return groupRepo.saveAndFlush(group.merge(g));
+        return groupRepo.saveAndFlush(group.merge(g)).lazyInit();
     }
 
     @Override
@@ -111,13 +111,13 @@ public class DefaultUserManager implements UserManager {
 
     @Override
     public Resource addResource(final Resource resource) throws DataStorageException {
-        return resourceRepository.save(resource);
+        return resourceRepository.save(resource).lazyInit();
     }
 
     @Override
     public Resource updateResource(final Resource resource) throws DataStorageException {
         final Resource r = retrieveResource(resource.getResourceId());
-        return resourceRepository.saveAndFlush(resource.merge(r));
+        return resourceRepository.saveAndFlush(resource.merge(r)).lazyInit();
     }
 
     @Override
@@ -148,6 +148,7 @@ public class DefaultUserManager implements UserManager {
 
     @Override
     public User retrieveUserByEmail(String email) throws DataStorageException {
-        return userRepo.findOneUserByEmail(email);
+        final User u = userRepo.findOneUserByEmail(email);
+        return u == null ? null : u.lazyInit();
     }
 }

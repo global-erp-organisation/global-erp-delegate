@@ -114,28 +114,6 @@
                 <artifactId>maven-source-plugin</artifactId>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-pmd-plugin</artifactId>
-                <version>3.8</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>net.sourceforge.pmd</groupId>
-                        <artifactId>pmd</artifactId>
-                        <version>5.0.0</version>
-                    </dependency>
-                  </dependencies>
-                <configuration>
-                    <targetJdk>1.8</targetJdk>
-                    <includeTests>false</includeTests>
-                    <skip>false</skip>
-                    <sourceEncoding>UTF-8</sourceEncoding>
-                    <rulesets>
-                        <ruleset>buildtools/pmd/ruleset.xml</ruleset>
-                    </rulesets>
-                    <printFailingErrors>true</printFailingErrors>
-                </configuration>
-             </plugin>
-            <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.7.6.201602180812</version>

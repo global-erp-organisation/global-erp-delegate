@@ -24,13 +24,13 @@ public class DefaultPartnerManager implements PartnerManager {
 
     @Override
     public Partner addPartner(final Partner partner) throws DataStorageException {
-        return partenaireDao.save(partner);
+        return partenaireDao.save(partner).lazyInit();
     }
 
     @Override
     public Partner updatePartner(final Partner partner) throws DataStorageException {
         final Partner p = retrievePartner(partner.getPartnerId());
-        return partenaireDao.saveAndFlush(p.merge(partner));
+        return partenaireDao.saveAndFlush(p.merge(partner)).lazyInit();
     }
 
     @Override

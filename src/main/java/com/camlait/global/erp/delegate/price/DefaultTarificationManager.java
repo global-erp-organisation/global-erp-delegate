@@ -35,13 +35,13 @@ public class DefaultTarificationManager implements TarificationManager {
 
     @Override
     public PriceType addPriceType(final PriceType priceType) throws DataStorageException {
-        return priceTypeRepo.save(priceType);
+        return priceTypeRepo.save(priceType).lazyInit();
     }
 
     @Override
     public PriceType updatePriceType(final PriceType priceType) throws DataStorageException {
         final PriceType p = retrievePricetype(priceType.getPriceTypeId());
-        return priceTypeRepo.saveAndFlush(priceType.merge(p));
+        return priceTypeRepo.saveAndFlush(priceType.merge(p)).lazyInit();
     }
 
     @Override
@@ -73,7 +73,7 @@ public class DefaultTarificationManager implements TarificationManager {
     @Override
     public Tariff updateTariff(final Tariff tariff) throws DataStorageException {
         final Tariff t = retrieveTariff(tariff.getTarifId());
-        return tarifRepo.saveAndFlush(tariff.merge(t));
+        return tarifRepo.saveAndFlush(tariff.merge(t)).lazyInit();
     }
 
     @Override

@@ -40,13 +40,13 @@ public class DefaultInventoryManager implements InventoryManager {
 
     @Override
     public Warehouse addWareHouse(final Warehouse wareHouse) throws DataStorageException {
-        return warehouseRepo.save(wareHouse);
+        return warehouseRepo.save(wareHouse).lazyInit();
     }
 
     @Override
     public Warehouse updateWareHouse(final Warehouse wareHouse) throws DataStorageException {
         final Warehouse e = retrieveWareHouse(wareHouse.getWarehouseId());
-        return warehouseRepo.saveAndFlush(wareHouse.merge(e));
+        return warehouseRepo.saveAndFlush(wareHouse.merge(e)).lazyInit();
     }
 
     @Override
@@ -72,13 +72,13 @@ public class DefaultInventoryManager implements InventoryManager {
 
     @Override
     public Store addStore(final Store store) throws DataStorageException {
-        return storeRepo.save(store);
+        return storeRepo.save(store).lazyInit();
     }
 
     @Override
     public Store updateStore(final Store store) throws DataStorageException {
         final Store s = retrieveStore(store.getStoreId());
-        return storeRepo.saveAndFlush(store.merge(s));
+        return storeRepo.saveAndFlush(store.merge(s)).lazyInit();
     }
 
     @Override
@@ -118,13 +118,13 @@ public class DefaultInventoryManager implements InventoryManager {
 
     @Override
     public Inventory addInventory(final Inventory inventory) throws DataStorageException {
-        return inventoryRepo.save(inventory);
+        return inventoryRepo.save(inventory).lazyInit();
     }
 
     @Override
     public Inventory updateInventory(final Inventory inventory) throws DataStorageException {
         final Inventory i = retrieveInventory(inventory.getInventoryId());
-        return inventoryRepo.saveAndFlush(inventory.merge(i));
+        return inventoryRepo.saveAndFlush(inventory.merge(i)).lazyInit();
     }
 
     @Override

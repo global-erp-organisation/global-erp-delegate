@@ -9,19 +9,19 @@ package com.camlait.global.erp.delegate.util.encryption;
 public interface PasswordManager {
 
     /**
-     * Encrypt the provided input
+     * Encrypt the provided input text.
      * 
-     * @param input
+     * @param input Input that need to be encrypted
      * @return The encrypted value.
      * @see StrongPasswordEncryptor
      */
     String encrypt(final String input);
 
     /**
-     * Verify if the plain password match with the encrypted one.
+     * Verify if the provided plain password match with the encrypted one.
      * 
      * @param plainPassword password provided by the client.
-     * @param encryptedPassword password retrieved from the datastorage
+     * @param encryptedPassword password retrieved from the data storage
      *            
      * @return true if the two passwords match or false otherwise.
      * @see StrongPasswordEncryptor
