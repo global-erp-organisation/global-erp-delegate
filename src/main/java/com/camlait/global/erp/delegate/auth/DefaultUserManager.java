@@ -26,7 +26,10 @@ public class DefaultUserManager implements UserManager {
     private final PasswordManager encryptor;
 
     @Autowired
-    public DefaultUserManager(UserRepository userRepo, GroupRepository groupRepo, ResourceRepository resourceRepository, PasswordManager encryptor) {
+    public DefaultUserManager(UserRepository userRepo, 
+                              GroupRepository groupRepo, 
+                              ResourceRepository resourceRepository, 
+                              PasswordManager encryptor) {
         this.userRepo = userRepo;
         this.groupRepo = groupRepo;
         this.resourceRepository = resourceRepository;
