@@ -1,6 +1,7 @@
 package com.camlait.global.erp.delegate.swagger;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,6 +27,9 @@ public class SwaggerConfiguration {
 
     @Autowired
     private SwaggerProperties propertie;
+    
+    @Value("${api.path}")
+    private String apiPath;
     
     @Bean
     public Docket documentation() {
@@ -60,7 +64,8 @@ public class SwaggerConfiguration {
     /**
      * @return the predicate used to check if the path should be included or not.
      */
+    @SuppressWarnings("unchecked")
     private Predicate<String> paths() {
-        return Predicates.not(PathSelectors.regex("/error.*"));
+        return Predicates.or(PathSelectors.regex("/" + apiPath + ".*"));
     }
  }

@@ -89,44 +89,6 @@ public interface DocumentManager {
     Page<Document> retrieveDocuments(@NonNull Date start, @NonNull Date end, Pageable p) throws DataStorageException;
 
     /**
-     * Computes the value without taxes for the document.
-     * 
-     * @param documentId Document identifier.
-     * @return The value without taxes for the given document.
-     * @throws DataStorageException
-     */
-    Double documentValueWithoutTaxes(@NonNull String documentId) throws DataStorageException;
-
-    /**
-     * Computes the taxes value for a document.
-     * 
-     * @param documentId Document identifier.
-     * @return The total taxes value that belong to the given document
-     *         identifier.
-     * @throws DataStorageException
-     */
-    Double documentTaxesValue(@NonNull String documentId) throws DataStorageException;
-
-    /**
-     * Computes the taxes value for a document.
-     * 
-     * @param taxId Tax identifier.
-     * @param documentId Document identifier.
-     * @return The total tax value for the given tax and the given document.
-     * @throws DataStorageException
-     */
-    Double documentTaxesValue(@NonNull String taxId, @NonNull String documentId) throws DataStorageException;
-
-    /**
-     * Computes the document value including taxes value.
-     * 
-     * @param documentId Document identifier.
-     * @return The document value including taxes value.
-     * @throws DataStorageException
-     */
-    Double documentValueWithTaxes(@NonNull String documentId) throws DataStorageException;
-
-    /**
      * Computes the document margin value
      * 
      * @param documentId Document identifier.

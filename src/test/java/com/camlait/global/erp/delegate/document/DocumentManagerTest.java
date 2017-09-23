@@ -104,11 +104,8 @@ public class DocumentManagerTest {
             f.setStore(s);
             return f;
         });
-        when(documentRepository.findOne(anyString())).thenReturn(d);
-        final Double value = manager.documentValueWithoutTaxes("FA001");
+        final Double value = d.documentValueWithoutTaxes();
         assertThat(value, is(20.0));
-        verify(documentRepository, times(1)).findOne(eq("FA001"));
-
     }
 
     @Test
@@ -118,8 +115,7 @@ public class DocumentManagerTest {
             f.setStore(s);
             return f;
         });
-        when(documentRepository.findOne(anyString())).thenReturn(d);
-        final Double value = manager.documentTaxesValue("FA001");
+        final Double value = d.documentTaxesValue();
         assertThat(value, is(3.8));
 
     }
@@ -131,9 +127,7 @@ public class DocumentManagerTest {
             f.setStore(s);
             return f;
         });
-        when(documentRepository.findOne(anyString())).thenReturn(d);
-        when(taxRepo.findOne(anyString())).thenReturn(Tax.builder().taxId("tva").taxCode("TVA").taxDescription("Tva").percentageValue(0.19).build());
-        final Double value = manager.documentTaxesValue("tva", "FA001");
+        final Double value = d.documentTaxesValue("tva");
         assertThat(value, is(3.8));
 
     }
@@ -145,12 +139,9 @@ public class DocumentManagerTest {
             f.setStore(s);
             return f;
         });
-        when(documentRepository.findOne(anyString())).thenReturn(d);
-        final Double value = manager.documentValueWithTaxes("FA001");
+        final Double value = d.documentValueWithTaxes();
         assertThat(value, is(23.8));
-        verify(documentRepository, times(2)).findOne(eq("FA001"));
-
-    }
+     }
 
     @Test
     public void testDocumentMarginValue() {

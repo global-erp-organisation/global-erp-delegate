@@ -79,39 +79,6 @@ public class DefaultDocumentManager implements DocumentManager {
     }
 
     @Override
-    public Double documentValueWithoutTaxes(final String documentId) throws DataStorageException {
-        final Document d = retrieveDocument(documentId);
-        return d == null ? 0.0 : d.getDocumentDetails().stream().mapToDouble(l -> {
-            return l.getLineUnitPrice() * l.getLineQuantity();
-        }).sum();
-    }
-
-    @Override
-    public Double documentTaxesValue(final String documentId) throws DataStorageException {
-        final Document d = retrieveDocument(documentId);
-        return d == null ? 0.0 : d.getDocumentDetails().stream().mapToDouble(l -> {
-            return l.getDocumentDetailsTaxes().stream().mapToDouble(ldt -> {
-                return l.getLineUnitPrice() * l.getLineQuantity() * ldt.getTaxRate();
-            }).sum();
-        }).sum();
-    }
-
-    @Override
-    public Double documentTaxesValue(final String taxId, final String documentId) throws DataStorageException {
-        final Document d = retrieveDocument(documentId);
-        return d == null ? 0.0 : d.getDocumentDetails().stream().mapToDouble(ld -> {
-            return ld.getDocumentDetailsTaxes().stream().filter(ldt -> ldt.getTax().getTaxId().equals(taxId)).mapToDouble(ldt -> {
-                return ld.getLineUnitPrice() * ld.getLineQuantity() * ldt.getTaxRate();
-            }).sum();
-        }).sum();
-    }
-
-    @Override
-    public Double documentValueWithTaxes(final String documentId) throws DataStorageException {
-        return documentValueWithoutTaxes(documentId) + documentTaxesValue(documentId);
-    }
-
-    @Override
     public Double documentMarginValue(final String documentId) throws DataStorageException {
         final MargingBill f = retrieveDocument(MargingBill.class, documentId);
         if (f == null) {

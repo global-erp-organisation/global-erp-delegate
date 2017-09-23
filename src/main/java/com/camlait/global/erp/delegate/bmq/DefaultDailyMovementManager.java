@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.camlait.global.erp.dao.dm.DailyManagementRepository;
-import com.camlait.global.erp.delegate.document.DocumentManager;
 import com.camlait.global.erp.delegate.inventory.InventoryManager;
 import com.camlait.global.erp.domain.dm.DailyMovement;
 import com.camlait.global.erp.domain.document.Document;
@@ -29,14 +28,11 @@ import com.camlait.global.erp.domain.exception.DataStorageException;
 public class DefaultDailyMovementManager implements DailyMovementManager {
 
     private final DailyManagementRepository dailyManagementRepository;
-    private final DocumentManager documentManager;
     private final InventoryManager inventoryManager;
 
     @Autowired
-    public DefaultDailyMovementManager(DailyManagementRepository dailyManagementRepository, DocumentManager documentManager,
-                                       InventoryManager inventoryManager) {
+    public DefaultDailyMovementManager(DailyManagementRepository dailyManagementRepository, InventoryManager inventoryManager) {
         this.dailyManagementRepository = dailyManagementRepository;
-        this.documentManager = documentManager;
         this.inventoryManager = inventoryManager;
     }
 
@@ -98,53 +94,5 @@ public class DefaultDailyMovementManager implements DailyMovementManager {
         d.setDocumentDetails(lines);
         b.getDocuments().add(d);
         updateBmq(b);
-    }
-
-    @Override
-    public Double bmqValueWithoutTaxes(String bmqId) throws DataStorageException {
-        final DailyMovement b = retrieveBmq(bmqId);
-        return b == null ? 0.0 : b.getDocuments().stream().filter(d -> d.isClientBill()).mapToDouble(d -> {
-            return documentManager.documentValueWithoutTaxes(d.getDocumentId());
-        }).sum();
-    }
-
-    @Override
-    public Double bmqValueWithTaxes(String bmqId) throws DataStorageException {
-        final DailyMovement b = retrieveBmq(bmqId);
-        return b == null ? 0.0 : b.getDocuments().stream().filter(d -> d.isClientBill()).mapToDouble(d -> {
-            return documentManager.documentValueWithTaxes(d.getDocumentId());
-        }).sum();
-    }
-
-    @Override
-    public Double bmqTaxesValue(String bmqId) throws DataStorageException {
-        final DailyMovement b = retrieveBmq(bmqId);
-        return b == null ? 0.0 : b.getDocuments().stream().filter(d -> d.isClientBill()).mapToDouble(d -> {
-            return documentManager.documentTaxesValue(d.getDocumentId());
-        }).sum();
-    }
-
-    @Override
-    public Double bmqTaxesValue(String taxId, String bmqId) throws DataStorageException {
-        final DailyMovement b = retrieveBmq(bmqId);
-        return b == null ? 0.0 : b.getDocuments().stream().filter(d -> d.isClientBill()).mapToDouble(d -> {
-            return documentManager.documentTaxesValue(taxId, d.getDocumentId());
-        }).sum();
-    }
-
-    @Override
-    public Double bmqCashSalesValue(String bmqId) throws DataStorageException {
-        final DailyMovement b = retrieveBmq(bmqId);
-        return b == null ? 0.0 : b.getDocuments().stream().filter(d -> d.isCashBill()).mapToDouble(d -> {
-            return documentManager.documentValueWithTaxes(d.getDocumentId());
-        }).sum();
-    }
-
-    @Override
-    public Double bmqMarginSalesValue(String bmqId) throws DataStorageException {
-        final DailyMovement b = retrieveBmq(bmqId);
-        return b == null ? 0.0 : b.getDocuments().stream().filter(d -> d.isMarginBill()).mapToDouble(d -> {
-            return documentManager.documentValueWithTaxes(d.getDocumentId());
-        }).sum();
     }
 }
